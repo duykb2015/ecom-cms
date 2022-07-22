@@ -37,6 +37,47 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->get('dashboard/login', 'Auth::login');
+$routes->post('dashboard/login', 'Auth::loginValidate');
+
+$routes->group("/dashboard", ["filter" => "auth-admin"], function ($routes) { //
+    $routes->get('', 'Dashboard\Home::index');
+
+    $routes->group('tag', function ($routes) {
+        $routes->get('', 'Dashboard\Tag::index');
+        $routes->get('save', 'Dashboard\Tag::view');
+    });
+
+    $routes->group('menu', function ($routes) {
+        $routes->get('', 'Dashboard\Menu::index');
+        $routes->get('save', 'Dashboard\Menu::view');
+        $routes->post('save', 'Dashboard\Menu::save');
+        $routes->post('action-status', 'Dashboard\Menu::action_status');
+        $routes->post('delete', 'Dashboard\Menu::delete');
+    });
+
+    $routes->group('billing', function ($routes) {
+        $routes->get('package', 'Dashboard\BillingPackage::index');
+        $routes->get('package/save', 'Dashboard\BillingPackage::view');
+        $routes->post('package/save', 'Dashboard\BillingPackage::save');
+        $routes->post('package/action-status', 'Dashboard\BillingPackage::action_status');
+        $routes->post('package/delete', 'Dashboard\BillingPackage::delete');
+    });
+
+    $routes->group('meta-seo', function ($routes) {
+        $routes->get('', 'Dashboard\MetaSeo::index');
+        $routes->get('view', 'Dashboard\MetaSeo::view');
+    });
+
+    $routes->group('monster', function ($routes) {
+        $routes->get('', 'Dashboard\Monster::index');
+        $routes->get('save', 'Dashboard\Monster::view');
+        $routes->post('save', 'Dashboard\Monster::save');
+        $routes->post('action-status', 'Dashboard\Monster::action_status');
+        $routes->post('delete', 'Dashboard\Monster::delete');
+    });
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

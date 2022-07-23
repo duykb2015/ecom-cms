@@ -8,7 +8,7 @@
                 <!-- Page-header start -->
                 <div class="page-header">
                     <div class="row align-items-end">
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="page-header-title">
                                 <div class="d-inline">
                                     <h4><?= $title ?></h4>

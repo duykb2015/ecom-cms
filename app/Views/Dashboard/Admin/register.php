@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Đăng nhập vào Ecom-cms </title>
+    <title>Đăng kí tài khoản Ecom-cms</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,7 +34,7 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
 
-                    <form class="md-float-material form-material" method="POST" action="<?= base_url('login') ?>">
+                    <form class="md-float-material form-material" method="POST" action="<?= base_url('register') ?>">
                         <div class="text-center">
                             <img src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\images\logo.png" alt="logo.png">
                         </div>
@@ -42,7 +42,7 @@
                             <div class="card-block">
                                 <div class="row m-b-20">
                                     <div class="col-md-12">
-                                        <h3 class="text-center">Đăng nhập</h3>
+                                        <h3 class="text-center">Đăng kí</h3>
                                     </div>
                                     <div class="col-12">
                                         <?php if (!empty(session()->getFlashdata('error_msg'))) : ?>
@@ -59,15 +59,14 @@
                                                 <?php endforeach ?>
                                             <?php endif ?>
                                         <?php endif ?>
-                                        <?php if (!empty(session()->getFlashdata('success'))) : ?>
-                                            <div class="alert alert-success">
-                                                <?= session()->getFlashdata('success') ?>
-                                            </div>
-                                        <?php endif ?>
                                     </div>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" name="username" class="form-control" required="" placeholder="Tài khoản">
+                                    <input type="text" name="username" class="form-control" required="" placeholder="Tên tài khoản, dùng để đăng nhập">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="email" name="email" class="form-control" required="" placeholder="Email">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
@@ -77,12 +76,12 @@
 
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng nhập</button>
+                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng kí</button>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="form-group form-primary">
-                                    <a href="<?= site_url('register') ?>" class="btn btn-outline-secondary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng kí</a>
+                                    <a href="<?= site_url('login') ?>" class="btn btn-outline-secondary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng nhập</a>
                                     <span class="form-bar"></span>
                                 </div>
                             </div>

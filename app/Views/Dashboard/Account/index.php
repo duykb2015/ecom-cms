@@ -9,18 +9,11 @@
                 <!-- Page-header start -->
                 <div class="page-header">
                     <div class="row align-items-end">
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Danh sách nick</h4>
+                                    <h4>Danh sách tài khoản</h4>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="page-header-breadcrumb">
-                                <ul class="breadcrumb-title">
-                                    Danh sách nick
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -37,43 +30,31 @@
                                 <table class="table table-xl">
                                     <thead>
                                         <tr>
-                                            <th>Dạng thường</th>
-                                            <th>Dạng tiến hóa</th>
-                                            <th>Tên</th>
-                                            <th>Tên (Sau khi tiến hóa)</th>
-                                            <th>Hệ</th>
-                                            <th>Đánh giá</th>
+                                            <th>Tài Khoản</th>
+                                            <th>Email</th>
+                                            <th>Vai trò</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Ngày chỉnh sửa</th>
+                                            <th>Đăng nhập lần cuối</th>
                                             <th width="10%">Trạng thái</th>
                                             <th width="10%">Hành động</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($monsters)) : ?>
-                                            <?php foreach ($monsters as $monster) : ?>
-                                                <tr id="menu-<?= $monster['id'] ?>">
-                                                    <th scope="row">
-                                                        <?php if ($monster['avatar'] != 'none' || $monster['avatar'] == '') : ?>
-                                                            <img src="<?= $monster['avatar'] ?>" width="100" height="100" alt="Monster avatar">
-                                                        <?php else : ?>
-                                                            <p>Không có ảnh</p>
-                                                        <?php endif ?>
-                                                    </th>
-                                                    <th>
-                                                        <?php if ($monster['avatar_awakened'] != 'none' || $monster['avatar_awakened'] == '') : ?>
-                                                            <img src="<?= $monster['avatar_awakened'] ?>" width="100" height="100" alt="Monster Awakened avatar">
-                                                        <?php else : ?>
-                                                            <p>Không có ảnh</p>
-                                                        <?php endif ?>
-                                                    </th>
-                                                    <td><?= $monster['name'] ?></td>
-                                                    <td><?= $monster['name_awakened'] ?></td>
-                                                    <td><?= $monster['element'] ?></td>
-                                                    <td><?= $monster['rating'] ?></td>
+                                        <?php if (!empty($accounts)) : ?>
+                                            <?php foreach ($accounts as $account) : ?>
+                                                <tr id="menu-<?= $account['id'] ?>">
+                                                    <td><?= $account['username'] ?></td>
+                                                    <td><?= $account['email'] ?></td>
+                                                    <td><?= $account['level'] ?></td>
+                                                    <td><?= $account['created_at'] ?></td>
+                                                    <td><?= $account['updated_at'] ?></td>
+                                                    <td><?= $account['last_login_at'] ?></td>
                                                     <td>
                                                         <div class="checkbox-fade fade-in-primary">
                                                             <label class="check-task">
-                                                                <input type="checkbox" onclick="return change_status(this, '<?= $monster['id'] ?>', '<?= $monster['name'] ?>')" <?= $monster['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
+                                                                <input type="checkbox" onclick="return change_status(this, '<?= $account['id'] ?>', '<?= $account['username'] ?>')" <?= $account['status'] == 1 ? 'checked' : '' ?>>
                                                                 <span class="cr">
                                                                     <i class="cr-icon feather icon-check txt-default"></i>
                                                                 </span>
@@ -82,10 +63,10 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="<?= base_url('dashboard/monster/save?id=' . $monster['id']) . '&page=' . $_GET['page'] ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="<?= base_url('dashboard/account/save?id=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-edit"></span>
                                                             </a>
-                                                            <a href="javascript:void(0)" onclick="delete_monster('<?= $monster['id'] ?>', '<?= $monster['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="javascript:void(0)" onclick="delete_monster('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-delete"></span>
                                                             </a>
                                                         </div>
@@ -95,7 +76,7 @@
                                         <?php else : ?>
                                             <tr>
                                                 <td colspan="9">
-                                                    <p class="card-text text-center">Hiện tại chưa có quái vật nào.</p>
+                                                    <p class="card-text text-center">Hiện tại chưa có tài khoản.</p>
                                                 </td>
                                             </tr>
                                         <?php endif ?>
@@ -104,7 +85,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <?php if ($pager) : ?>
+                                <?php if (!empty($pager)) : ?>
                                     <?= $pager->links('default', 'paginate') ?>
                                 <?php endif ?>
                             </div>

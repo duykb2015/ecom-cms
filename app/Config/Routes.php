@@ -35,17 +35,25 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Dashboard\Home::index', ["filter" => "auth-admin"]);
 
-$routes->get('dashboard/login', 'Auth::login');
-$routes->post('dashboard/login', 'Auth::loginValidate');
+$routes->get('login', 'Auth::login');
+$routes->post('login', 'Auth::loginValidate');
+
+$routes->get('register', 'Auth::register');
+$routes->post('register', 'Auth::registerValidate');
+
+$routes->get('logout', 'Auth::logout');
 
 $routes->group("/dashboard", ["filter" => "auth-admin"], function ($routes) { //
     $routes->get('', 'Dashboard\Home::index');
 
-    $routes->group('tag', function ($routes) {
-        $routes->get('', 'Dashboard\Tag::index');
-        $routes->get('save', 'Dashboard\Tag::view');
+    $routes->group('account', function ($routes) {
+        $routes->get('', 'Dashboard\Account::index');
+        $routes->get('profile', 'Dashboard\Account::profile');
+        $routes->post('profile', 'Dashboard\Account::profile');
+        $routes->get('save', 'Dashboard\Account::save');
+        $routes->post('save', 'Dashboard\Account::save');
     });
 
     $routes->group('menu', function ($routes) {

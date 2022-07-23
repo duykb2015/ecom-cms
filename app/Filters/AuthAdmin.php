@@ -12,7 +12,7 @@ class AuthAdmin implements FilterInterface
     {
         // var_dump(session()->get());die;
         if(!session()->get('admin_logged_in')){
-            return redirect()->to('/dashboard/login'); 
+            return redirect()->to('login'); 
         } 
     }
 

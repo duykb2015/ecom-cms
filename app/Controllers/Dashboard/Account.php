@@ -15,9 +15,6 @@ class Account extends AdminController
         foreach ($data['accounts'] as $account) {
 
             $account['email'] = $this->encrypt_email($account['email']);
-            $account['level'] = $this->get_level_name($account['level']);
-            $account['created_at'] = date('d/m/Y', strtotime($account['created_at']));
-            $account['updated_at'] = date('d/m/Y', strtotime($account['updated_at']));
             $account['last_login_at'] = $this->get_time_ago(strtotime($account['last_login_at']));
             $processed_data['accounts'][] = $account;
         }
@@ -37,7 +34,6 @@ class Account extends AdminController
         if (empty($this->request->getPost())) {
 
             //handel get request
-            $data['account']['level'] = $this->get_level_name($data['account']['level']);
             return view('Dashboard/Account/profile', $data);
         } else {
 
@@ -163,26 +159,6 @@ class Account extends AdminController
             }
             return redirect()->to('/dashboard/account');
         }
-    }
-
-    function get_level_name(int $level)
-    {
-        $level_name = '';
-        switch ($level) {
-            case 3:
-                $level_name = '<span style="color:red">Admin</span>';
-                break;
-            case 2:
-                $level_name = '<span style="color:blue">Moderator</span>';
-                break;
-            case 1:
-                $level_name = 'Member';
-                break;
-            default:
-                $level_name = 'Member';
-                break;
-        }
-        return $level_name;
     }
 
     function get_time_ago($time)

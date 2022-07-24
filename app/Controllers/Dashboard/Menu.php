@@ -20,11 +20,12 @@ class Menu extends AdminController
             'menu.status',
             'menu.created_at',
             'menu.updated_at',
-        ])
-            ->join('menu as pm', 'pm.id = menu.parent_id', 'left')
+        ])  ->join('menu as pm', 'pm.id = menu.parent_id', 'left')
             ->orderBy('menu.updated_at', 'desc');
-        $data['pager'] = $query->pager;
+            
+       
         $data['menus'] = $query->paginate(10);
+        $data['pager'] = $query->pager;
         return view('Dashboard/Menu/index', $data);
     }
 

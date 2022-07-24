@@ -92,3 +92,30 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+define('BANNED_LEVEL', 0);
+define('MEMBER_LEVEL', 1);
+define('MODERATOR_LEVEL', 2);
+define('ADMIN_LEVEL', 3);;
+define('LEVEL_TYPE', [
+    BANNED_LEVEL => '<span style="color:black, text-decoration: line-through">Banned</span>',
+    MEMBER_LEVEL => 'Member',
+    MODERATOR_LEVEL => '<span style="color:blue">Moderator</span>',
+    ADMIN_LEVEL => '<span style="color:red">Admin</span>'
+]);
+
+define('STATUS_HIDDEN', 0);
+define('STATUS_DISPLAY', 1);
+define('STATUS_CMS', [
+    STATUS_DISPLAY => 'Hiển thị',
+    STATUS_HIDDEN => 'Ẩn',
+]);
+
+define('MENU_TYPE_CATEGORY', 0);
+define('MENU_TYPE_POST', 1);
+define('MENU_TYPE_SERVICE', 2);
+define('MENU_TYPE', [
+    MENU_TYPE_CATEGORY => 'Danh mục',
+    MENU_TYPE_POST => 'Sản phẩm',
+    MENU_TYPE_SERVICE => 'Dịch vụ'
+]);

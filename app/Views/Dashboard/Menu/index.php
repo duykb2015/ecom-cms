@@ -92,106 +92,93 @@
                                 </table>
                             </div>
 
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">«</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">»</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                        <?= $pager->links('default','default_full') ?>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                        <!-- Extra Large table end -->
                     </div>
-                    <!-- Extra Large table end -->
                 </div>
             </div>
         </div>
     </div>
-</div>
-<?= $this->endSection() ?>
+    <?= $this->endSection() ?>
 
-<?= $this->section('js') ?>
-<script>
-    function change_status(element, id, name) {
-        const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của Menu "${name}" ?`);
-        if (!is_confirm) {
-            return false
-        }
-
-        const data = new FormData();
-        data.append('id', id);
-        data.append('status', element.checked ? 2 : 0);
-        var requestOptions = {
-            method: 'POST',
-            body: data,
-            redirect: 'follow'
-        };
-
-        fetch('<?= base_url('dashboard/menu/action-status') ?>', requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    msgbox_success(result.message)
-                    return true
-                }
-
-                const error = result.result.error;
-                if (error) {
-                    msgbox_error(error)
-                    return false
-                }
-
-            })
-            .catch(error => {
-                msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!')
+    <?= $this->section('js') ?>
+    <script>
+        function change_status(element, id, name) {
+            const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của Menu "${name}" ?`);
+            if (!is_confirm) {
                 return false
-            });
-    }
+            }
 
-    function delete_menu(id, name) {
-        const is_confirm = confirm(`Bạn muốn xóa Menu "${name}" ?`);
-        if (!is_confirm) {
-            return
+            const data = new FormData();
+            data.append('id', id);
+            data.append('status', element.checked ? 1 : 0);
+            var requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch('<?= base_url('dashboard/menu/action-status') ?>', requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        msgbox_success(result.message)
+                        return true
+                    }
+
+                    const error = result.result.error;
+                    if (error) {
+                        msgbox_error(error)
+                        return false
+                    }
+
+                })
+                .catch(error => {
+                    msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!')
+                    return false
+                });
         }
 
-        const data = new FormData();
-        data.append('id', id);
-        var requestOptions = {
-            method: 'POST',
-            body: data,
-            redirect: 'follow'
-        };
+        function delete_menu(id, name) {
+            const is_confirm = confirm(`Bạn muốn xóa Menu "${name}" ?`);
+            if (!is_confirm) {
+                return
+            }
 
-        fetch('<?= base_url('dashboard/menu/delete') ?>', requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    msgbox_success(result.message)
-                    document.getElementById(`menu-${id}`).remove()
-                    return
-                }
+            const data = new FormData();
+            data.append('id', id);
+            var requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
 
-                const error = result.result.error;
-                if (error) {
-                    msgbox_error(error)
-                    return
-                }
+            fetch('<?= base_url('dashboard/menu/delete') ?>', requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        msgbox_success(result.message)
+                        document.getElementById(`menu-${id}`).remove()
+                        return
+                    }
 
-            })
-            .catch(error => msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!'));
-    }
-</script>
+                    const error = result.result.error;
+                    if (error) {
+                        msgbox_error(error)
+                        return
+                    }
 
-<?= $this->endSection() ?>
+                })
+                .catch(error => msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!'));
+        }
+    </script>
+
+    <?= $this->endSection() ?>

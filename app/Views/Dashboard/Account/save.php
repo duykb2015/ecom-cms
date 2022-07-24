@@ -1,5 +1,6 @@
 <?= $this->extend('Dashboard/layout') ?>
 <?= $this->section('content') ?>
+
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
@@ -11,7 +12,7 @@
                         <div class="col-lg-12">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4><?= $title ?></h4>
+                                    <h4>Thêm mới tài khoản</h4>
                                 </div>
                             </div>
                         </div>
@@ -19,142 +20,112 @@
                 </div>
                 <!-- Page-header end -->
 
-                <!-- Page body start -->
+                <!-- Page-body start -->
                 <div class="page-body">
+
+                    <!--profile cover end-->
                     <div class="row">
-                        <div class="col-sm-12">
-                            <!-- Basic Form Inputs card start -->
-                            <div class="card">
-                                <div class="card-block">
-                                    <form id="form-monster" action="<?= base_url('dashboard/monster/save') ?>" method="POST">
-                                        <input type="hidden" name="monster_id" value="<?= isset($monster['id']) ? $monster['id'] : '' ?>">
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="name" class="form-control" value="<?= isset($monster['name']) ? $monster['name'] : '' ?>">
-                                            </div>
+                        <div class="col-lg-12">
+                            <!-- tab content start -->
+                            <div class="tab-content">
+                                <!-- tab panel personal start -->
+                                <div class="tab-pane active" id="personal" role="tabpanel">
+                                    <!-- personal card start -->
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-header-text">Thông tin cơ bản</h5>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên (Sau khi tiến hóa)</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="name_awakened" class="form-control" value="<?= isset($monster['name_awakened']) ? $monster['name_awakened'] : '' ?>">
-                                            </div>
-                                        </div>
+                                        <div class="card-block">
+                                                <div class="edit-info">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="general-info">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <table class="table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
+                                                                                            <input type="text" class="form-control" name="username" placeholder="Tên tài khoản">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-password"></i></span>
+                                                                                            <input type="password" class="form-control" placeholder="Mật khẩu">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Loại</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="type">
-                                                    <option <?= isset($monster['type']) && $monster['type'] == 'Water' ? 'selected' : '' ?> value="Water">Water</option>
-                                                    <option <?= isset($monster['type']) && $monster['type'] == 'Wind' ? 'selected' : '' ?> value="Wind">Wind</option>
-                                                    <option <?= isset($monster['type']) && $monster['type'] == 'Fire' ? 'selected' : '' ?> value="Fire">Fire</option>
-                                                    <option <?= isset($monster['type']) && $monster['type'] == 'Light' ? 'selected' : '' ?> value="Light">Light</option>
-                                                    <option <?= isset($monster['type']) && $monster['type'] == 'Dark' ? 'selected' : '' ?> value="Dark">Dark</option>
-                                                </select>
-                                            </div>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!-- end of table col-lg-6 -->
+                                                                    <div class="col-lg-6">
+                                                                        <table class="table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-email"></i></span>
+                                                                                            <input type="email" class="form-control" placeholder="Email">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <select id="hello-single" class="form-control">
+                                                                                            <option value="">
+                                                                                                Vai trò
+                                                                                            </option>
+                                                                                            <option value="1">
+                                                                                                Member
+                                                                                            </option>
+                                                                                            <option value="2">
+                                                                                                Moderator
+                                                                                            </option>
+                                                                                            <option value="3">
+                                                                                                Admin
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!-- end of table col-lg-6 -->
+                                                                </div>
+                                                                <!-- end of row -->
+                                                                <div class="text-center">
+                                                                    <a href="#!" class="btn btn-primary waves-effect waves-light m-r-20">Save</a>
+                                                                    <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- end of edit info -->
+                                                        </div>
+                                                        <!-- end of col-lg-12 -->
+                                                    </div>
+                                                    <!-- end of row -->
+                                                </div>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Loại</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="rating">
-                                                    <?php for ($i = 1; $i <= 5; $i++) : ?>
-                                                        <option <?= isset($monster['rating']) && $monster['rating'] == $i ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
-                                                    <?php endfor ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Trạng thái</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="status">
-                                                    <?php foreach (STATUS_CMS as $key => $val) : ?>
-                                                        <option <?= isset($monster['status']) && $monster['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
-                                                    <?php endforeach ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Ảnh quái vật</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" name="avatar" class="form-control" value="<?= isset($monster['avatar']) ? $monster['avatar'] : '' ?>">
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <?php if ($monster['avatar'] != 'none' || $monster['avatar'] == '') : ?>
-                                                    <a href="<?= $monster['avatar'] ?>" target="_blank"><img src="<?= $monster['avatar'] ?>" width="40" height="40" alt="Monster avatar"></a>
-                                                <?php else : ?>
-                                                    <p>Không có ảnh</p>
-                                                <?php endif ?>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Ảnh quái vật (sau khi tiến hóa)</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" name="avatar_awakened" class="form-control" value="<?= isset($monster['avatar_awakened']) ? $monster['avatar_awakened'] : '' ?>">
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <?php if ($monster['avatar_awakened'] != 'none' || $monster['avatar_awakened'] == '') : ?>
-                                                    <a href="<?= $monster['avatar_awakened'] ?>" target="_blank"><img src="<?= $monster['avatar_awakened'] ?>" width="40" height="40" alt="Monster avatar"></a>
-                                                <?php else : ?>
-                                                    <p>Không có ảnh</p>
-                                                <?php endif ?>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-sm-2"></label>
-                                            <div class="col-sm-10 text-right">
-                                                <button type="submit" class="btn btn-primary m-b-0 ">Submit</button>
-                                                <a href="<?= base_url('dashboard/monster') . '?page=' . $_GET['page'] ?>" class="btn btn-outline-secondary m-b-0 ">Cancel</a>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        <!-- end of card-block -->
+                                    </div>
+                                    <!-- personal card end-->
                                 </div>
+
                             </div>
+                            <!-- tab content end -->
                         </div>
                     </div>
                 </div>
-                <!-- Page body end -->
+                <!-- Page-body end -->
             </div>
         </div>
+        <!-- Main body end -->
     </div>
 </div>
-<?= $this->endSection() ?>
-
-<?= $this->section('js') ?>
-<script>
-    const form = document.getElementById('form-monster');
-    form.addEventListener('submit', (e) => {
-        // stop form submission
-        e.preventDefault();
-
-        const data = new FormData(form);
-        var requestOptions = {
-            method: 'POST',
-            body: data,
-            redirect: 'follow'
-        };
-
-        fetch(form.action, requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    redirect_url(result.result.url_redirect)
-                    return
-                }
-
-                const errors = result.result.errors;
-                if (errors) {
-                    for (var key in errors) {
-                        if (errors.hasOwnProperty(key)) {
-                            msgbox_error(errors[key])
-                            break
-                        }
-                    }
-                }
-
-            })
-            .catch(error => msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!'));
-    });
-</script>
-
 <?= $this->endSection() ?>

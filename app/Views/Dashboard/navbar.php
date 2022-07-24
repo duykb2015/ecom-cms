@@ -26,7 +26,7 @@ $menus = [
             ],
             [
                 'url' => base_url('dashboard/account/save'),
-                'name' => 'Thêm mới',
+                'name' => 'Thêm',
                 'level' => 3,
             ],
         ]

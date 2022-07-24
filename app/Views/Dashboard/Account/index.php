@@ -63,7 +63,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="<?= base_url('dashboard/account/save?id=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="<?= base_url('dashboard/account/edit?uid=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-edit"></span>
                                                             </a>
                                                             <a href="javascript:void(0)" onclick="delete_monster('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">

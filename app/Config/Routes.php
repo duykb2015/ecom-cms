@@ -50,10 +50,15 @@ $routes->group("/dashboard", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('account', function ($routes) {
         $routes->get('', 'Dashboard\Account::index');
+        
         $routes->get('profile', 'Dashboard\Account::profile');
         $routes->post('profile', 'Dashboard\Account::profile');
+
         $routes->get('save', 'Dashboard\Account::save');
         $routes->post('save', 'Dashboard\Account::save');
+
+        $routes->get('edit', 'Dashboard\Account::edit');
+        $routes->post('edit', 'Dashboard\Account::edit');
     });
 
     $routes->group('menu', function ($routes) {

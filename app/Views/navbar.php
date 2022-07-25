@@ -1,31 +1,31 @@
 <?php
 $menus = [
     [
-        'url' => base_url('dashboard'),
-        'active' => 'dashboard',
+        'url' => base_url('/'),
+        'active' => '/',
         'level' => 1,
         'name' => 'Dashboard',
         'icon' => '<i class="feather icon-home"></i>',
     ],
     [
         'url' => '',
-        'active' => 'dashboard/account',
+        'active' => 'account',
         'level' => 1,
         'name' => 'Quản lý Tài khoản',
         'icon' => '<i class="feather icon-cpu"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('dashboard/account'),
+                'url' => base_url('account'),
                 'name' => 'Danh sách',
                 'level' => 3,
             ],
             [
-                'url' => base_url('dashboard/account/profile'),
+                'url' => base_url('account/profile'),
                 'name' => 'Thông tin cá nhân',
                 'level' => 1,
             ],
             [
-                'url' => base_url('dashboard/account/save'),
+                'url' => base_url('account/save'),
                 'name' => 'Thêm',
                 'level' => 3,
             ],
@@ -34,17 +34,17 @@ $menus = [
     [
         'url' => '',
         'name' => 'Quản lý sản phẩm',
-        'active' => 'dashboard/product',
+        'active' => 'product',
         'level' => 1,
         'icon' => '<i class="feather icon-shopping-cart"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('dashboard/product'),
+                'url' => base_url('product'),
                 'name' => 'Danh sách',
                 'level' => 1,
             ],
             [
-                'url' => base_url('dashboard/product/save'),
+                'url' => base_url('product/save'),
                 'name' => 'Thêm mới',
                 'level' => 2,
             ],
@@ -54,17 +54,17 @@ $menus = [
     [
         'url' => '',
         'name' => 'Quản lý Menu',
-        'active' => 'dashboard/menu',
+        'active' => 'menu',
         'level' => 2,
         'icon' => '<i class="feather icon-sidebar"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('dashboard/menu'),
+                'url' => base_url('menu'),
                 'name' => 'Danh sách',
                 'level' => 2,
             ],
             [
-                'url' => base_url('dashboard/menu/save'),
+                'url' => base_url('menu/save'),
                 'name' => 'Thêm mới',
                 'level' => 3,
             ],

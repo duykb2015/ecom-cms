@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
 <div class="pcoded-content">
@@ -71,7 +71,7 @@
                                                     <td><?= $row['updated_at'] ?></td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="<?= base_url('dashboard/menu/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="<?= base_url('menu/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-edit"></span>
                                                             </a>
                                                             <a href="javascript:void(0)" onclick="delete_menu('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -95,7 +95,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="text-center">
-                                        <?= $pager->links('default','default_full') ?>
+                                        <?= $pager->links('default', 'default_full') ?>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('dashboard/menu/action-status') ?>', requestOptions)
+            fetch('<?= base_url('menu/action-status') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
@@ -161,7 +161,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('dashboard/menu/delete') ?>', requestOptions)
+            fetch('<?= base_url('menu/delete') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {

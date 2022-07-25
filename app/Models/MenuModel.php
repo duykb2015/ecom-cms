@@ -34,4 +34,32 @@ class MenuModel extends Model
     ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
+
+
+    /**
+     * Get all menus
+     * 
+     * @param null
+     * @return mixed
+     *
+     */
+
+    public function get_all_menu()
+    {
+        $query = $this->select([
+            'menu.id',
+            'menu.parent_id', 'menu.name',
+            'pm.name as parent_name',
+            'menu.type',
+            'menu.status',
+            'menu.created_at',
+            'menu.updated_at',
+        ])  ->join('menu as pm', 'pm.id = menu.parent_id', 'left')
+            ->orderBy('menu.updated_at', 'desc');
+
+
+        $data['menus'] = $query->paginate(10);
+        $data['pager'] = $query->pager;
+        return $data;
+    }
 }

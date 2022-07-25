@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
 <div class="pcoded-content">

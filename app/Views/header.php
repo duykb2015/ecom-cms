@@ -25,7 +25,7 @@
                         </div>
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                             <li>
-                                <a href="<?= base_url('Dashboard/Account/profile') ?>">
+                                <a href="<?= base_url('Account/profile') ?>">
                                     <i class="feather icon-user"></i> Trang cá nhân
                                 </a>
                             </li>

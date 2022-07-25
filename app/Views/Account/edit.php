@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
 <div class="pcoded-content">
@@ -41,7 +41,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="general-info">
-                                                            <form action="<?= base_url('dashboard/account/edit?uid=') . $_GET['uid'] ?>" method="post">
+                                                            <form action="<?= base_url('account/edit?uid=') . $_GET['uid'] ?>" method="post">
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <table class="table">
@@ -71,7 +71,7 @@
                                                                 <!-- end of row -->
                                                                 <div class="text-center">
                                                                     <button type="submit" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
-                                                                    <a href="<?= base_url('dashboard/account') ?>" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                    <a href="<?= base_url('account') ?>" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
                                                                 </div>
                                                             </form>
                                                         </div>

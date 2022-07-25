@@ -75,13 +75,13 @@
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
 
-            <?= $this->include("Dashboard/header") ?>
+            <?= $this->include("header") ?>
 
             <!-- Sidebar inner chat end-->
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
 
-                    <?= $this->include("Dashboard/navbar") ?>
+                    <?= $this->include("navbar") ?>
 
                     <?= $this->renderSection('content') ?>
 

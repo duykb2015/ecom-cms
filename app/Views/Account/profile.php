@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
 <div class="pcoded-content">
@@ -115,7 +115,7 @@
                                             <div class="edit-info">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <form action="<?= base_url('dashboard/account/profile') ?>" method="post">
+                                                        <form action="<?= base_url('account/profile') ?>" method="post">
                                                             <div class="general-info">
                                                                 <div class="row">
 

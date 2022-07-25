@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -26,7 +26,7 @@
                             <!-- Basic Form Inputs card start -->
                             <div class="card">
                                 <div class="card-block">
-                                    <form id="form-menu" action="<?= base_url('dashboard/menu/save') ?>" method="POST">
+                                    <form id="form-menu" action="<?= base_url('menu/save') ?>" method="POST">
                                         <input type="hidden" name="menu_id" value="<?= isset($menu['id']) ? $menu['id'] : '' ?>">
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Tên</label>

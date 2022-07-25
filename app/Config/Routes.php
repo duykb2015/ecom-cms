@@ -35,59 +35,48 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Dashboard\Home::index', ["filter" => "auth-admin"]);
+$routes->get('/', 'Home::index', ["filter" => "auth-admin"]);
 
 $routes->get('login', 'Auth::login');
-$routes->post('login', 'Auth::loginValidate');
+$routes->post('login', 'Auth::login_validate');
 
 $routes->get('register', 'Auth::register');
-$routes->post('register', 'Auth::registerValidate');
+$routes->post('register', 'Auth::register_validate');
 
 $routes->get('logout', 'Auth::logout');
 
-$routes->group("/dashboard", ["filter" => "auth-admin"], function ($routes) { //
-    $routes->get('', 'Dashboard\Home::index');
+$routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
+    $routes->get('', 'Home::index');
 
     $routes->group('account', function ($routes) {
-        $routes->get('', 'Dashboard\Account::index');
+        $routes->get('', 'Account::index');
         
-        $routes->get('profile', 'Dashboard\Account::profile');
-        $routes->post('profile', 'Dashboard\Account::profile');
+        $routes->get('profile', 'Account::profile');
+        $routes->post('profile', 'Account::profile');
 
-        $routes->get('save', 'Dashboard\Account::save');
-        $routes->post('save', 'Dashboard\Account::save');
+        $routes->get('save', 'Account::save');
+        $routes->post('save', 'Account::save');
 
-        $routes->get('edit', 'Dashboard\Account::edit');
-        $routes->post('edit', 'Dashboard\Account::edit');
+        $routes->get('edit', 'Account::edit');
+        $routes->post('edit', 'Account::edit');
     });
 
     $routes->group('menu', function ($routes) {
-        $routes->get('', 'Dashboard\Menu::index');
-        $routes->get('save', 'Dashboard\Menu::view');
-        $routes->post('save', 'Dashboard\Menu::save');
-        $routes->post('action-status', 'Dashboard\Menu::action_status');
-        $routes->post('delete', 'Dashboard\Menu::delete');
+        $routes->get('', 'Menu::index');
+        $routes->get('save', 'Menu::view');
+
+        $routes->post('save', 'Menu::save');
+        $routes->post('action-status', 'Menu::action_status');
+
+        $routes->post('delete', 'Menu::delete');
     });
 
-    $routes->group('billing', function ($routes) {
-        $routes->get('package', 'Dashboard\BillingPackage::index');
-        $routes->get('package/save', 'Dashboard\BillingPackage::view');
-        $routes->post('package/save', 'Dashboard\BillingPackage::save');
-        $routes->post('package/action-status', 'Dashboard\BillingPackage::action_status');
-        $routes->post('package/delete', 'Dashboard\BillingPackage::delete');
-    });
-
-    $routes->group('meta-seo', function ($routes) {
-        $routes->get('', 'Dashboard\MetaSeo::index');
-        $routes->get('view', 'Dashboard\MetaSeo::view');
-    });
-
-    $routes->group('monster', function ($routes) {
-        $routes->get('', 'Dashboard\Monster::index');
-        $routes->get('save', 'Dashboard\Monster::view');
-        $routes->post('save', 'Dashboard\Monster::save');
-        $routes->post('action-status', 'Dashboard\Monster::action_status');
-        $routes->post('delete', 'Dashboard\Monster::delete');
+    $routes->group('product', function ($routes) {
+        $routes->get('', 'Product::index');
+        $routes->get('save', 'Menu::view');
+        $routes->post('save', 'Menu::save');
+        $routes->post('action-status', 'Menu::action_status');
+        $routes->post('delete', 'Menu::delete');
     });
 });
 

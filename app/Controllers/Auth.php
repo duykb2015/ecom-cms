@@ -4,25 +4,31 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
-use Config\Validation;
 
 class Auth extends BaseController
 {
-
+	/**
+	 * Login view
+	 */
 	public function login()
 	{
+		//if user already login, redirect to dashboard
 		if (!empty(session()->get('admin_logged_in')) && session()->get('admin_logged_in') == true) {
-			return redirect()->to(site_url('/dashboard'));
+			return redirect()->to(site_url('/'));
 		}
-		return view('Dashboard/admin/login');
+		return view('admin/login');
 	}
 
+	/**
+	 * Register view
+	 */
 	public function register()
 	{
+		//if user already login, redirect to dashboard
 		if (!empty(session()->get('admin_logged_in')) && session()->get('admin_logged_in') == true) {
-			return redirect()->to(site_url('/dashboard'));
+			return redirect()->to(site_url('/'));
 		}
-		return view('Dashboard/admin/register');
+		return view('admin/register');
 	}
 
 	function logout() {
@@ -30,7 +36,10 @@ class Auth extends BaseController
         return redirect()->to('/login');
     }
 
-	public function loginValidate()
+	/**
+	 * Validate login form
+	 */
+	public function login_validate()
 	{
 		$error_msg = '';
 
@@ -95,7 +104,7 @@ class Auth extends BaseController
 						}
 
 						session()->set($sessionData);
-						return redirect()->to('dashboard');
+						return redirect()->to('/');
 					}
 				}
 			}
@@ -104,7 +113,8 @@ class Auth extends BaseController
 		return redirect()->to(site_url('login'));
 	}
 
-	public function registerValidate()
+
+	public function register_validate()
 	{
 		$error_msg = '';
 
@@ -151,6 +161,7 @@ class Auth extends BaseController
 				$admin_m = new AdminModel();
 				$user = $admin_m->where('username', $username)->first();
 
+				//check username exist
 				if ($user) {
 					$error_msg = 'Tài khoản đã tồn tại. Vui lòng thử lại!';
 				} else {
@@ -161,13 +172,14 @@ class Auth extends BaseController
 					if ($emailcheck) {
 						$error_msg = 'Email đã tồn tại. Vui lòng thử lại!';
 					} else {
+						//prepare data
 						$datas = [
 							'username'     => $username,
 							'email'	   => $email,
 							'password' => md5($password),
 						];
 
-						//insert
+						//create new account
 						if (!$admin_m->insert($datas)) {
 							$error_msg = 'Đã có lỗi xảy ra, vui lòng thử lại sau!';
 						} else {

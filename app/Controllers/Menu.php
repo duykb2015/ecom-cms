@@ -36,40 +36,42 @@ class Menu extends BaseController
             $data['title'] = 'Chỉnh menu';
             $data['menu'] = $menu_m->where(['id' => $id])->first();
         }
-
+        $data['title'] = 'Thêm menu';
         $data['parent_menus'] = $menu_m->where(['parent_id' => 0, 'status' => 1])->findAll();
-        return view('Menu/save', $data);
+        return view('Menu/create', $data);
     }
 
     /**
-     * Save a menu
+     * create a menu
      * 
      * @return Response JSON
      */
-    public function save()
+    public function create()
     {
+
         //get post data
-        $menu_id = $this->request->getPost('menu_id');
+        $menu_id = $this->request->getGet('id');
+
         $data = [
-            'id'        => $menu_id,
             'name'      => $this->request->getPost('name'),
             'parent_id' => (int)$this->request->getPost('parent_id'),
             'type'      => $this->request->getPost('type'),
             'status'    => $this->request->getPost('status'),
         ];
 
+
         $menu_m = new MenuModel();
 
         //if menu_id is empty, then insert new menu else update menu
-        $is_save = $menu_m->save($data);
-
-        //handle response
-        if (!$is_save) {
-            $errors = $menu_m->errors();
-            return $this->respond(response_failed($errors), 200);
+        if ($menu_id) {
+            $menu_m->update($menu_id, $data);
+        } else {
+            $menu_m->insert($data);
         }
 
-        return $this->respond(response_successed(base_url('menu')), 200);
+        //handle response
+
+        return redirect()->to('/menu');
     }
 
     /**

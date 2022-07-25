@@ -54,8 +54,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('profile', 'Account::profile');
         $routes->post('profile', 'Account::profile');
 
-        $routes->get('save', 'Account::save');
-        $routes->post('save', 'Account::save');
+        $routes->get('create', 'Account::create');
+        $routes->post('create', 'Account::create');
 
         $routes->get('edit', 'Account::edit');
         $routes->post('edit', 'Account::edit');
@@ -63,9 +63,9 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('menu', function ($routes) {
         $routes->get('', 'Menu::index');
-        $routes->get('save', 'Menu::view');
+        $routes->get('create', 'Menu::view');
 
-        $routes->post('save', 'Menu::save');
+        $routes->post('create', 'Menu::create');
         $routes->post('action-status', 'Menu::action_status');
 
         $routes->post('delete', 'Menu::delete');
@@ -73,8 +73,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('product', function ($routes) {
         $routes->get('', 'Product::index');
-        $routes->get('save', 'Menu::view');
-        $routes->post('save', 'Menu::save');
+        $routes->get('create', 'Menu::view');
+        $routes->post('create', 'Menu::create');
         $routes->post('action-status', 'Menu::action_status');
         $routes->post('delete', 'Menu::delete');
     });

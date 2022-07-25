@@ -82,7 +82,7 @@ function response_failed(?mixed $error = null)
         'success' => false,
         'message' => 'Có lỗi xảy ra',
         'result' =>  [
-            'error' => $error != null ? $error : 'Dữ liệu không hợp lệ',
+            'error' => $error != null ? $error : 'Dữ liệu không hợp lệ'
         ]
     ];
 }
@@ -95,20 +95,13 @@ function response_failed(?mixed $error = null)
  * @param null
  * @return array 
  */
-function response_successed(?mixed $url = null)
+function response_successed($url = null)
 {
-    if ($url == null) {
-        return [
-            'success' => true,
-            'message' => 'Thành công',
-        ];
-    } else {
-        return [
-            'success' => true,
-            'message' => 'Thành công',
-            'result' =>  [
-                'url_redirect' => $url,
-            ]
-        ];
-    }
+    return [
+        'success' => true,
+        'message' => 'Thành công',
+        'result'  =>  [
+            'url_redirect' => $url != null ? $url : ''
+        ]
+    ];
 }

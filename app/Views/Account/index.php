@@ -87,7 +87,7 @@
 
                             <div class="d-flex justify-content-end">
                                 <?php if (!empty($pager)) : ?>
-                                    <?= $pager->links('default', 'paginate') ?>
+                                    <?= $pager->links('default', 'default_full') ?>
                                 <?php endif ?>
                             </div>
 

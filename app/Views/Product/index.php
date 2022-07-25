@@ -84,7 +84,7 @@
                                         <?php else : ?>
                                             <tr>
                                                 <td colspan="7">
-                                                    <p class="card-text text-center">Hiện tại không có menu nào</p>
+                                                    <p class="card-text text-center">Hiện tại chưa có sản phẩm nào.</p>
                                                 </td>
                                             </tr>
                                         <?php endif ?>
@@ -94,11 +94,9 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="text-center">
-                                        <?php if (!empty($pager)) : ?>
-                                            <?= $pager->links('default', 'default_full') ?>
-                                        <?php endif ?>
-                                    </div>
+                                    <?php if (!empty($pager)) : ?>
+                                        <?= $pager->links('default', 'default_full') ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
 

@@ -64,12 +64,12 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="<?= base_url('account/edit?uid=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="<?= base_url('admin/edit?uid=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-edit"></span>
                                                             </a>
-                                                            <!-- <a href="javascript:void(0)" onclick="delete_monster('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="javascript:void(0)" onclick="delete_account('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-delete"></span>
-                                                            </a> -->
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -102,5 +102,43 @@
     </div>
 </div>
 
+
+<?= $this->endSection() ?>
+
+<?= $this->section('js') ?>
+<script>
+    function delete_account(id, name) {
+        const is_confirm = confirm(`Bạn muốn xóa tài khoản "${name}" ?`);
+        if (!is_confirm) {
+            return
+        }
+
+        const data = new FormData();
+        data.append('id', id);
+        var requestOptions = {
+            method: 'POST',
+            body: data,
+            redirect: 'follow'
+        };
+
+        fetch('<?= base_url('admin/delete') ?>', requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    msgbox_success(result.message)
+                    document.getElementById(`menu-${id}`).remove()
+                    return
+                }
+
+                const error = result.result.error;
+                if (error) {
+                    msgbox_error(error)
+                    return
+                }
+
+            })
+            .catch(error => msgbox_error(error));
+    }
+</script>
 
 <?= $this->endSection() ?>

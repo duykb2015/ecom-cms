@@ -3,33 +3,34 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\admin_m;
+use CodeIgniter\API\ResponseTrait;
 use App\Models\AdminModel;
 
-class Account extends BaseController
+class Admin extends BaseController
 {
 
+    use ResponseTrait;
+
     /**
-     * View all user account (admin only)
+     * Used to view all user accounts (Only for users with admin level)
      * 
      */
     function index()
     {
         $admin_m = new AdminModel();
-        //get all data from db
         $data['accounts'] = $admin_m->findAll();
 
         foreach ($data['accounts'] as $key => $account) {
-            //encrypt data for security
             $account['email'] = encrypt_email($account['email']);
+            //change format of date
             $account['last_login_at'] = get_time_ago(strtotime($account['last_login_at']));
             $data['accounts'][$key] = $account;
         }
-        return view('Account/index', $data);
+        return view('Admin/index', $data);
     }
 
     /**
-     * View account infomation
+     * Used to view account infomation and edit it
      * 
      */
     function profile()
@@ -47,15 +48,14 @@ class Account extends BaseController
 
         $data['account'] = $account;
 
-        //handel get request
+        //this is handle get request
         if (empty($this->request->getPost())) {
 
-            return view('Account/profile', $data);
+            return view('Admin/profile', $data);
         }
 
         $error_msg = '';
 
-        //get post data
         $new_password = $this->request->getPost('new_password');
         $old_password = $this->request->getPost('old_password');
         $email        = $this->request->getPost('email');
@@ -68,16 +68,14 @@ class Account extends BaseController
         //if user want to change password
         if (!empty($new_password)) {
 
-            if (empty($old_password)) {
-                $error_msg = 'Mật khẩu cũ không được để trống!';
+            $is_password_match = password_verify($old_password, $account_password);
+            if (empty($old_password) || $is_password_match == false) {
+
+                $error_msg = 'Mật khẩu cũ không đúng, vui lòng kiểm tra lại!';
+                return redirect_with_message(site_url('profile'), $error_msg);
             } else {
 
-                if (md5($old_password) != $account_password) {
-                    $error_msg = 'Mật khẩu không đúng, vui lòng kiểm tra lại!';
-                } else {
-
-                    $datas['password'] = md5($new_password);
-                }
+                $datas['password'] = md5($new_password);
             }
         }
 
@@ -94,28 +92,25 @@ class Account extends BaseController
             //if update failed, notice and redirect to profile page
             if (!$admin_m->update($uid, $datas)) {
                 $error_msg = 'Cập nhật thất bại, vui lòng thử lại!';
-            } else {
-
-                session()->setFlashdata('success', 'Cập nhật thành công!');
-                return redirect()->to('/account/profile');
+                return redirect_with_message(site_url('admin/profile'), $error_msg);
             }
         }
 
-        session()->setFlashdata('error_msg', $error_msg);
-        return view('Account/profile', $data);
+        $error_msg = 'Cập nhật thành công!';
+        return redirect_with_message(site_url('admin/profile'), $error_msg, 'success');
     }
 
     /**
-     * Create new account (admin only) 
+     * Used to create a new account that can choose a specific level for a user (Only for users with admin level)
+     *  
      */
     function create()
     {
         //get the view
         if (empty($this->request->getPost())) {
-            return view('Account/create');
+            return view('Admin/create');
         }
 
-        //handel post request for create new account
         $username = $this->request->getPost('username');
         $email    = $this->request->getPost('email');
         $password = $this->request->getPost('password');
@@ -147,45 +142,45 @@ class Account extends BaseController
         $error_msg = '';
 
         if (!$validation->run($inputs)) {
-            session()->setFlashdata('error_msg', $validation->getErrors());
-            return redirect()->to(base_url('account/create'));
-        } else {
-
-            $admin_m = new AdminModel();
-            $user = $admin_m->where('username', $username)->first();
-
-            if ($user) {
-                session()->setFlashdata('error_msg', 'Tài khoản đã tồn tại!');
-                return redirect()->to(base_url('account/create'));
-            }
-
-            $user_email = $admin_m->where('email', $email)->first();
-
-            if ($user_email) {
-                session()->setFlashdata('error_msg', 'Email đã tồn tại!');
-                return redirect()->to(base_url('account/create'));
-            }
-
-            $datas = [
-                'username' => $username,
-                'email' => $email,
-                'password' => $password,
-                'level' => $level,
-            ];
-
-            //if create failed, notice and redirect to register page again
-            if (!$admin_m->insert($datas)) {
-                session()->setFlashdata('error_msg', 'Thêm mới thất bại');
-                return redirect()->to(base_url('account/create'));
-            }
+            $error_msg = $validation->getErrors();
+            return redirect_with_message(site_url('admin/create'), $error_msg);
         }
 
-        session()->setFlashdata('error_msg', $error_msg);
-        return redirect()->to(base_url('account'));
+        $admin_m = new AdminModel();
+        $user = $admin_m->where('username', $username)->first();
+
+        if ($user) {
+            $error_msg = 'Tài khoản đã tồn tại!';
+            return redirect_with_message(site_url('admin/create'), $error_msg);
+        }
+
+        $user = '';
+        $user = $admin_m->where('email', $email)->first();
+
+        if ($user) {
+            $error_msg = 'Email đã tồn tại!';
+            return redirect_with_message(site_url('admin/create'), $error_msg);
+        }
+
+        $datas = [
+            'username' => $username,
+            'email' => $email,
+            'password' => $password,
+            'level' => $level,
+        ];
+
+        //if create failed, notice and redirect to register page again
+        if (!$admin_m->insert($datas)) {
+            $error_msg = 'Thêm mới thất bại';
+            return redirect_with_message(site_url('admin/create'), $error_msg);
+        }
+
+        return redirect()->to(base_url('admin'));
     }
 
     /**
-     * Edit account infomation
+     * Used to edit account level (Only for users with admin level)
+     * 
      */
     function edit()
     {
@@ -196,18 +191,14 @@ class Account extends BaseController
             return redirect()->to('/account');
         }
 
-        //handle view request
-        if (empty($this->request->getPost())) {
-
-            //get data from db and show to view
-            $admin_m = new AdminModel();
-            $data['account'] = $admin_m->find($uid);
-
-            return view('Account/edit', $data);
-        }
-
         $admin_m = new AdminModel();
         $account = $admin_m->find($uid);
+
+        //handle view request
+        if (empty($this->request->getPost())) {
+            $data['account'] = $account;
+            return view('Admin/edit', $data);
+        }
 
         //get post data
         $level = $this->request->getPost('level');
@@ -223,11 +214,33 @@ class Account extends BaseController
         ];
 
         if (!$admin_m->update($account['id'], $datas)) {
-            session()->setFlashdata('error', 'Sửa thông tin thất bại');
-            return redirect()->to('account/edit?uid=' . $uid);
+            $error_msg = 'Sửa thông tin thất bại';
+            return redirect_with_message(site_url('admin/edit?uid=' . $uid), $error_msg);
         }
 
-        session()->setFlashdata('success', 'Sửa thông tin thành công');
-        return redirect()->to('/account');
+        return redirect()->to('/admin');
+    }
+
+    /**
+     * Used to delete account (Only for users with admin level)
+     * 
+     */
+
+    public function delete()
+    {
+        //get menu id from post data
+        $id = $this->request->getPost('id');
+
+        //if account id is empty, return error response
+        if (!$id) {
+            return $this->respond(response_failed(), 200);
+        }
+
+
+        $admin_m = new AdminModel();
+        if ($admin_m->delete($id)) {
+            return $this->respond(response_failed(), 200);
+        }
+        return $this->respond(response_successed(), 200);
     }
 }

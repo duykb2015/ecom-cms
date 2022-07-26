@@ -33,14 +33,16 @@
                                     <!-- personal card start -->
                                     <div class="card">
                                         <div class="card-header">
-                                            <?php if (!empty(session()->getFlashdata('error_msg'))) : ?>
+                                            <?php $errors = session()->getFlashdata('error_msg')  ?>
+                                            <?php if (!empty($errors)) : ?>
                                                 <div class="alert alert-danger">
-                                                    <?= session()->getFlashdata('error_msg') ?>
+                                                    <?= $errors ?>
                                                 </div>
                                             <?php endif ?>
-                                            <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                                            <?php $success = session()->getFlashdata('success') ?>
+                                            <?php if (!empty($success)) : ?>
                                                 <div class="alert alert-success">
-                                                    <?= session()->getFlashdata('success') ?>
+                                                    <?= $success ?>
                                                 </div>
                                             <?php endif ?>
                                             <h5 class="card-header-text">Thông tin cơ bản</h5>
@@ -63,7 +65,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Vai trò</th>
-                                                                                        <td><?= $account['level'] ?></td>
+                                                                                        <td><?= LEVEL_TYPE[$account['level']] ?></td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Ngày tạo</th>
@@ -115,7 +117,7 @@
                                             <div class="edit-info">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <form action="<?= base_url('account/profile') ?>" method="post">
+                                                        <form action="<?= base_url('admin/profile') ?>" method="post">
                                                             <div class="general-info">
                                                                 <div class="row">
 

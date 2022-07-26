@@ -12,21 +12,21 @@ class Menu extends BaseController
 
 
     /**
-     * View all menu
+     * Used to view all menus
      * 
-     * @return string HTML view
      */
     public function index()
     {
         $menu_m = new MenuModel();
+        $data = $menu_m->get_all_menu();
 
-        return view('Menu/index', $menu_m->get_all_menu());
+
+        return view('Menu/index', $data);
     }
 
     /**
-     * View a menu
+     * Used to view menu infomation 
      * 
-     * @return string HTML view
      */
     public function view()
     {
@@ -42,9 +42,8 @@ class Menu extends BaseController
     }
 
     /**
-     * create a menu
+     * Used to create new menu or update existing menu
      * 
-     * @return Response JSON
      */
     public function create()
     {
@@ -64,10 +63,14 @@ class Menu extends BaseController
 
         //if menu_id is empty, then insert new menu else update menu
         if ($menu_id) {
-            $menu_m->update($menu_id, $data);
-        } else {
-            $menu_m->insert($data);
+            $data['id'] = $menu_id;
         }
+
+        if (!$menu_m->save($data)) {
+            $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+            return redirect_with_message(site_url('menu/create'), $error_msg);
+        }
+
 
         //handle response
 
@@ -75,9 +78,8 @@ class Menu extends BaseController
     }
 
     /**
-     * Change status of a menu
+     * Used to change status of a menu
      * 
-     * @return Response JSON
      */
     public function action_status()
     {
@@ -102,9 +104,8 @@ class Menu extends BaseController
 
 
     /**
-     * Delete a menu
+     * Used to delete a menu
      * 
-     * @return Response JSON
      */
     public function delete()
     {
@@ -118,7 +119,9 @@ class Menu extends BaseController
 
         //delete menu
         $menu_m = new MenuModel();
-        $menu_m->delete($id);
+        if (!$menu_m->delete($id)) {
+            return $this->respond(response_failed(), 200);
+        }
         return $this->respond(response_successed(), 200);
     }
 }

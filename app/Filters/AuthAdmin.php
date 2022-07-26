@@ -10,8 +10,8 @@ class AuthAdmin implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // var_dump(session()->get());die;
-        if(!session()->get('admin_logged_in')){
+       
+        if(!session()->get('logged_in')){
             return redirect()->to('login'); 
         } 
     }

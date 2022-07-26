@@ -1,28 +1,24 @@
 <?php
 
 /**
- * Dumping data
+ * An improve funtion of var_dump that dumps information about a variable
  * 
- * An funtion that dump data to the screen
- * 
- * @param mixed $data Data to dump
+ * @param mixed $value The variable you want to export
  * @param bool $exit Exit the script after dumping?
  * @return void
  */
 
-function pre($data, $exit = true)
+function pre($value, bool $exit = true)
 {
     echo '<pre>';
-    print_r(($data));
+    print_r($value);
     echo '</pre>';
     if ($exit) {
-        exit;
+        die;
     }
 }
 
 /**
- * Encrypt Email
- * 
  * Encrypt email to protect it from hackers
  * 
  * @param string $email Email to encrypt
@@ -37,12 +33,10 @@ function encrypt_email($email)
 }
 
 /**
- * Get Time Ago
- * 
  * Get time ago in a human readable format
  * 
  * @param int $time Time in seconds
- * @return string Time ago in a human readable format
+ * @return string Time ago
  */
 function get_time_ago($time)
 {
@@ -69,12 +63,10 @@ function get_time_ago($time)
     }
 }
 /**
- * Response message for failed request
- * 
- * An funtion that return an array of data for failed response
+ * Provide response message for failed request
  * 
  * @param string $error Error message to show
- * @return array 
+ * @return array an array of data for failed response
  */
 function response_failed(?mixed $error = null)
 {
@@ -85,15 +77,13 @@ function response_failed(?mixed $error = null)
             'error' => $error != null ? $error : 'Dữ liệu không hợp lệ'
         ]
     ];
+    var_dump(1);
 }
 
 /**
- * Response message for successed request
+ * Provide response message for successful request
  * 
- * An funtion that return an array of data for successed response
- * 
- * @param null
- * @return array 
+ * @return array an array of data for successed response
  */
 function response_successed($url = null)
 {
@@ -104,4 +94,42 @@ function response_successed($url = null)
             'url_redirect' => $url != null ? $url : ''
         ]
     ];
+}
+
+
+/**
+ * Provide a set of error messages in Vietnamese language.
+ * 
+ * @return array an array of error messages 
+ */
+function custom_validation_rule()
+{
+    return [
+        'username' => [
+            'required' => 'Tài khoản không được để trống!',
+        ],
+        'email' => [
+            'required' => 'Email không được để trống!',
+            'valid_email' => 'Email không hợp lệ!',
+        ],
+        'password' => [
+            'required' => 'Mật khẩu không được để trống!',
+            'min_length' => 'Mật khẩu phải có ít nhất 3 kí tự!',
+        ],
+    ];
+}
+
+
+/**
+ * Convinience redirect with flash message
+ * 
+ * @param string $url URL to redirect
+ * @param mixed $message Message to store in flash session
+ * @param string $type Type of message
+ * @return \CodeIgniter\HTTP\RedirectResponse destination URL
+ */
+function redirect_with_message(string $url, $message, string $type = 'error_msg')
+{
+    session()->setFlashdata($type, $message);
+    return redirect()->to($url);
 }

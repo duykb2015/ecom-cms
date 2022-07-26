@@ -10,6 +10,11 @@ use App\Models\ProductModel;
 
 class Home extends BaseController
 {
+
+    /**
+     * Used to view dashboard page
+     * 
+     */
     public function index()
     {
         $admin_m = new AdminModel();

@@ -33,16 +33,10 @@
                                     <!-- personal card start -->
                                     <div class="card">
                                         <div class="card-header">
-                                            <?php if (!empty(session()->getFlashdata('error_msg'))) : ?>
+                                            <?php $errors = session()->getFlashdata('error_msg') ?>
+                                            <?php if (!empty($errors)) : ?>
                                                 <div class="alert alert-danger">
-                                                    <?php $errors = session()->getFlashdata('error_msg') ?>
-                                                    <?php if (is_array($errors)) : ?>
-                                                        <?php foreach ($errors as $error) :  ?>
-                                                            <?= $error ?>
-                                                        <?php endforeach ?>
-                                                    <?php else : ?>
-                                                        <?= $errors ?>
-                                                    <?php endif ?>
+                                                    <?= $errors ?>
                                                 </div>
                                             <?php endif ?>
                                             <h5 class="card-header-text">Thông tin cơ bản</h5>
@@ -52,7 +46,7 @@
                                             <div class="edit-info">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <form action="<?= base_url('account/create') ?>" method="post">
+                                                        <form action="<?= base_url('admin/create') ?>" method="post">
                                                             <div class="general-info">
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
@@ -97,7 +91,7 @@
                                                                                                 Vai trò
                                                                                             </option>
                                                                                             <option value="1">
-                                                                                                Member
+                                                                                                Unverified
                                                                                             </option>
                                                                                             <option value="2">
                                                                                                 Moderator
@@ -116,7 +110,7 @@
                                                                 <!-- end of row -->
                                                                 <div class="text-center">
                                                                     <button type="submit" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
-                                                                    <a href="<?= base_url('account/') ?>" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                    <a href="<?= base_url('admin/') ?>" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
                                                                 </div>
                                                             </div>
                                                             <!-- end of edit info -->

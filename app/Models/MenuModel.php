@@ -37,9 +37,8 @@ class MenuModel extends Model
 
 
     /**
-     * Get all menus
+     * Get all menus from database
      * 
-     * @param null
      * @return mixed
      *
      */

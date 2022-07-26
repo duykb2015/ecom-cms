@@ -16,19 +16,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="page-header-breadcrumb">
-                                <ul class="breadcrumb-title">
-                                    <li class="breadcrumb-item">
-                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Bootstrap Table</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Sizing Table</a>
-                                    </li>Danh sách Menu
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- Page-header end -->
@@ -52,6 +39,7 @@
                                     </thead>
                                     <tbody>
                                         <?php if (!empty($menus)) : ?>
+
                                             <?php foreach ($menus as $row) : ?>
                                                 <tr id="menu-<?= $row['id'] ?>">
                                                     <th scope="row"><?= $row['name'] ?></th>

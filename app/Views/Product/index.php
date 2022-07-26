@@ -12,21 +12,8 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Danh sách Menu</h4>
+                                    <h4>Danh sách Sản Phẩm</h4>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="page-header-breadcrumb">
-                                <ul class="breadcrumb-title">
-                                    <li class="breadcrumb-item">
-                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Bootstrap Table</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Sizing Table</a>
-                                    </li>Danh sách Menu
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -41,9 +28,9 @@
                                 <table class="table table-xl">
                                     <thead>
                                         <tr>
-                                            <th>Tên</th>
-                                            <th>Menu Cha</th>
-                                            <th>Loại</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Mô tả ngắn</th>
                                             <th width="10%">Trạng thái</th>
                                             <th width="10%">Ngày tạo</th>
                                             <th width="10%">Ngày cập nhật</th>
@@ -51,12 +38,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($menus)) : ?>
-                                            <?php foreach ($menus as $row) : ?>
+                                        <?php if (!empty($products)) : ?>
+                                            <?php foreach ($products as $row) : ?>
                                                 <tr id="menu-<?= $row['id'] ?>">
                                                     <th scope="row"><?= $row['name'] ?></th>
-                                                    <td><?= $row['parent_name'] ?></td>
-                                                    <td><?= MENU_TYPE[$row['type']] ?></td>
+                                                    <td><?= $row['price'] ?></td>
+                                                    <td><?= $row['short_description'] ?></td>
                                                     <td>
                                                         <div class="checkbox-fade fade-in-primary">
                                                             <label class="check-task">

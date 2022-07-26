@@ -94,12 +94,12 @@ define('EVENT_PRIORITY_NORMAL', 100);
 define('EVENT_PRIORITY_HIGH', 10);
 
 define('BANNED_LEVEL', 0);
-define('MEMBER_LEVEL', 1);
+define('UNVERIFIED_LEVEL', 1);
 define('MODERATOR_LEVEL', 2);
 define('ADMIN_LEVEL', 3);;
 define('LEVEL_TYPE', [
     BANNED_LEVEL => '<span style="color:black, text-decoration: line-through">Banned</span>',
-    MEMBER_LEVEL => 'Member',
+    UNVERIFIED_LEVEL => 'Unverified',
     MODERATOR_LEVEL => '<span style="color:blue">Moderator</span>',
     ADMIN_LEVEL => '<span style="color:red">Admin</span>'
 ]);

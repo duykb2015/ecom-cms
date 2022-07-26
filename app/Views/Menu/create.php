@@ -11,6 +11,12 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
+                                    <?php $errors = session()->getFlashdata('error_msg') ?>
+                                    <?php if (!empty($errors)) : ?>
+                                        <div class="alert alert-danger">
+                                            <?= $errors ?>
+                                        </div>
+                                    <?php endif ?>
                                     <h4><?= $title ?></h4>
                                 </div>
                             </div>
@@ -26,8 +32,8 @@
                             <!-- Basic Form Inputs card start -->
                             <div class="card">
                                 <div class="card-block">
-                                    <?php $id = $_GET['id'] ? $_GET['id'] : '' ?>
-                                    <form id="form-menu" action="<?= base_url('menu/create') . '?id=' .  $id ?>" method="POST">
+                                    <?php $id = !empty($_GET['id']) ? '?id=' . $_GET['id'] : '' ?>
+                                    <form id="form-menu" action="<?= base_url('menu/create') . $id ?>" method="POST">
                                         <input type="hidden" name="menu_id" value="<?= isset($menu['id']) ? $menu['id'] : '' ?>">
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Tên</label>

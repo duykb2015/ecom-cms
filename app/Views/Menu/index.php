@@ -116,7 +116,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('menu/action-status') ?>', requestOptions)
+            fetch('<?= base_url('menu/change-status') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {

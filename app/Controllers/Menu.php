@@ -18,7 +18,7 @@ class Menu extends BaseController
     public function index()
     {
         $menu_m = new MenuModel();
-        $data = $menu_m->get_all_menu();
+        $data = $menu_m->find_all();
 
 
         return view('Menu/index', $data);
@@ -81,7 +81,7 @@ class Menu extends BaseController
      * Used to change status of a menu
      * 
      */
-    public function action_status()
+    public function change_status()
     {
         //get menu id from post data
         $id = $this->request->getPost('id');

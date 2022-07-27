@@ -22,6 +22,7 @@ class Product extends Migration
             'slug' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => FALSE,
             ],
             'short_description' => [
                 'type' => 'VARCHAR',
@@ -32,7 +33,17 @@ class Product extends Migration
                 'type' => 'TEXT',
                 'null' => FALSE,
             ],
+            'images' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => FALSE,
+            ],
             'price' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'quantity' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'null' => FALSE,

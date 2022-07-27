@@ -52,7 +52,7 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('', 'Admin::index');
 
         $routes->get('profile', 'Admin::profile');
-        $routes->post('profile', 'Admin::profile');
+        $routes->post('profile', 'Admin::change_profile');
 
         $routes->get('create', 'Admin::create');
         $routes->post('create', 'Admin::create');
@@ -68,16 +68,21 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('create', 'Menu::view');
 
         $routes->post('create', 'Menu::create');
-        $routes->post('action-status', 'Menu::action_status');
+        $routes->post('action-status', 'Menu::change_status');
 
         $routes->post('delete', 'Menu::delete');
     });
 
     $routes->group('product', function ($routes) {
         $routes->get('', 'Product::index');
-        $routes->get('create', 'Product::view');
+        
+        $routes->get('create', 'Product::create');
         $routes->post('create', 'Product::create');
-        $routes->post('action-status', 'Product::action_status');
+
+        $routes->get('edit', 'Product::edit');
+        $routes->post('edit', 'Product::edit');
+
+        $routes->post('action-status', 'Product::change_status');
         $routes->post('delete', 'Product::delete');
     });
 });

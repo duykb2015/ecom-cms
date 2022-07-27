@@ -30,16 +30,16 @@ class Admin extends BaseController
     }
 
     /**
-     * Used to view account infomation and edit it
+     * Used to view account infomation
      * 
      */
     function profile()
     {
-        $admin_m = new AdminModel();
 
         //get id from store session
         $uid = session()->get('id');
 
+        $admin_m = new AdminModel();
         $account = $admin_m->find($uid);
 
         if (empty($account)) {
@@ -49,9 +49,25 @@ class Admin extends BaseController
         $data['account'] = $account;
 
         //this is handle get request
-        if (empty($this->request->getPost())) {
 
-            return view('Admin/profile', $data);
+        return view('Admin/profile', $data);
+    }
+
+    /**
+     * Used to update account infomation
+     * 
+     */
+
+    public function change_profile()
+    {
+
+        $uid = session()->get('id');
+
+        $admin_m = new AdminModel();
+        $account = $admin_m->find($uid);
+
+        if (empty($account)) {
+            return redirect()->to('/');
         }
 
         $error_msg = '';
@@ -60,19 +76,19 @@ class Admin extends BaseController
         $old_password = $this->request->getPost('old_password');
         $email        = $this->request->getPost('email');
 
-        $account_password = $data['account']['password'];
-        $account_email    = $data['account']['email'];
+        $account_password = $account['password'];
+        $account_email    = $account['email'];
 
         $datas = [];
 
         //if user want to change password
         if (!empty($new_password)) {
 
-            $is_password_match = password_verify($old_password, $account_password);
+            $is_password_match = md5($old_password) === $account_password;
             if (empty($old_password) || $is_password_match == false) {
 
                 $error_msg = 'Mật khẩu cũ không đúng, vui lòng kiểm tra lại!';
-                return redirect_with_message(site_url('profile'), $error_msg);
+                return redirect_with_message(site_url('admin/profile'), $error_msg);
             } else {
 
                 $datas['password'] = md5($new_password);

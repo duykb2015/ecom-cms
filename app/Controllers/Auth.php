@@ -80,7 +80,7 @@ class Auth extends BaseController
 					'password' => 'required|min_length[3]'
 				],
 				//Custom error message
-				custom_validation_rule()
+				custom_validation_error_message()
 			);
 
 			//if something wrong, redirect to login page and show error message
@@ -158,7 +158,7 @@ class Auth extends BaseController
 					'password' => 'required|min_length[3]'
 				],
 				//Custom error message
-				custom_validation_rule()
+				custom_validation_error_message()
 			);
 
 			//Validate data

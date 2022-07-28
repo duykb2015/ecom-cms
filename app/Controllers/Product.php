@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ProductModel;
 use CodeIgniter\API\ResponseTrait;
+use App\Libraries\UploadHandler;
 
 class Product extends BaseController
 {
@@ -41,7 +42,8 @@ class Product extends BaseController
         $quantity          = $this->request->getPost('quantity');
         $status            = $this->request->getPost('status');
 
-        $images            = multiple_images_upload($this->request->getFiles());
+        $upload = new UploadHandler();
+        $images         = $upload->multiple_images($this->request->getFiles());
 
         if ($images == false) {
             $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
@@ -108,9 +110,10 @@ class Product extends BaseController
             'updated_at'         => date('Y-m-d H:i:s')
         ];
         if ($this->request->getFiles('images')) {
-
-            remove_images($product['images']);
-            $images = multiple_images_upload($this->request->getFiles());
+            $upload = new UploadHandler();
+            //first delete old images
+            $upload->remove_images($product['images']);
+            $images = $upload->multiple_images($this->request->getFiles());
             if ($images == false) {
                 $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
                 return redirect_with_message(site_url('product/create'), $error_msg);
@@ -165,7 +168,9 @@ class Product extends BaseController
 
         $product_m = new ProductModel();
         $images = $product_m->select('images')->find($id);
-        remove_images($images['images']);
+        
+        $upload = new UploadHandler();
+        $upload->remove_images($images['images']);
 
         if (!$product_m->delete($id)) {
             return $this->respond(response_failed(), 200);

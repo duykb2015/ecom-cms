@@ -37,7 +37,7 @@
 
 /* File Icons */
 span.jFiler-icon-file {
-	position: relative;
+    position: relative;
     display: block;
     background: #e1e1e1 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAEACAYAAADsqNl9AAAD5klEQVR42u3azUqUURjA8bHAEpIK+9hlRBGC0QfVustI+oAo2nQJgYGFFEUhJF1NUVAXEC6iSyhIDCoX5js9Z5xpXmxsRjOdmfP7wfPqwtWZ589xhqlUN2Y5Zi5mJmYi5lzMgZhdFbpavEb32sxsURSfq5mqrPPv52MexYxZrb4NIusoOgoiDudb/JiMGbZSWQSRbRSdBPEqZtQqZRdEllFU2rxPuB8zYI2yDSK7KNYKYinmlvURRG5RVNa4GW5aHUHkGEWrIKasjSByjWJ1EC+tjCByjqKy6qPVI1ZGEDlHUb4h7loXQeQeRSOILzF7rIsgco+iEcS0VRGEKFaCSB+znrQqghDFShDvrYkgRNEM4pk1EYQomkFctiaCEEUziDPWRBCiaAYxYk0EIYpmEIPWRBCiqAeBIEQhCEGIQhBsWxA9E4UNEYQoBCEIUQiC7giiq6OwIYIQhSAEIQpB0H1BdF0UNkQQohCEIEQhCLo7iFoUMZ8EgSC6JAobIghRCEIQohAEvRXEtkRhQwQhCkEIQhSCoHeD2LIobIggRCEIQYhCEPRHEP81ChsiCFEIQhCiEAT9F8SmR2FDBCEKQQhCFIKgv4PYlChsiCD6bZ7/SxQ2RBCiEIQgRCEI8gpiQ1HYEEGIQhCCEIUgyDeIjqOwIYIQhSAEIQpBsBLEKVGsHYUNcUuIQhCCMK2jsB2CEEUpCtshClOKwmYIwpSisBn5BjEqgj+jsBluCVMaWyEKIQiCUhCXhCAI3BKC4K9RXBeEIHBbCALvKwTBRuO4IQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyEi1Wh10ClBrYXd6jDgKqAVxMD3OOgqoBXE+PSYcBdSCuJIeM44CakHMpseco4BKpSiKDymI5Zgxx0Hmt8N4TDX9kjx0JGQexONyEPMxw46FTGPYF7NQDiKZdDRkGsSDRgTlIL7HHHU8ZBbD8ZjFVkEkr2MGHBOZxLAj5m05gNVBJNOOipzeSLcLIn0Me9tx0ecx3KnvetsgkiVR0Ocx/Gy1+GsF0bgppr2noI9C2BnzpNXN0EkQDW9ijjlOejyGEzHv2i17J0EkP2KmYvY6WnoshP31/3QWO1n0ToNoWKhfOeOOmi4P4XTM06Iovq5nwdcbxG/pm4Hp67IxV2MuxByKGfJSsMWLPxRzOOZizLWYF7GbHze6178AQI59RSRyAJkAAAAASUVORK5CYII=') no-repeat;
     background-size: cover;
@@ -140,7 +140,7 @@ span.jFiler-icon-file.f-audio {
 .jFiler-theme-default .jFiler-input {
     position: relative;
     display: block;
-    width: 400px;
+    width: auto;
     height: 35px;
     margin: 0 0 15px 0;
     background: #fefefe;
@@ -151,16 +151,16 @@ span.jFiler-icon-file.f-audio {
     border-radius: 4px;
     cursor: pointer;
     overflow: hidden;
-    -webkit-box-shadow: rgba(0,0,0,.25) 0 4px 5px -5px inset;
-       -moz-box-shadow: rgba(0,0,0,.25) 0 4px 5px -5px inset;
-            box-shadow: rgba(0,0,0,.25) 0 4px 5px -5px inset;
+    -webkit-box-shadow: rgba(0, 0, 0, .25) 0 4px 5px -5px inset;
+    -moz-box-shadow: rgba(0, 0, 0, .25) 0 4px 5px -5px inset;
+    box-shadow: rgba(0, 0, 0, .25) 0 4px 5px -5px inset;
 }
 
 .jFiler-theme-default .jFiler-input.focused {
     outline: none;
-    -webkit-box-shadow: 0 0 7px rgba(0,0,0,0.1);
-    -moz-box-shadow: 0 0 7px rgba(0,0,0,0.1);
-    box-shadow: 0 0 7px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
 }
 
 .jFiler-theme-default .jFiler-input.dragged {
@@ -206,37 +206,35 @@ span.jFiler-icon-file.f-audio {
     color: #666666;
     text-align: center;
     background-color: #fefefe;
-    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fefefe),to(#f1f1f1));
-    background-image: -webkit-linear-gradient(top,#fefefe,#f1f1f1);
-    background-image: -o-linear-gradient(top,#fefefe,#f1f1f1);
-    background-image: linear-gradient(to bottom,#fefefe,#f1f1f1);
-    background-image: -moz-linear-gradient(top,#fefefe,#f1f1f1);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fefefe), to(#f1f1f1));
+    background-image: -webkit-linear-gradient(top, #fefefe, #f1f1f1);
+    background-image: -o-linear-gradient(top, #fefefe, #f1f1f1);
+    background-image: linear-gradient(to bottom, #fefefe, #f1f1f1);
+    background-image: -moz-linear-gradient(top, #fefefe, #f1f1f1);
     -webkit-transition: all .1s ease-out;
-       -moz-transition: all .1s ease-out;
-         -o-transition: all .1s ease-out;
-            transition: all .1s ease-out;
+    -moz-transition: all .1s ease-out;
+    -o-transition: all .1s ease-out;
+    transition: all .1s ease-out;
 }
 
 .jFiler-theme-default .jFiler-input-button:hover {
-    -moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
-    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
+    -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.07);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.07);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.07);
 }
 
 .jFiler-theme-default .jFiler-input-button:active {
-    background-image: -webkit-gradient(linear,0 0,0 100%,from(#f1f1f1),to(#fefefe));
-    background-image: -webkit-linear-gradient(top,#f1f1f1,#fefefe);
-    background-image: -o-linear-gradient(top,#f1f1f1,#fefefe);
-    background-image: linear-gradient(to bottom,#f1f1f1,#fefefe);
-    background-image: -moz-linear-gradient(top,#f1f1f1,#fefefe);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f1f1f1), to(#fefefe));
+    background-image: -webkit-linear-gradient(top, #f1f1f1, #fefefe);
+    background-image: -o-linear-gradient(top, #f1f1f1, #fefefe);
+    background-image: linear-gradient(to bottom, #f1f1f1, #fefefe);
+    background-image: -moz-linear-gradient(top, #f1f1f1, #fefefe);
 }
 
 /*-------------------------
 	Thumbnails
 -------------------------*/
-.jFiler-items-default .jFiler-items {
-
-}
+.jFiler-items-default .jFiler-items {}
 
 .jFiler-items-default .jFiler-item {
     position: relative;
@@ -309,9 +307,9 @@ span.jFiler-icon-file.f-audio {
     border: 1px solid #e1e1e1;
     border-radius: 3px;
     background: #fff;
-    -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
-    -moz-box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
-    box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
+    -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb {
@@ -357,8 +355,8 @@ span.jFiler-icon-file.f-audio {
     z-index: 10;
     overflow-y: auto;
     -webkit-transition: all 0.12s;
-       -moz-transition: all 0.12s;
-            transition: all 0.12s;
+    -moz-transition: all 0.12s;
+    transition: all 0.12s;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb:hover .jFiler-item-thumb-overlay {

@@ -12,21 +12,21 @@ class Menu extends BaseController
 
 
     /**
-     * View all menu
+     * Used to view all menus
      * 
-     * @return string HTML view
      */
     public function index()
     {
         $menu_m = new MenuModel();
+        $data = $menu_m->find_all();
 
-        return view('Menu/index', $menu_m->get_all_menu());
+
+        return view('Menu/index', $data);
     }
 
     /**
-     * View a menu
+     * Used to view menu infomation 
      * 
-     * @return string HTML view
      */
     public function view()
     {
@@ -36,48 +36,52 @@ class Menu extends BaseController
             $data['title'] = 'Chỉnh menu';
             $data['menu'] = $menu_m->where(['id' => $id])->first();
         }
-
+        $data['title'] = 'Thêm menu';
         $data['parent_menus'] = $menu_m->where(['parent_id' => 0, 'status' => 1])->findAll();
-        return view('Menu/save', $data);
+        return view('Menu/create', $data);
     }
 
     /**
-     * Save a menu
+     * Used to create new menu or update existing menu
      * 
-     * @return Response JSON
      */
-    public function save()
+    public function create()
     {
+
         //get post data
-        $menu_id = $this->request->getPost('menu_id');
+        $menu_id = $this->request->getGet('id');
+
         $data = [
-            'id'        => $menu_id,
             'name'      => $this->request->getPost('name'),
             'parent_id' => (int)$this->request->getPost('parent_id'),
             'type'      => $this->request->getPost('type'),
             'status'    => $this->request->getPost('status'),
         ];
 
+
         $menu_m = new MenuModel();
 
         //if menu_id is empty, then insert new menu else update menu
-        $is_save = $menu_m->save($data);
-
-        //handle response
-        if (!$is_save) {
-            $errors = $menu_m->errors();
-            return $this->respond(response_failed($errors), 200);
+        if ($menu_id) {
+            $data['id'] = $menu_id;
         }
 
-        return $this->respond(response_successed(base_url('menu')), 200);
+        if (!$menu_m->save($data)) {
+            $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+            return redirect_with_message(site_url('menu/create'), $error_msg);
+        }
+
+
+        //handle response
+
+        return redirect()->to('/menu');
     }
 
     /**
-     * Change status of a menu
+     * Used to change status of a menu
      * 
-     * @return Response JSON
      */
-    public function action_status()
+    public function change_status()
     {
         //get menu id from post data
         $id = $this->request->getPost('id');
@@ -100,9 +104,8 @@ class Menu extends BaseController
 
 
     /**
-     * Delete a menu
+     * Used to delete a menu
      * 
-     * @return Response JSON
      */
     public function delete()
     {
@@ -116,7 +119,9 @@ class Menu extends BaseController
 
         //delete menu
         $menu_m = new MenuModel();
-        $menu_m->delete($id);
+        if (!$menu_m->delete($id)) {
+            return $this->respond(response_failed(), 200);
+        }
         return $this->respond(response_successed(), 200);
     }
 }

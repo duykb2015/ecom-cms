@@ -37,14 +37,13 @@ class MenuModel extends Model
 
 
     /**
-     * Get all menus
+     * Custom function. Find all menus from database with specific conditions.
      * 
-     * @param null
      * @return mixed
      *
      */
 
-    public function get_all_menu()
+    public function find_all()
     {
         $query = $this->select([
             'menu.id',

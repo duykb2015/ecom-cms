@@ -38,45 +38,52 @@ $routes->set404Override();
 $routes->get('/', 'Home::index', ["filter" => "auth-admin"]);
 
 $routes->get('login', 'Auth::login');
-$routes->post('login', 'Auth::login_validate');
+$routes->post('login', 'Auth::login_authentication');
 
 $routes->get('register', 'Auth::register');
-$routes->post('register', 'Auth::register_validate');
+$routes->post('register', 'Auth::register_authentication');
 
 $routes->get('logout', 'Auth::logout');
 
 $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
     $routes->get('', 'Home::index');
 
-    $routes->group('account', function ($routes) {
-        $routes->get('', 'Account::index');
-        
-        $routes->get('profile', 'Account::profile');
-        $routes->post('profile', 'Account::profile');
+    $routes->group('admin', function ($routes) {
+        $routes->get('', 'Admin::index');
 
-        $routes->get('save', 'Account::save');
-        $routes->post('save', 'Account::save');
+        $routes->get('profile', 'Admin::profile');
+        $routes->post('profile', 'Admin::change_profile');
 
-        $routes->get('edit', 'Account::edit');
-        $routes->post('edit', 'Account::edit');
+        $routes->get('create', 'Admin::create');
+        $routes->post('create', 'Admin::create');
+
+        $routes->get('edit', 'Admin::edit');
+        $routes->post('edit', 'Admin::edit');
+
+        $routes->post('delete', 'Admin::delete');
     });
 
     $routes->group('menu', function ($routes) {
         $routes->get('', 'Menu::index');
-        $routes->get('save', 'Menu::view');
+        $routes->get('create', 'Menu::view');
 
-        $routes->post('save', 'Menu::save');
-        $routes->post('action-status', 'Menu::action_status');
+        $routes->post('create', 'Menu::create');
+        $routes->post('action-status', 'Menu::change_status');
 
         $routes->post('delete', 'Menu::delete');
     });
 
     $routes->group('product', function ($routes) {
         $routes->get('', 'Product::index');
-        $routes->get('save', 'Menu::view');
-        $routes->post('save', 'Menu::save');
-        $routes->post('action-status', 'Menu::action_status');
-        $routes->post('delete', 'Menu::delete');
+        
+        $routes->get('create', 'Product::create');
+        $routes->post('create', 'Product::create');
+
+        $routes->get('edit', 'Product::edit');
+        $routes->post('edit', 'Product::edit');
+
+        $routes->post('action-status', 'Product::change_status');
+        $routes->post('delete', 'Product::delete');
     });
 });
 

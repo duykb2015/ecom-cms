@@ -9,23 +9,23 @@ $menus = [
     ],
     [
         'url' => '',
-        'active' => 'account',
+        'active' => 'admin',
         'level' => 1,
         'name' => 'Quản lý Tài khoản',
         'icon' => '<i class="feather icon-cpu"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('account'),
+                'url' => base_url('admin'),
                 'name' => 'Danh sách',
                 'level' => 3,
             ],
             [
-                'url' => base_url('account/profile'),
+                'url' => base_url('admin/profile'),
                 'name' => 'Thông tin cá nhân',
                 'level' => 1,
             ],
             [
-                'url' => base_url('account/save'),
+                'url' => base_url('admin/create'),
                 'name' => 'Thêm',
                 'level' => 3,
             ],
@@ -44,7 +44,7 @@ $menus = [
                 'level' => 1,
             ],
             [
-                'url' => base_url('product/save'),
+                'url' => base_url('product/create'),
                 'name' => 'Thêm mới',
                 'level' => 2,
             ],
@@ -64,7 +64,7 @@ $menus = [
                 'level' => 2,
             ],
             [
-                'url' => base_url('menu/save'),
+                'url' => base_url('menu/create'),
                 'name' => 'Thêm mới',
                 'level' => 3,
             ],

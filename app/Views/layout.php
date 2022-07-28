@@ -28,8 +28,12 @@
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\css\style.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\css\jquery.mCustomScrollbar.css">
-    
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\css\app.css"></link>
+
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\css\app.css">
+    </link>
+    <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css" type="text/css" rel="stylesheet">
+    <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css" type="text/css" rel="stylesheet">
+    <script src="<?= base_url() ?>/ckeditor/ckeditor.js"></script>
 </head>
 
 <body>
@@ -105,6 +109,10 @@
 
     <!-- modernizr js -->
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\modernizr\js\modernizr.js"></script>
+
+    <script src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\js\jquery.filer.min.js"></script>
+    <script src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\filer\custom-filer.js" type="text/javascript"></script>
+    <script src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\filer\jquery.fileuploads.init.js" type="text/javascript"></script>
     <!-- Chart js -->
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\chart.js\js\Chart.js"></script>
     <!-- amchart js -->

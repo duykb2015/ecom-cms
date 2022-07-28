@@ -16,19 +16,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="page-header-breadcrumb">
-                                <ul class="breadcrumb-title">
-                                    <li class="breadcrumb-item">
-                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Bootstrap Table</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Sizing Table</a>
-                                    </li>Danh sách Menu
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- Page-header end -->
@@ -52,6 +39,7 @@
                                     </thead>
                                     <tbody>
                                         <?php if (!empty($menus)) : ?>
+
                                             <?php foreach ($menus as $row) : ?>
                                                 <tr id="menu-<?= $row['id'] ?>">
                                                     <th scope="row"><?= $row['name'] ?></th>
@@ -71,7 +59,7 @@
                                                     <td><?= $row['updated_at'] ?></td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="<?= base_url('menu/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                            <a href="<?= base_url('menu/create?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                 <span class="icofont icofont-ui-edit"></span>
                                                             </a>
                                                             <a href="javascript:void(0)" onclick="delete_menu('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -84,7 +72,7 @@
                                         <?php else : ?>
                                             <tr>
                                                 <td colspan="7">
-                                                    <p class="card-text text-center">Hãy tạo bài viết để cùng đóng góp cho cộng đồng summoner war Việt Nam. Cũng như hỗ trợ các anh em newbie nhé</p>
+                                                    <p class="card-text text-center">Hiện tại không có menu nào</p>
                                                 </td>
                                             </tr>
                                         <?php endif ?>
@@ -95,7 +83,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="text-center">
-                                        <?= $pager->links('default', 'default_full') ?>
+                                        <?php if (!empty($pager)) : ?>
+                                            <?= $pager->links('default', 'default_full') ?>
+                                        <?php endif ?>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +116,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('menu/action-status') ?>', requestOptions)
+            fetch('<?= base_url('menu/change-status') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {

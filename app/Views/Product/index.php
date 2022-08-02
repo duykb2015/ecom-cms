@@ -38,7 +38,7 @@
                                                             <th>Tên sản phẩm</th>
                                                             <th>Giá</th>
                                                             <th>Mô tả ngắn</th>
-                                                            <th width="10%">Trạng thái</th>
+                                                            <th class="text-center" width="5%">Trạng thái</th>
                                                             <th width="10%">Ngày tạo</th>
                                                             <th width="10%">Ngày cập nhật</th>
                                                             <th width="10%">Hành động</th>
@@ -54,8 +54,8 @@
 
                                                                     <td> <?= $product['price'] ?></td>
                                                                     <td> <?= $product['short_descriptions'] ?></td>
-                                                                    <td>
-                                                                        <div class="checkbox-fade fade-in-primary">
+                                                                    <td class="text-center" width="10%">
+                                                                        <div class="checkbox-fade fade-in-primary text-center">
                                                                             <label class="check-task">
                                                                                 <input type="checkbox" onclick="return change_status(this, '<?= $product['id'] ?>', '<?= $product['name'] ?>')" <?= $product['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
                                                                                 <span class="cr">
@@ -115,6 +115,7 @@
 
     <script>
         function change_status(element, id, name) {
+            
             const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của sản phẩm "${name}" ?`);
             if (!is_confirm) {
                 return false

@@ -21,7 +21,7 @@ class Admin extends BaseController
         $data['accounts'] = $admin_m->findAll();
 
         foreach ($data['accounts'] as $key => $account) {
-            $account['email'] = encrypt_email($account['email']);
+            // $account['email'] = encrypt_email($account['email']);
             //change format of date
             $account['last_login_at'] = get_time_ago(strtotime($account['last_login_at']));
             $data['accounts'][$key] = $account;

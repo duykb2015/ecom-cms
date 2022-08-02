@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Product extends Migration
+class Attribute extends Migration
 {
     public function up()
     {
@@ -18,34 +18,11 @@ class Product extends Migration
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-            ],
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
                 'null' => FALSE,
             ],
-            'short_description' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'description' => [
-                'type' => 'TEXT',
-                'null' => FALSE,
-            ],
-            'images' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'price' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => FALSE,
-            ],
-            'quantity' => [
-                'type' => 'INT',
-                'constraint' => 11,
+            'is_group' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
                 'null' => FALSE,
             ],
             'status' => [
@@ -63,11 +40,12 @@ class Product extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product', FALSE, $attributes);
+        $this->forge->createTable('attribute', TRUE, $attributes);
+    
     }
 
     public function down()
     {
-        $this->forge->dropTable('product', TRUE);
+        $this->forge->dropTable('attribute', TRUE);
     }
 }

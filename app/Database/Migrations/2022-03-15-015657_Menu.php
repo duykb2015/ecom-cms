@@ -18,9 +18,15 @@ class Menu extends Migration
             ],
             'parent_id' => [
                 'type' => 'INT',
-                'constraint' => 11,
+                'constraint' => 4,
+                'null' => TRUE,
             ],
             'name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => FALSE,
+            ],
+            'slug' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
                 'null' => FALSE,
@@ -46,11 +52,11 @@ class Menu extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('menu', FALSE, $attributes);
+        $this->forge->createTable('menu', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('menu');
+        $this->forge->dropTable('menu', TRUE);
     }
 }

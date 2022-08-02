@@ -24,10 +24,10 @@
                 <div class="page-body">
                     <!-- Extra Large table start -->
                     <div class="card">
-                        <div class="card-block">
+                        <!-- <div class="card-block"> -->
 
                             <div class="table-responsive">
-                                <table class="table table-xl">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Tài Khoản</th>
@@ -91,7 +91,7 @@
                                 <?php endif ?>
                             </div>
 
-                        </div>
+                        <!-- </div> -->
 
                     </div>
                     <!-- Extra Large table end -->

@@ -34,6 +34,12 @@
     <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css" type="text/css" rel="stylesheet">
     <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css" type="text/css" rel="stylesheet">
     <script src="<?= base_url() ?>/ckeditor/ckeditor.js"></script>
+
+    <style>
+        body {
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>

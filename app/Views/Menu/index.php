@@ -23,14 +23,14 @@
                 <div class="page-body">
                     <!-- Extra Large table start -->
                     <div class="card">
-                        <div class="card-block">
+                        <!-- <div class="card-block"> -->
                             <div class="table-responsive">
-                                <table class="table table-xl">
+                                <table class="table ">
                                     <thead>
                                         <tr>
-                                            <th>Tên</th>
-                                            <th>Menu Cha</th>
-                                            <th>Loại</th>
+                                            <th width="20%">Tên</th>
+                                            <th width="20%">Menu Cha</th>
+                                            <th width="20%">Loại</th>
                                             <th width="10%">Trạng thái</th>
                                             <th width="10%">Ngày tạo</th>
                                             <th width="10%">Ngày cập nhật</th>
@@ -88,7 +88,7 @@
                                         <?php endif ?>
                                     </div>
                                 </div>
-                            </div>
+                            <!-- </div> -->
 
                         </div>
                         <!-- Extra Large table end -->

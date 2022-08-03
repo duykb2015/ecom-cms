@@ -25,14 +25,17 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\icon\font-awesome\css\font-awesome.min.css">
     <!-- ico font -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\icon\icofont\css\icofont.css">
+
+    <?php $this->renderSection('css') ?>
+
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\css\style.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\css\jquery.mCustomScrollbar.css">
 
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\css\app.css">
     </link>
-    <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css" type="text/css" rel="stylesheet">
-    <link href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css" type="text/css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css" >
+    <link type="text/css" rel="stylesheet" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css">
     <script src="<?= base_url() ?>/ckeditor/ckeditor.js"></script>
 
     <style>

@@ -37,13 +37,10 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index', ["filter" => "auth-admin"]);
 
-$routes->get('login', 'Auth::login');
-$routes->post('login', 'Auth::login_authentication');
+$routes->get('login', 'Login::index');
+$routes->post('login', 'Login::authentication');
 
-$routes->get('register', 'Auth::register');
-$routes->post('register', 'Auth::register_authentication');
-
-$routes->get('logout', 'Auth::logout');
+$routes->get('logout', 'Login::logout');
 
 $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
     $routes->get('', 'Home::index');
@@ -54,20 +51,19 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('profile', 'Admin::profile');
         $routes->post('profile', 'Admin::change_profile');
 
-        $routes->get('create', 'Admin::create');
-        $routes->post('create', 'Admin::create');
-
-        $routes->get('edit', 'Admin::edit');
-        $routes->post('edit', 'Admin::edit');
+        $routes->get('save', 'Admin::view');
+        $routes->post('save', 'Admin::save');
 
         $routes->post('delete', 'Admin::delete');
     });
 
     $routes->group('menu', function ($routes) {
         $routes->get('', 'Menu::index');
-        $routes->get('create', 'Menu::view');
+        $routes->post('', 'Menu::index');
 
-        $routes->post('create', 'Menu::create');
+        $routes->get('save', 'Menu::view');
+        $routes->post('save', 'Menu::save');
+
         $routes->post('action-status', 'Menu::change_status');
 
         $routes->post('delete', 'Menu::delete');

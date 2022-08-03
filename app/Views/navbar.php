@@ -12,7 +12,7 @@ $menus = [
         'active' => 'admin',
         'level' => 1,
         'name' => 'Quản lý Tài khoản',
-        'icon' => '<i class="feather icon-cpu"></i>',
+        'icon' => '<i class="feather icon-user"></i>',
         'sub_menu' => [
             [
                 'url' => base_url('admin'),
@@ -20,14 +20,47 @@ $menus = [
                 'level' => 3,
             ],
             [
-                'url' => base_url('admin/profile'),
-                'name' => 'Thông tin cá nhân',
-                'level' => 1,
-            ],
-            [
-                'url' => base_url('admin/create'),
+                'url' => base_url('admin/save'),
                 'name' => 'Thêm',
                 'level' => 3,
+            ],
+        ]
+    ],
+    [
+        'url' => '',
+        'name' => 'Quản lý Menu',
+        'active' => 'menu',
+        'level' => 2,
+        'icon' => '<i class="feather icon-menu"></i>',
+        'sub_menu' => [
+            [
+                'url' => base_url('menu'),
+                'name' => 'Danh sách',
+                'level' => 2,
+            ],
+            [
+                'url' => base_url('menu/save'),
+                'name' => 'Thêm mới',
+                'level' => 3,
+            ],
+        ]
+    ],
+    [
+        'url' => '',
+        'name' => 'Quản lý thuộc tính',
+        'active' => 'attribute',
+        'level' => 2,
+        'icon' => '<i class="feather icon-box"></i>',
+        'sub_menu' => [
+            [
+                'url' => base_url('attribute'),
+                'name' => 'Danh sách',
+                'level' => 2,
+            ],
+            [
+                'url' => base_url('attribute/save'),
+                'name' => 'Thêm mới',
+                'level' => 2,
             ],
         ]
     ],
@@ -40,36 +73,28 @@ $menus = [
         'sub_menu' => [
             [
                 'url' => base_url('product'),
-                'name' => 'Danh sách',
+                'name' => 'Dòng sản phẩm',
                 'level' => 1,
             ],
             [
-                'url' => base_url('product/create'),
+                'url' => base_url('product/save'),
+                'name' => 'Thêm dòng sản phẩm',
+                'level' => 2,
+            ],
+            [
+                'url' => base_url('product-item'),
+                'name' => 'Danh sách sản phẩm',
+                'level' => 1,
+            ],
+            [
+                'url' => base_url('product-item/save'),
                 'name' => 'Thêm mới',
                 'level' => 2,
             ],
         ]
     ],
 
-    [
-        'url' => '',
-        'name' => 'Quản lý Menu',
-        'active' => 'menu',
-        'level' => 2,
-        'icon' => '<i class="feather icon-sidebar"></i>',
-        'sub_menu' => [
-            [
-                'url' => base_url('menu'),
-                'name' => 'Danh sách',
-                'level' => 2,
-            ],
-            [
-                'url' => base_url('menu/create'),
-                'name' => 'Thêm mới',
-                'level' => 3,
-            ],
-        ]
-    ],
+
 
 ];
 ?>

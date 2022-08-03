@@ -67,10 +67,7 @@
                                                                                         <th scope="row">Vai trò</th>
                                                                                         <td><?= LEVEL_TYPE[$account['level']] ?></td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Ngày tạo</th>
-                                                                                        <td><?= $account['created_at'] ?></td>
-                                                                                    </tr>
+
                                                                                 </tbody>
                                                                             </table>
                                                                         <?php endif; ?>
@@ -83,19 +80,13 @@
                                                                             <table class="table">
                                                                                 <tbody>
                                                                                     <tr>
-                                                                                        <th scope="row">Email</th>
-                                                                                        <td>
-                                                                                            <?= $account['email'] ?>
-                                                                                        </td>
+                                                                                        <th scope="row">Ngày tạo</th>
+                                                                                        <td><?= $account['created_at'] ?></td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Trạng thái</th>
                                                                                         <td>
-                                                                                            <?php if ($account['status'] == 1) : ?>
-                                                                                                <span class="badge badge-success">Bình thường</span>
-                                                                                            <?php else : ?>
-                                                                                                <span class="badge badge-danger">Khóa</span>
-                                                                                            <?php endif; ?>
+                                                                                            <?= ACCOUNT_STATUS[$account['status']] ?>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -114,73 +105,6 @@
                                                 <!-- end of row -->
                                             </div>
                                             <!-- end of view-info -->
-                                            <div class="edit-info">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <form action="<?= base_url('admin/profile') ?>" method="post">
-                                                            <div class="general-info">
-                                                                <div class="row">
-
-                                                                    <div class="col-lg-6">
-                                                                        <table class="table">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="" value="<?= $account['username'] ?>" disabled>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-email"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="Email" name="email" value="<?= $account['email'] ?>">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <!-- end of table col-lg-6 -->
-                                                                    <div class="col-lg-6">
-                                                                        <table class="table">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-password"></i></span>
-                                                                                            <input type="password" class="form-control" name="old_password" placeholder="Mật khẩu cũ">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-password"></i></span>
-                                                                                            <input type="password" class="form-control" name="new_password" placeholder="Mật khẩu mới (Để thay đổi mật khẩu, bạn cần nhập mật khẩu cũ!)">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <!-- end of table col-lg-6 -->
-                                                                </div>
-                                                                <!-- end of row -->
-                                                                <div class="text-center">
-                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
-                                                                    <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                        <!-- end of edit info -->
-                                                    </div>
-                                                    <!-- end of col-lg-12 -->
-                                                </div>
-                                                <!-- end of row -->
-                                            </div>
                                             <!-- end of edit-info -->
                                         </div>
                                         <!-- end of card-block -->

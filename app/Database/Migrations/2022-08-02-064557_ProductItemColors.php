@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Product extends Migration
+class ProductItemColors extends Migration
 {
     public function up()
     {
@@ -15,33 +15,29 @@ class Product extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'product_line_id' => [
+            'product_item_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'null' => FALSE,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 2048,
+                'constraint' => 255,
             ],
-            'slug' => [
+            'hexcode' => [
                 'type' => 'VARCHAR',
-                'constraint' => 2048,
+                'constraint' => 255,
                 'null' => FALSE,
             ],
-            'additional_information' => [
+            'price' => [
                 'type' => 'VARCHAR',
-                'constraint' => 2048,
-                'null' => TRUE,
-            ],
-            'product_support' => [
-                'type' => 'VARCHAR',
-                'constraint' => 2048,   
-                'null' => TRUE,
-            ],
-            'product_description' => [
-                'type' => 'TEXT',
+                'constraint' => 255,
                 'null' => FALSE,
+            ],
+            'quantity' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => TRUE,
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -50,20 +46,20 @@ class Product extends Migration
                 'default' => '1'
             ],
             'created_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'updated_at DATETIME NOT NULL DEFAULT current_timestamp'
+            'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('product_line_id', 'product_line', 'id');
+        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product', TRUE, $attributes);
+        $this->forge->createTable('product_item_colors', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('product', TRUE);
+        $this->forge->dropTable('product_item_colors', TRUE);
     }
 }

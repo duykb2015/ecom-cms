@@ -12,6 +12,7 @@ class Admin extends Seeder
         $data = [
             'username' => 'admin',
             'password'  => md5('1112'),
+            'level' => '3',
         ];
 
         // Using Query Builder

@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Attribute extends Migration
+class ProductItems extends Migration
 {
     public function up()
     {
@@ -15,14 +15,27 @@ class Attribute extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'name' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'product_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
                 'null' => FALSE,
             ],
-            'is_group' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
+            'admin_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 2048,
+            ],
+            'slug' => [
+                'type' => 'VARCHAR',
+                'constraint' => 2048,
+                'null' => FALSE,
+            ],
+            'description' => [
+                'type' => 'TEXT',
                 'null' => FALSE,
             ],
             'status' => [
@@ -32,20 +45,21 @@ class Attribute extends Migration
                 'default' => '1'
             ],
             'created_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'updated_at DATETIME NOT NULL DEFAULT current_timestamp'
+            'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('admin_id', 'admin', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('attribute', TRUE, $attributes);
-    
+        $this->forge->createTable('product_items', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('attribute', TRUE);
+        $this->forge->dropTable('product_items', TRUE);
     }
 }

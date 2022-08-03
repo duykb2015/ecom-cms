@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class ProductImages extends Migration
+class ProductAttributeValue extends Migration
 {
     public function up()
     {
@@ -20,9 +20,20 @@ class ProductImages extends Migration
                 'constraint' => 11,
                 'null' => FALSE,
             ],
-            'image_name' => [
+            'product_item_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'product_attribute_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'value' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 2048,
+                'null' => FALSE,
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -31,20 +42,23 @@ class ProductImages extends Migration
                 'default' => '1'
             ],
             'created_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'updated_at DATETIME NOT NULL DEFAULT current_timestamp'
+            'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
+        $this->forge->addForeignKey('product_attribute_id', 'product_attributes', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product_images', TRUE, $attributes);
+        $this->forge->createTable('product_attribute_values', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('product_images', TRUE);
+        $this->forge->dropTable('product_attributes', TRUE);
+        $this->forge->dropTable('product_attribute_values', TRUE);
     }
 }

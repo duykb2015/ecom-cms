@@ -42,6 +42,9 @@
         body {
             font-size: 16px;
         }
+        select.form-control:not([size]):not([multiple]) {
+            height: auto !important;
+        }
     </style>
 </head>
 
@@ -133,7 +136,7 @@
     <script src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\js\pcoded.min.js"></script>
     <!-- custom js -->
     <script src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\js\vartical-layout.min.js"></script>
-    <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\dashboard\custom-dashboard.js"></script>
+    <!-- <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\dashboard\custom-dashboard.js"></script> -->
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\js\script.js"></script>
 
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\js\app.js"></script>

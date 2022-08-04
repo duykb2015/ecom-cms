@@ -127,6 +127,27 @@ define('ACCOUNT_STATUS', [
     ACCOUNT_STATUS_NORMAL => '<span class="badge badge-success ">Bình thường</span>'
 ]);
 
+define('ATTRIBUTE_PRIVATE', 0);
+define('ATTRIBUTE_PUBLIC', 1);
+define('ATTRIBUTE_STATUS', [
+    ATTRIBUTE_PUBLIC => 'Chung',
+    ATTRIBUTE_PRIVATE => 'Riêng'
+
+]);
+
+define('PRODUCT_STATUS_HIDDEN', 0);
+define('PRODUCT_STATUS_DISPLAY', 1);
+define('PRODUCT_STATUS_UPCOMING', 2);
+define('PRODUCT_STATUS_STOPSELL', 3);
+define('PRODUCT_STATUS_SOLDOUT', 4);
+define('PRODUCT_STATUS', [
+    PRODUCT_STATUS_HIDDEN => 'Ẩn',
+    PRODUCT_STATUS_DISPLAY => 'Hiển thị',
+    PRODUCT_STATUS_UPCOMING => 'Sắp ra mắt',
+    PRODUCT_STATUS_STOPSELL => 'Ngưng bán',
+    PRODUCT_STATUS_SOLDOUT => 'Hết hàng'
+]);
+
 define('SUCCESS', 'Thành công');
 define('WRONG_LOGIN_INFO', 'Thông tin đăng nhập sai, vui lòng kiểm tra lại!');
 define('UNEXPECTED_ERROR', 'Đã có lỗi xảy ra, vui lòng thử lại sau!');

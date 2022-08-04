@@ -69,16 +69,26 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->post('delete', 'Menu::delete');
     });
 
+    $routes->group('product-attribute', function ($routes) {
+        $routes->get('', 'ProductAttributes::index');
+        $routes->post('', 'ProductAttributes::index');
+
+        $routes->get('save', 'ProductAttributes::view');
+        $routes->post('save', 'ProductAttributes::save');
+
+        $routes->post('action-status', 'ProductAttributes::change_status');
+
+        $routes->post('delete', 'ProductAttributes::delete');
+    });
+
     $routes->group('product', function ($routes) {
         $routes->get('', 'Product::index');
         
-        $routes->get('create', 'Product::create');
-        $routes->post('create', 'Product::create');
-
-        $routes->get('edit', 'Product::edit');
-        $routes->post('edit', 'Product::edit');
+        $routes->get('save', 'Product::view');
+        $routes->post('save', 'Product::save');
 
         $routes->post('action-status', 'Product::change_status');
+        
         $routes->post('delete', 'Product::delete');
     });
 });

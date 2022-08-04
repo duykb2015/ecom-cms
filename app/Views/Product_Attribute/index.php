@@ -17,7 +17,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Danh sách Menu</h4>
+                                    <h4>Danh sách thuộc tính sản phẩm</h4>
                                 </div>
                             </div>
                         </div>
@@ -35,43 +35,29 @@
                         <!-- <div class="card-block"> -->
                         <div class="table-responsive">
 
-                            <table class="table ">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <td class="align-middle" colspan="7">
-                                            <form action="<?= base_url('menu') ?>" method="post">
+                                            <form action="<?= base_url('product-attribute') ?>" method="post">
                                                 <div class="row">
 
                                                     <div class="col-sm-4">
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control " name="filter_menu_name" placeholder="Nhập tên menu để tìm">
+                                                            <input type="text" class="form-control" name="filter_product_attribute_name" placeholder="Nhập tên thuộc tính để tìm">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-6">
                                                         <div class="input-group mb-3">
-                                                            <select class="form-control" name="filter_menu_parent">
-                                                                <option value="">Menu cha</option>
-
-                                                                <?php if (isset($parent_menu)) : ?>
-                                                                    <?php foreach ($parent_menu as $val) : ?>
-                                                                        <option <?= isset($menu['parent_id']) && $menu['parent_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
-                                                                    <?php endforeach ?>
-                                                                <?php endif ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="input-group mb-3">
-                                                            <select class="form-control" name="filter_menu_type">
-                                                                <option value="">Loại menu</option>
-                                                                <?php foreach (MENU_TYPE as $key => $val) : ?>
-                                                                    <option value="<?= $key ?>"><?= $val ?></option>
-                                                                <?php endforeach ?>
+                                                            <select class="form-control" name="filter_product_attribute_group">
+                                                                <option value="">Nhóm thuộc tính</option>
+                                                                <option value="1">Chung</option>
+                                                                <option value="0">Riêng</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2 text-center">
-                                                        <button type="submit" class="btn btn-success ">Lọc</button>
+                                                        <button type="submit" class="btn btn-success">Lọc</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -80,27 +66,25 @@
                                 </thead>
                                 <thead>
                                     <tr>
-                                        <th width="20%">Tên</th>
-                                        <th width="20%">Phân Loại</th>
-                                        <th width="20%">Menu Cha</th>
+                                        <th width="30%" class="text-center">Tên thuộc tính</th>
+                                        <th width="20%" class="text-center">Nhóm</th>
                                         <th width="10%">Trạng thái</th>
                                         <th width="10%">Ngày tạo</th>
                                         <th width="10%">Ngày cập nhật</th>
-                                        <th width="10%"></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($menu)) : ?>
+                                    <?php if (!empty($product_attributes)) : ?>
 
-                                        <?php foreach ($menu as $row) : ?>
+                                        <?php foreach ($product_attributes as $row) : ?>
                                             <tr id="menu-<?= $row['id'] ?>">
-                                                <th scope="row"><?= $row['name'] ?></th>
-                                                <td><?= MENU_TYPE[$row['type']] ?></td>
-                                                <td><?= !empty($row['parent_name']) ? $row['parent_name'] : 'Không có' ?></td>
-                                                <td>
+                                                <th scope="row" class="text-center"><?= $row['name'] ?></th>
+                                                <td class="text-center"><?= ATTRIBUTE_STATUS[$row['is_group']] ?></td>
+                                                <td class="text-center">
                                                     <div class="checkbox-fade fade-in-primary">
                                                         <label class="check-task">
-                                                            <input type="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
+                                                            <input type="checkbox" id="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
                                                             <span class="cr">
                                                                 <i class="cr-icon feather icon-check txt-default"></i>
                                                             </span>
@@ -111,7 +95,7 @@
                                                 <td><?= $row['updated_at'] ?></td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
-                                                        <a href="<?= base_url('menu/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                        <a href="<?= base_url('product-attribute/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>
                                                         </a>
                                                         <a href="javascript:void(0)" onclick="delete_menu('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -124,7 +108,7 @@
                                     <?php else : ?>
                                         <tr>
                                             <td colspan="7">
-                                                <p class="card-text text-center">Hiện tại không có menu nào</p>
+                                                <p class="card-text text-center">Hiện tại không có thuộc tính nào</p>
                                             </td>
                                         </tr>
                                     <?php endif ?>
@@ -154,6 +138,7 @@
     <?= $this->section('js') ?>
     <script>
         function change_status(element, id, name) {
+
             const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của Menu "${name}" ?`);
             if (!is_confirm) {
                 return false
@@ -168,7 +153,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('menu/change-status') ?>', requestOptions)
+            fetch('<?= base_url('product-attribute/action-status') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {

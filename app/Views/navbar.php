@@ -48,17 +48,17 @@ $menus = [
     [
         'url' => '',
         'name' => 'Quản lý thuộc tính',
-        'active' => 'attribute',
+        'active' => 'product-attribute',
         'level' => 2,
         'icon' => '<i class="feather icon-box"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('attribute'),
+                'url' => base_url('product-attribute'),
                 'name' => 'Danh sách',
                 'level' => 2,
             ],
             [
-                'url' => base_url('attribute/save'),
+                'url' => base_url('product-attribute/save'),
                 'name' => 'Thêm mới',
                 'level' => 2,
             ],

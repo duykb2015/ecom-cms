@@ -88,10 +88,10 @@ class Admin extends BaseController
             'username' => $username,
             'password' => $password
         );
-        $rules['username'] = 'required';
 
-        //if create new user, then require password
-        if (!$user_id) {
+        $rules['username'] = 'required';
+        //if create new user or update password, then require password validation
+        if (!$user_id || !empty($password)) {
             $rules['password'] = 'required|min_length[3]';
         }
 
@@ -99,7 +99,10 @@ class Admin extends BaseController
         $validation->setRules($rules, custom_validation_error_message());
         if (!$validation->run($inputs)) {
             $error_msg = $validation->getErrors();
-            return redirect_with_message(site_url('admin/save'), $error_msg);
+            if (!$user_id) {
+                return redirect_with_message(site_url('admin/save'), $error_msg);
+            }
+            return redirect_with_message(site_url('admin/save?id=') . $user_id, $error_msg);
         }
 
         $admin_m = new AdminModel();
@@ -116,8 +119,8 @@ class Admin extends BaseController
 
         $data['username'] = $username;
         $data['password'] = $password;
-        $data['level'] = $level;
-        $data['status'] = $status;
+        $data['level']    = $level;
+        $data['status']   = $status;
 
         //if create failed, notice and redirect to register page again
         $is_save = $admin_m->save($data);

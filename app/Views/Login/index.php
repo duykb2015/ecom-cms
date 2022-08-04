@@ -48,12 +48,12 @@
                                         <?php $errors = session()->getFlashdata('error_msg') ?>
                                         <?php if (!empty($errors)) :  ?>
                                             <?php if (!is_array($errors)) : ?>
-                                                <div class="alert alert-danger">
+                                                <div class="alert alert-danger mb-1">
                                                     <?= $errors ?>
                                                 </div>
                                             <?php else : ?>
                                                 <?php foreach ($errors as $error) : ?>
-                                                    <div class="alert alert-danger">
+                                                    <div class="alert alert-danger mb-1">
                                                         <?= $error ?>
                                                     </div>
                                                 <?php endforeach ?>
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" name="username" class="form-control" required="" placeholder="Tài khoản">
+                                    <input type="text" name="username" value="<?= set_value('username') ?>" class="form-control" required="" placeholder="Tài khoản">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">

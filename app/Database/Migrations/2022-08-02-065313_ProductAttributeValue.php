@@ -18,12 +18,12 @@ class ProductAttributeValue extends Migration
             'product_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
-                'null' => FALSE,
+                'null' => TRUE,
             ],
             'product_item_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
-                'null' => FALSE,
+                'null' => TRUE,
             ],
             'product_attribute_id' => [
                 'type' => 'INT',

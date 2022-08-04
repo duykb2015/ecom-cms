@@ -11,7 +11,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Thêm menu</h4>
+                                    <h4><?= $title ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -39,38 +39,20 @@
                                             </div>
                                         </div>
                                     <?php endif ?>
-                                    <form id="form-menu" action="<?= base_url('menu/save') ?>" method="POST">
-                                        <input type="hidden" name="menu_id" value="<?= isset($menu['id']) ? $menu['id'] : '' ?>">
+                                    <form id="form-menu" action="<?= base_url('product-attribute/save') ?>" method="POST">
+                                        <input type="hidden" name="product_attribute_id" value="<?= isset($product_attribute['id']) ? $product_attribute['id'] : '' ?>">
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên</label>
+                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
                                             <div class="col-sm-10">
-                                                <input id="name" type="text" name="name" class="form-control" value="<?= isset($menu['name']) ? $menu['name'] : set_value('name') ?>" required>
+                                                <input id="name" type="text" name="name" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Slug</label>
+                                            <label class="col-sm-2 col-form-label">Nhóm thuộc tính</label>
                                             <div class="col-sm-10">
-                                                <input id="slug" type="text" name="slug" class="form-control" value="<?= isset($menu['slug']) ? $menu['slug'] : set_value('slug') ?>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Menu Cha</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="parent_id">
-                                                    <option value="0">Không chọn</option>
-                                                    <?php foreach ($parent_menu as $val) : ?>
-                                                        <option <?= isset($menu['parent_id']) && $menu['parent_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
-                                                    <?php endforeach ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Loại</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="type">
-                                                    <?php foreach (MENU_TYPE as $key => $val) : ?>
-                                                        <option <?= isset($menu['type']) && $menu['type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                <select class="form-control" name="is_group">
+                                                    <?php foreach (ATTRIBUTE_STATUS as $key => $val) : ?>
+                                                        <option <?= isset($product_attribute['is_groups']) && $product_attribute['is_groups'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
                                                     <?php endforeach ?>
                                                 </select>
                                             </div>
@@ -81,7 +63,7 @@
                                             <div class="col-sm-10">
                                                 <select class="form-control" name="status">
                                                     <?php foreach (STATUS_CMS as $key => $val) : ?>
-                                                        <option <?= isset($menu['status']) && $menu['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                        <option <?= isset($product_attribute['status']) && $product_attribute['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
                                                     <?php endforeach ?>
                                                 </select>
                                             </div>
@@ -89,7 +71,7 @@
                                         <div class="row">
                                             <div class="col-sm-12 text-right">
                                                 <button type="submit" class="btn btn-primary m-b-0 ">Submit</button>
-                                                <a href="<?= base_url('menu') ?>" class="btn btn-default waves-effect">Canel</a>
+                                                <a href="<?= base_url('product-attribute') ?>" class="btn btn-default waves-effect">Canel</a>
                                             </div>
                                         </div>
                                     </form>

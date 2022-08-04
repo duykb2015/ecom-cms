@@ -6,6 +6,10 @@ use App\Controllers\BaseController;
 use App\Models\ProductModel;
 use CodeIgniter\API\ResponseTrait;
 use App\Libraries\UploadHandler;
+use App\Models\MenuModel;
+use App\Models\ProductAttributesModel;
+use App\Models\ProductAttributeValuesModel;
+use Predis\Command\Redis\UNSUBSCRIBE;
 
 class Product extends BaseController
 {
@@ -28,104 +32,115 @@ class Product extends BaseController
      * Used to create new product
      * 
      */
-    function create()
+    function view()
     {
-        if (empty($this->request->getPost())) {
-            return view('Product/create');
+        $product_id = $this->request->getGet('id');
+
+        $menu_m = new MenuModel();
+        $data['menu'] = $menu_m->select('id, name')->where('parent_id >', 0)->findAll();
+
+        $product_attribute_m = new ProductAttributesModel();
+
+        if (!$product_id) {
+            $data['product_attribute'] = $product_attribute_m->where('is_group', 1)->findAll();
+            $data['title'] = 'Thêm mới dòng sản phẩm';
+            return view('product/save', $data);
         }
-
-        $name              = $this->request->getPost('name');
-        $slug              = create_slug($name);
-        $price             = $this->request->getPost('price');
-        $description       = $this->request->getPost('descriptions');
-        $short_descriptons = $this->request->getPost('short_descriptions');
-        $quantity          = $this->request->getPost('quantity');
-        $status            = $this->request->getPost('status');
-
-        $upload = new UploadHandler();
-        $images         = $upload->multiple_images($this->request->getFiles());
-
-        if ($images == false) {
-            $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-            return redirect_with_message(site_url('product/create'), $error_msg);
-        }
-        $datas = [
-            'name'              => $name,
-            'slug'              => $slug,
-            'price'             => $price,
-            'descriptions'      => $description,
-            'short_descriptions' => $short_descriptons,
-            'quantity'          => $quantity,
-            'images'            => $images,
-            'status'            => $status,
-        ];
         $product_m = new ProductModel();
-        if (!$product_m->save($datas)) {
-            $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-            return redirect_with_message(site_url('product/create'), $error_msg);
+        $product = $product_m->find($product_id);
+        if (!$product) {
+            return redirect()->to('product');
         }
-        return redirect()->to(site_url('product'));
+        $data['product_attribute'] = $product_attribute_m->find_all();
+        $data['product'] = $product;
+        $data['title'] = 'Chỉnh sửa dòng sản phẩm';
+        return view('product/save', $data);
     }
 
     /**
-     * Used to edit product infomation 
+     * Combination of create and update that will attempt to determine whether the data should be inserted or updated. 
      * 
      */
-    function edit()
+    function save()
     {
-        $product_m = new ProductModel();
-        $id = $this->request->getGet('id');
-        if (!$id) {
-            return redirect()->to(site_url('product'));
-        }
+        //get product data
+        $admin_id               = session()->get('id');
+        $product_id             = $this->request->getPost('product_id');
+        $menu_id                = $this->request->getPost('menu_id');
+        $name                   = $this->request->getPost('name');
+        $slug                   = $this->request->getPost('slug');
+        $additional_information = $this->request->getPost('additional_information');
+        $support_information    = $this->request->getPost('support_information');
+        $status                 = $this->request->getPost('status');
 
-        $product = $product_m->find($id);
-        if (!$product) {
-            return redirect()->to(site_url('product'));
-        }
-
-        if (empty($this->request->getPost())) {
-            $product['images'] = json_decode($product['images']);
-            $data['product'] = $product;
-            return view('Product/edit', $data);
-        }
-
-        $name              = $this->request->getPost('name');
-        $slug              = create_slug($name);
-        $price             = $this->request->getPost('price');
-        $description       = $this->request->getPost('descriptions');
-        $short_descriptons = $this->request->getPost('short_descriptions');
-        $quantity          = $this->request->getPost('quantity');
-        $status            = $this->request->getPost('status');
-
-
-        $datas = [
-            'name'               => $name,
-            'slug'               => $slug,
-            'price'              => $price,
-            'descriptions'       => $description,
-            'short_descriptions' => $short_descriptons,
-            'quantity'           => $quantity,
-            'status'            => $status,
-            'updated_at'         => date('Y-m-d H:i:s')
+        //prepare data
+        $data = [
+            'name'                   => $name,
+            'slug'                   => $slug,
+            'admin_id'               => $admin_id,
+            'menu_id'                => $menu_id,
+            'additional_information' => $additional_information,
+            'support_information'    => $support_information,
+            'status'                 => $status,
         ];
-        if ($this->request->getFiles('images')) {
-            $upload = new UploadHandler();
-            //first delete old images
-            $upload->remove_images($product['images']);
-            $images = $upload->multiple_images($this->request->getFiles());
-            if ($images == false) {
-                $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-                return redirect_with_message(site_url('product/create'), $error_msg);
-            }
-            $datas['images'] =  $images;
+        //check if product_id is empty then insert new product else update product
+        if ($product_id) {
+            $data['id'] = $product_id;
+        }
+        $product_m = new ProductModel();
+        $is_save = $product_m->save($data);
+        if (!$is_save) {
+            return redirect()->to('product/save', UNEXPECTED_ERROR);
         }
 
-        if (!$product_m->update($id, $datas)) {
-            $error_msg = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-            return redirect_with_message(site_url('product/edit'), $error_msg);
+        //after save product, we need to save product attribute values
+        //get product id
+        if (!$product_id) {
+            $product_save_id = $product_m->getInsertID();
+        } else {
+            $product_save_id = $product_id;
         }
-        return redirect()->to(site_url('product'));
+
+        $product_attribute_m = new ProductAttributesModel();
+        $product_attribute_value_m = new ProductAttributeValuesModel();
+
+        //get all product attribute id (for what? because we need to know which product attribute value to save)
+        $product_attribute_id = $product_attribute_m->select('id')->where('is_group', 1)->findAll();
+
+        //if it's an update, need to get bold product attribute and product attribute value
+        if ($product_id) {
+            //Đặt lại tên cho hàm này
+            $product_attribute_id = $product_attribute_m->find_all_id($product_id);
+        }
+        //Since the number of ids will coincide with the amount of data requested,
+        //we just need to loop through the ids
+        $product_attribute_value_m->transStart();
+        foreach ($product_attribute_id as $value) {
+            $product_attribute_value = $this->request->getPost('attribute_' . $value['id']);
+            if ($product_id) {
+                $product_attribute_value_id = $this->request->getPost('pav_' . $value['pav_id']);
+            }
+            $data = [
+                'product_id' => $product_save_id,
+                'product_attribute_id' => $value['id'],
+                'value' => $product_attribute_value,
+                'status' => 1
+            ];
+
+            if ($product_attribute_value_id) {
+                $data['id'] = $product_attribute_value_id;
+            }
+
+            $is_save = $product_attribute_value_m->save($data);
+            if (!$is_save) {
+                $product_attribute_value_m->transRollback();
+                return redirect()->to('product/save', UNEXPECTED_ERROR);
+            }
+            $product_attribute_value_m->transCommit();
+        }
+        $product_attribute_value_m->transComplete();
+
+        return redirect()->to('product');
     }
 
     /**
@@ -143,7 +158,7 @@ class Product extends BaseController
 
         //prepare data to update
         $data = [
-            'status'    => $this->request->getPost('status'),
+            'status' => $this->request->getPost('status'),
         ];
 
         //update product status
@@ -168,7 +183,7 @@ class Product extends BaseController
 
         $product_m = new ProductModel();
         $images = $product_m->select('images')->find($id);
-        
+
         $upload = new UploadHandler();
         $upload->remove_images($images['images']);
 

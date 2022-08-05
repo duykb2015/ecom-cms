@@ -32,30 +32,25 @@
                                     <div class="table-responsive">
                                         <div class="table-content">
                                             <div class="project-table">
-                                                <table id="e-product-list" class="table table-striped dt-responsive nowrap">
+                                                <table class="table  dt-responsive nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th>Tên sản phẩm</th>
-                                                            <th>Giá</th>
-                                                            <th>Mô tả ngắn</th>
-                                                            <th width="10%">Trạng thái</th>
-                                                            <th width="10%">Ngày tạo</th>
-                                                            <th width="10%">Ngày cập nhật</th>
-                                                            <th width="10%">Hành động</th>
+                                                            <th class="text-center">Tên sản phẩm</th>
+                                                            <th class="text-center" width="10%">Trạng thái</th>
+                                                            <th width="15%">Ngày tạo</th>
+                                                            <th width="15%">Ngày cập nhật</th>
+                                                            <th width="10%"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php if (!empty($products)) : ?>
                                                             <?php foreach ($products as $product) : ?>
                                                                 <tr>
-                                                                    <td class="pro-name">
+                                                                    <th class="pro-name" scope="row">
                                                                         <?= $product['name'] ?>
-                                                                    </td>
-
-                                                                    <td> <?= $product['price'] ?></td>
-                                                                    <td> <?= $product['short_descriptions'] ?></td>
-                                                                    <td>
-                                                                        <div class="checkbox-fade fade-in-primary">
+                                                                    </th>
+                                                                    <td class="text-center" width="10%">
+                                                                        <div class="checkbox-fade fade-in-primary mr-0 mt-3">
                                                                             <label class="check-task">
                                                                                 <input type="checkbox" onclick="return change_status(this, '<?= $product['id'] ?>', '<?= $product['name'] ?>')" <?= $product['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
                                                                                 <span class="cr">
@@ -68,7 +63,7 @@
                                                                     <td> <?= $product['updated_at'] ?></td>
                                                                     <td class="action-icon">
                                                                         <div class="btn-group btn-group-sm">
-                                                                            <a href="<?= base_url('product/edit?id=' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                                            <a href="<?= base_url('product/save?id=' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>
                                                                             </a>
                                                                             <a href="javascript:void(0)" onclick="delete_product('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -80,7 +75,7 @@
                                                             <?php endforeach ?>
                                                         <?php else : ?>
                                                             <tr>
-                                                                <td colspan="7">Hiện không có sản phẩm nào</td>
+                                                                <td colspan="7" class="text-center">Hiện không có sản phẩm nào</td>
                                                             </tr>
                                                         <?php endif ?>
                                                     </tbody>
@@ -115,6 +110,7 @@
 
     <script>
         function change_status(element, id, name) {
+
             const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của sản phẩm "${name}" ?`);
             if (!is_confirm) {
                 return false

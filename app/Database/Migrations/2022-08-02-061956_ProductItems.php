@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Product extends Migration
+class ProductItems extends Migration
 {
     public function up()
     {
@@ -15,37 +15,27 @@ class Product extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
+            'product_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'admin_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 2048,
             ],
             'slug' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'short_description' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 2048,
                 'null' => FALSE,
             ],
             'description' => [
                 'type' => 'TEXT',
-                'null' => FALSE,
-            ],
-            'images' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'price' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => FALSE,
-            ],
-            'quantity' => [
-                'type' => 'INT',
-                'constraint' => 11,
                 'null' => FALSE,
             ],
             'status' => [
@@ -55,19 +45,21 @@ class Product extends Migration
                 'default' => '1'
             ],
             'created_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'updated_at DATETIME NOT NULL DEFAULT current_timestamp'
+            'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('admin_id', 'admin', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product', FALSE, $attributes);
+        $this->forge->createTable('product_items', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('product', TRUE);
+        $this->forge->dropTable('product_items', TRUE);
     }
 }

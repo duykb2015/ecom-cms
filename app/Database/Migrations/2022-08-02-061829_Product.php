@@ -4,9 +4,8 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Menu extends Migration
+class Product extends Migration
 {
-    //Run command on cmd: php spark migrate to import table.
     public function up()
     {
         $this->forge->addField([
@@ -16,26 +15,34 @@ class Menu extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'parent_id' => [
+            'admin_id' => [
                 'type' => 'INT',
-                'constraint' => 4,
-                'null' => TRUE,
+                'constraint' => 11,
+                'null' => FALSE,
+            ],
+            'menu_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => FALSE,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
+                'constraint' => 512,
             ],
             'slug' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 512,
                 'null' => FALSE,
             ],
-            'type' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
+            'additional_information' => [
+                'type' => 'VARCHAR',
+                'constraint' => 2048,
                 'null' => FALSE,
-                'default' => '0'
+            ],
+            'support_information' => [
+                'type' => 'VARCHAR',
+                'constraint' => 2048,
+                'null' => FALSE,
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -47,16 +54,19 @@ class Menu extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('admin_id', 'admin', 'id');
+        $this->forge->addForeignKey('menu_id', 'menu', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('menu', TRUE, $attributes);
+        $this->forge->createTable('product', TRUE, $attributes);
+    
     }
 
     public function down()
     {
-        $this->forge->dropTable('menu', TRUE);
+        $this->forge->dropTable('product', TRUE);
     }
 }

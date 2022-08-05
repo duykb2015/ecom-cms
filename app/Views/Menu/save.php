@@ -11,13 +11,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <?php $errors = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($errors)) : ?>
-                                        <div class="alert alert-danger">
-                                            <?= $errors ?>
-                                        </div>
-                                    <?php endif ?>
-                                    <h4><?= $title ?></h4>
+                                    <h4>Thêm menu</h4>
                                 </div>
                             </div>
                         </div>
@@ -32,22 +26,39 @@
                             <!-- Basic Form Inputs card start -->
                             <div class="card">
                                 <div class="card-block">
-                                    <?php $id = !empty($_GET['id']) ? '?id=' . $_GET['id'] : '' ?>
-                                    <form id="form-menu" action="<?= base_url('menu/create') . $id ?>" method="POST">
+                                    <?php $error = session()->getFlashdata('error_msg') ?>
+                                    <?php if (!empty($error)) : ?>
+                                        <div class="alert alert-danger">
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <?= $error ?>
+                                                </div>
+                                                <div class="col-1 text-right">
+                                                    <span aria-hidden="true" onclick="remove_alert()">&times;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif ?>
+                                    <form id="form-menu" action="<?= base_url('menu/save') ?>" method="POST">
                                         <input type="hidden" name="menu_id" value="<?= isset($menu['id']) ? $menu['id'] : '' ?>">
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Tên</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="name" class="form-control" value="<?= isset($menu['name']) ? $menu['name'] : '' ?>">
+                                                <input id="name" type="text" name="name" class="form-control" value="<?= isset($menu['name']) ? $menu['name'] : set_value('name') ?>" required>
                                             </div>
                                         </div>
-
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Slug</label>
+                                            <div class="col-sm-10">
+                                                <input id="slug" type="text" name="slug" class="form-control" value="<?= isset($menu['slug']) ? $menu['slug'] : set_value('slug') ?>">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Menu Cha</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" name="parent_id">
                                                     <option value="0">Không chọn</option>
-                                                    <?php foreach ($parent_menus as $val) : ?>
+                                                    <?php foreach ($parent_menu as $val) : ?>
                                                         <option <?= isset($menu['parent_id']) && $menu['parent_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
                                                     <?php endforeach ?>
                                                 </select>
@@ -76,9 +87,9 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label class="col-sm-2"></label>
-                                            <div class="col-sm-10 text-right">
+                                            <div class="col-sm-12 text-right">
                                                 <button type="submit" class="btn btn-primary m-b-0 ">Submit</button>
+                                                <a href="<?= base_url('menu') ?>" class="btn btn-default waves-effect">Canel</a>
                                             </div>
                                         </div>
                                     </form>
@@ -96,39 +107,34 @@
 
 <?= $this->section('js') ?>
 <script>
-    const form = document.getElementById('form-menus');
-    form.addEventListener('submit', (e) => {
-        // stop form submission
-        e.preventDefault();
+    // function slug() {}
+    function slug(str) {
 
-        const data = new FormData(form);
-        var requestOptions = {
-            method: 'POST',
-            body: data,
-            redirect: 'follow'
-        };
+        str = str.replace(/^\s+|\s+$/g, "");
+        str = str.toLowerCase();
 
-        fetch(form.action, requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    redirect_url(result.result.url_redirect)
-                    return
-                }
+        var from = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;";
+        var to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------";
+        for (var i = 0; i < from.length; i++) {
+            str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+        }
 
-                const errors = result.result.errors;
-                if (errors) {
-                    for (var key in errors) {
-                        if (errors.hasOwnProperty(key)) {
-                            msgbox_error(errors[key])
-                            break
-                        }
-                    }
-                }
+        str = str.replace(/[^a-z0-9 -]/g, '')
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
 
-            })
-            .catch(error => msgbox_error());
-    });
+        return str
+    }
+
+    $('#name').on('keyup', function() {
+        $('#slug').val(slug($(this).val()))
+    })
+
+    function remove_alert() {
+        $('.alert').remove();
+    }
 </script>
+
+
 
 <?= $this->endSection() ?>

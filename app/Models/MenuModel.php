@@ -13,8 +13,8 @@ class MenuModel extends Model
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'parent_id', 'name', 'type', 'status', 'created_at', 'updated_at'];
+    protected $protectFields    = false;
+    protected $allowedFields    = [];
 
     // Dates
     protected $useTimestamps = true;
@@ -23,23 +23,16 @@ class MenuModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [
-        'name'             => 'required',
-    ];
-
-    protected $validationMessages   = [
-        'name'      => [
-            'required' => 'Tên menu bắt buộc',
-        ],
-    ];
+    protected $validationRules      = [];
+    protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
 
     /**
-     * Custom function. Find all menus from database with specific conditions.
+     * Custom function. Find all menu from database with specific conditions.
      * 
-     * @return mixed
+     * @return array|null
      *
      */
 
@@ -47,18 +40,52 @@ class MenuModel extends Model
     {
         $query = $this->select([
             'menu.id',
-            'menu.parent_id', 'menu.name',
+            'menu.parent_id',
+            'menu.name',
             'pm.name as parent_name',
             'menu.type',
             'menu.status',
             'menu.created_at',
             'menu.updated_at',
-        ])  ->join('menu as pm', 'pm.id = menu.parent_id', 'left')
+        ])->join('menu as pm', 'pm.id = menu.parent_id', 'left')
             ->orderBy('menu.updated_at', 'desc');
 
-
-        $data['menus'] = $query->paginate(10);
+        $data['menu'] = $query->paginate(10);
         $data['pager'] = $query->pager;
+
         return $data;
+    }
+
+    /**
+     * Custom function. Find all menu from database with filter.
+     * 
+     * @return array|null
+     *
+     */
+    public function filter($data)
+    {
+        $query = $this->select([
+            'menu.id',
+            'menu.parent_id',
+            'menu.name',
+            'pm.name as parent_name',
+            'menu.type',
+            'menu.status',
+            'menu.created_at',
+            'menu.updated_at',
+        ])->join('menu as pm', 'pm.id = menu.parent_id', 'left')
+            ->orderBy('menu.updated_at', 'desc');
+        if ($data['name']) {
+            $query->like('menu.name', $data['name']);
+        }
+        if ($data['parent_id']) {
+            $query->orWhere('menu.parent_id', $data['parent_id']);
+        }
+        if ($data['type']) {
+            $query->orWhere('menu.type', $data['type']);
+        }
+        $result['menu'] = $query->paginate(10);
+        $result['pager'] = $query->pager;
+        return $result;
     }
 }

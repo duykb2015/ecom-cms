@@ -4,9 +4,8 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Menu extends Migration
+class ProductAttribute extends Migration
 {
-    //Run command on cmd: php spark migrate to import table.
     public function up()
     {
         $this->forge->addField([
@@ -16,26 +15,15 @@ class Menu extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'parent_id' => [
-                'type' => 'INT',
-                'constraint' => 4,
-                'null' => TRUE,
-            ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
                 'null' => FALSE,
             ],
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'type' => [
+            'is_group' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,
                 'null' => FALSE,
-                'default' => '0'
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -52,11 +40,12 @@ class Menu extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('menu', TRUE, $attributes);
+        $this->forge->createTable('product_attributes', TRUE, $attributes);
+    
     }
 
     public function down()
     {
-        $this->forge->dropTable('menu', TRUE);
+        $this->forge->dropTable('product_attributes', TRUE);
     }
 }

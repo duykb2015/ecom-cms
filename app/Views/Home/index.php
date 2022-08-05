@@ -12,7 +12,7 @@
                                 <div class="card-block">
                                     <div class="row align-items-end">
                                         <div class="col-8">
-                                            <h4 class="text-white"><?= !empty($total_users) ? $total_users : 1 ?></h4>
+                                            <h4 class="text-white"><?= !empty($total_users) ? $total_users : 0 ?></h4>
                                             <h6 class="text-white m-b-0">Users</h6>
                                         </div>
                                         <div class="col-4 text-right">
@@ -30,7 +30,7 @@
                                 <div class="card-block">
                                     <div class="row align-items-end">
                                         <div class="col-8">
-                                            <h4 class="text-white"><?= !empty($total_menus) ? $total_menus : 1 ?></h4>
+                                            <h4 class="text-white"><?= !empty($total_menu) ? $total_menu : 0 ?></h4>
                                             <h6 class="text-white m-b-0">Menus</h6>
                                         </div>
                                         <div class="col-4 text-right">
@@ -48,8 +48,8 @@
                                 <div class="card-block">
                                     <div class="row align-items-end">
                                         <div class="col-8">
-                                            <h4 class="text-white">N/A</h4>
-                                            <h6 class="text-white m-b-0">N/A</h6>
+                                            <h4 class="text-white"><?= !empty($total_product) ? $total_product : 0 ?></h4>
+                                            <h6 class="text-white m-b-0">Dòng sản phẩm</h6>
                                         </div>
                                         <div class="col-4 text-right">
                                             <canvas id="update-chart-3" height="50"></canvas>
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>N/A</p>
+                                    <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i><?= date('H:i') ?></p>
                                 </div>
                             </div>
                         </div>
@@ -66,8 +66,8 @@
                                 <div class="card-block">
                                     <div class="row align-items-end">
                                         <div class="col-8">
-                                            <h4 class="text-white">N/A</h4>
-                                            <h6 class="text-white m-b-0">N/A</h6>
+                                            <h4 class="text-white"><?= !empty($total_product_item) ? $total_product_items : 0 ?></h4>
+                                            <h6 class="text-white m-b-0">Sản phẩm</h6>
                                         </div>
                                         <div class="col-4 text-right">
                                             <canvas id="update-chart-4" height="50"></canvas>
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>N/A</p>
+                                    <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i><?= date('H:i') ?></p>
                                 </div>
                             </div>
                         </div>

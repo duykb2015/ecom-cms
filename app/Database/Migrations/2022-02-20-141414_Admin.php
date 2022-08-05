@@ -26,10 +26,11 @@ class Admin extends Migration
                 'constraint' => 100,
                 'null' => FALSE,
             ],
-            'email' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'level' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
                 'null' => FALSE,
+                'default' => 1,
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -38,8 +39,8 @@ class Admin extends Migration
                 'default' => '1'
             ],
             'created_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'updated_at DATETIME NOT NULL DEFAULT current_timestamp',
-            'last_login_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
+            'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp',
+            'last_login_at DATETIME NOT NULL DEFAULT current_timestamp '
         ]);
         $this->forge->addPrimaryKey('id');
         $attributes = [
@@ -47,12 +48,12 @@ class Admin extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('admin', FALSE, $attributes);
+        $this->forge->createTable('admin', TRUE, $attributes);
     }
 
     //Run command on cmd: php spark migrate:rollback to remove table.
     public function down()
     {
-        $this->forge->dropTable('admin');
+        $this->forge->dropTable('admin', TRUE);
     }
 }

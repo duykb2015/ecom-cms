@@ -68,13 +68,13 @@ function get_time_ago($time)
  * @param string $error Error message to show
  * @return array an array of data for failed response
  */
-function response_failed(?mixed $error = null)
+function response_failed(?string $error = null)
 {
     return [
         'success' => false,
         'message' => 'Có lỗi xảy ra',
         'result' =>  [
-            'error' => $error != null ? $error : 'Dữ liệu không hợp lệ'
+            'error' => $error != null ? $error : 'Có lỗi xảy ra, thử lại sau'
         ]
     ];
 }

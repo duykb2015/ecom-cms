@@ -4,9 +4,8 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Menu extends Migration
+class ProductAttributeValue extends Migration
 {
-    //Run command on cmd: php spark migrate to import table.
     public function up()
     {
         $this->forge->addField([
@@ -16,26 +15,25 @@ class Menu extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'parent_id' => [
+            'product_id' => [
                 'type' => 'INT',
-                'constraint' => 4,
+                'constraint' => 11,
                 'null' => TRUE,
             ],
-            'name' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'product_item_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => TRUE,
+            ],
+            'product_attribute_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
                 'null' => FALSE,
             ],
-            'slug' => [
+            'value' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 2048,
                 'null' => FALSE,
-            ],
-            'type' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
-                'null' => FALSE,
-                'default' => '0'
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -47,16 +45,20 @@ class Menu extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
+        $this->forge->addForeignKey('product_attribute_id', 'product_attributes', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('menu', TRUE, $attributes);
+        $this->forge->createTable('product_attribute_values', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('menu', TRUE);
+        $this->forge->dropTable('product_attributes', TRUE);
+        $this->forge->dropTable('product_attribute_values', TRUE);
     }
 }

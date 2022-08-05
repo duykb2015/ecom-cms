@@ -99,9 +99,9 @@ define('MODERATOR_LEVEL', 2);
 define('ADMIN_LEVEL', 3);;
 define('LEVEL_TYPE', [
     BANNED_LEVEL => '<span style="color:black, text-decoration: line-through">Banned</span>',
-    UNVERIFIED_LEVEL => 'Unverified',
-    MODERATOR_LEVEL => '<span style="color:blue">Moderator</span>',
-    ADMIN_LEVEL => '<span style="color:red">Admin</span>'
+    UNVERIFIED_LEVEL => 'Không cấp quyền',
+    MODERATOR_LEVEL => '<span class="text-primary">Moderator</span>',
+    ADMIN_LEVEL => '<span class="text-danger">Admin</span>'
 ]);
 
 define('STATUS_HIDDEN', 0);
@@ -119,3 +119,35 @@ define('MENU_TYPE', [
     MENU_TYPE_POST => 'Sản phẩm',
     MENU_TYPE_SERVICE => 'Dịch vụ'
 ]);
+
+define('ACCOUNT_STATUS_BANNED', 0);
+define('ACCOUNT_STATUS_NORMAL', 1);
+define('ACCOUNT_STATUS', [
+    ACCOUNT_STATUS_BANNED => '<span class="badge badge-dark">Bị cấm</span>',
+    ACCOUNT_STATUS_NORMAL => '<span class="badge badge-success ">Bình thường</span>'
+]);
+
+define('ATTRIBUTE_PRIVATE', 0);
+define('ATTRIBUTE_PUBLIC', 1);
+define('ATTRIBUTE_STATUS', [
+    ATTRIBUTE_PUBLIC => 'Chung',
+    ATTRIBUTE_PRIVATE => 'Riêng'
+
+]);
+
+define('PRODUCT_STATUS_HIDDEN', 0);
+define('PRODUCT_STATUS_DISPLAY', 1);
+define('PRODUCT_STATUS_UPCOMING', 2);
+define('PRODUCT_STATUS_STOPSELL', 3);
+define('PRODUCT_STATUS_SOLDOUT', 4);
+define('PRODUCT_STATUS', [
+    PRODUCT_STATUS_HIDDEN => 'Ẩn',
+    PRODUCT_STATUS_DISPLAY => 'Hiển thị',
+    PRODUCT_STATUS_UPCOMING => 'Sắp ra mắt',
+    PRODUCT_STATUS_STOPSELL => 'Ngưng bán',
+    PRODUCT_STATUS_SOLDOUT => 'Hết hàng'
+]);
+
+define('SUCCESS', 'Thành công');
+define('WRONG_LOGIN_INFO', 'Thông tin đăng nhập sai, vui lòng kiểm tra lại!');
+define('UNEXPECTED_ERROR', 'Đã có lỗi xảy ra, vui lòng thử lại sau!');

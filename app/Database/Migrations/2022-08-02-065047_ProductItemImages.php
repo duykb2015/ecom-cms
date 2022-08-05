@@ -4,9 +4,8 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Menu extends Migration
+class ProductItemImages extends Migration
 {
-    //Run command on cmd: php spark migrate to import table.
     public function up()
     {
         $this->forge->addField([
@@ -16,26 +15,14 @@ class Menu extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'parent_id' => [
+            'product_item_id' => [
                 'type' => 'INT',
-                'constraint' => 4,
-                'null' => TRUE,
+                'constraint' => 11,
+                'null' => FALSE,
             ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
-            ],
-            'type' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
-                'null' => FALSE,
-                'default' => '0'
             ],
             'status' => [
                 'type' => 'TINYINT',
@@ -47,16 +34,17 @@ class Menu extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('menu', TRUE, $attributes);
+        $this->forge->createTable('product_item_images', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('menu', TRUE);
+        $this->forge->dropTable('product_item_images', TRUE);
     }
 }

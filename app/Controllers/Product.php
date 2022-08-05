@@ -9,7 +9,6 @@ use App\Libraries\UploadHandler;
 use App\Models\MenuModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductAttributeValuesModel;
-use Predis\Command\Redis\UNSUBSCRIBE;
 
 class Product extends BaseController
 {
@@ -20,11 +19,16 @@ class Product extends BaseController
     function index()
     {
         $product_m = new ProductModel();
+        if ($this->request->getMethod() == 'post') {
+            $filter_data = [
+                'name' => $this->request->getVar('filter_product_name'),
+            ];
+            $product_m->filter($filter_data);
+        }
         $data = [
             'products' => $product_m->findAll(),
-            'pager' => $product_m->pager
+            'pager'    => $product_m->pager
         ];
-
         return view('Product/index', $data);
     }
 
@@ -51,7 +55,7 @@ class Product extends BaseController
         if (!$product) {
             return redirect()->to('product');
         }
-        $data['product_attribute'] = $product_attribute_m->find_all();
+        $data['product_attribute'] = $product_attribute_m->find_all($product_id);
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
         return view('product/save', $data);
@@ -117,7 +121,11 @@ class Product extends BaseController
         $product_attribute_value_m->transStart();
         foreach ($product_attribute_id as $value) {
             $product_attribute_value = $this->request->getPost('attribute_' . $value['id']);
+
+            $product_attribute_value_id = '';
+            //if it's an update, need to get product attribute values id
             if ($product_id) {
+                // pav: Product Attribute Values
                 $product_attribute_value_id = $this->request->getPost('pav_' . $value['pav_id']);
             }
             $data = [
@@ -144,50 +152,28 @@ class Product extends BaseController
     }
 
     /**
-     * Used to change status of a product
-     */
-    public function change_status()
-    {
-        //get product id from post data
-        $id = $this->request->getPost('id');
-
-        //if product id is empty, return error response
-        if (!$id) {
-            return $this->respond(response_failed(), 200);
-        }
-
-        //prepare data to update
-        $data = [
-            'status' => $this->request->getPost('status'),
-        ];
-
-        //update product status
-        $product_m = new ProductModel();
-        $product_m->update($id, $data);
-        return $this->respond(response_successed(), 200);
-    }
-
-    /**
      * Used to delete a product
      * 
      */
     public function delete()
     {
         //get product id from post data
-        $id = $this->request->getPost('id');
+        $product_id = $this->request->getPost('id');
 
         //if product id is empty, return error response
-        if (!$id) {
+        if (!$product_id) {
+            return $this->respond(response_failed(), 200);
+        }
+
+        $product_attribute_value_m = new ProductAttributeValuesModel();
+        $is_delete = $product_attribute_value_m->where('product_id', $product_id)->delete();
+        if (!$is_delete) {
             return $this->respond(response_failed(), 200);
         }
 
         $product_m = new ProductModel();
-        $images = $product_m->select('images')->find($id);
-
-        $upload = new UploadHandler();
-        $upload->remove_images($images['images']);
-
-        if (!$product_m->delete($id)) {
+        $is_delete = $product_m->delete($product_id);
+        if (!$is_delete) {
             return $this->respond(response_failed(), 200);
         }
         return $this->respond(response_successed(), 200);

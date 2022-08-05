@@ -42,21 +42,24 @@ class ProductAttributesModel extends Model
 
     public function filter($data)
     {
-        $query = $this->select();
         if ($data['name']) {
-            $query->like('name', $data['name']);
+            $this->like('name', $data['name']);
         }
         //use isset because value of this data can be 0 and it will skip this condition
         if (isset($data['is_group']) && $data['is_group'] != '') {
-            $query->where('is_group', $data['is_group']);
+            $this->where('is_group', $data['is_group']);
         }
 
-        $result['product_attributes'] = $query->paginate(20);
-        $result['pager'] = $query->pager;
-        return $result;
+        return $this;
     }
 
-    public function find_all()
+    /**
+     * Get all product attributes and values by product id
+     * 
+     * @param int $product_id Product id
+     * @return array|null
+     */
+    public function find_all($product_id)
     {
         $query = $this->select([
             'product_attributes.id',
@@ -67,8 +70,9 @@ class ProductAttributesModel extends Model
             'product_attributes.created_at',
             'product_attributes.updated_at'
         ])->where('is_group', 1)
+            ->where('pav.product_id', $product_id)
             ->join('product_attribute_values as pav', 'product_attributes.id = pav.product_attribute_id', 'left');
-        return  $query->findAll();
+        return $query->findAll();
     }
 
     public function find_all_id($product_id)

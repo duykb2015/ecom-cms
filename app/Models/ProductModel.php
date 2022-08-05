@@ -38,4 +38,12 @@ class ProductModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function filter($data)
+    {
+        if ($data['name']) {
+            $this->like('name', $data['name']);
+        }
+        return $this;
+    }
 }

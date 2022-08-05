@@ -57,35 +57,22 @@ class MenuModel extends Model
     }
 
     /**
-     * Custom function. Find all menu from database with filter.
+     * Add condition to query before find all menu.
      * 
      * @return array|null
      *
      */
     public function filter($data)
     {
-        $query = $this->select([
-            'menu.id',
-            'menu.parent_id',
-            'menu.name',
-            'pm.name as parent_name',
-            'menu.type',
-            'menu.status',
-            'menu.created_at',
-            'menu.updated_at',
-        ])->join('menu as pm', 'pm.id = menu.parent_id', 'left')
-            ->orderBy('menu.updated_at', 'desc');
         if ($data['name']) {
-            $query->like('menu.name', $data['name']);
+            $this->like('menu.name', $data['name']);
         }
         if ($data['parent_id']) {
-            $query->orWhere('menu.parent_id', $data['parent_id']);
+            $this->where('menu.parent_id', $data['parent_id']);
         }
         if ($data['type']) {
-            $query->orWhere('menu.type', $data['type']);
+            $this->where('menu.type', $data['type']);
         }
-        $result['menu'] = $query->paginate(10);
-        $result['pager'] = $query->pager;
-        return $result;
+        return $this;
     }
 }

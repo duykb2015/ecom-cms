@@ -23,18 +23,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- Page-header end -->
-
                 <div class="page-body">
-                    <!-- Extra Large table start -->
-
-
                     <div class="card">
-
-
-                        <!-- <div class="card-block"> -->
                         <div class="table-responsive">
-
                             <table class="table ">
                                 <thead>
                                     <tr>
@@ -91,7 +82,6 @@
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($menu)) : ?>
-
                                         <?php foreach ($menu as $row) : ?>
                                             <tr id="menu-<?= $row['id'] ?>">
                                                 <th scope="row"><?= $row['name'] ?></th>

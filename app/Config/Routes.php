@@ -83,13 +83,24 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('product', function ($routes) {
         $routes->get('', 'Product::index');
-        
+        $routes->post('', 'Product::index');
+
         $routes->get('save', 'Product::view');
         $routes->post('save', 'Product::save');
 
         $routes->post('action-status', 'Product::change_status');
-        
+
         $routes->post('delete', 'Product::delete');
+    });
+
+    $routes->group('product-item', function ($routes) {
+        $routes->get('', 'ProductItem::index');
+        $routes->post('', 'ProductItem::index');
+        
+        $routes->get('save', 'ProductItem::view');
+        $routes->post('save', 'ProductItem::save');
+
+        $routes->post('delete', 'ProductItem::delete');
     });
 });
 

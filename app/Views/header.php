@@ -15,7 +15,6 @@
 
         <div class="navbar-container container-fluid">
             <ul class="nav-right">
-
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">

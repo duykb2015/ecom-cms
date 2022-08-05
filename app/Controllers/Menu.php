@@ -29,11 +29,7 @@ class Menu extends BaseController
                 'parent_id' => $filter_menu_parent,
                 'type'   => $filter_menu_type,
             ];
-            $data = $menu_m->filter($filter_data);
-
-            $data['parent_menu'] = $parent_menu;
-
-            return view('Menu/index', $data);
+            $menu_m->filter($filter_data);
         }
 
         $data = $menu_m->find_all();

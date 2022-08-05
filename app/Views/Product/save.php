@@ -60,7 +60,7 @@
                                                             <select name="menu_id" class="form-control">
                                                                 <?php if (isset($menu)) : ?>
                                                                     <?php foreach ($menu as $row) : ?>
-                                                                        <option value="<?= $row['id'] ?>" <?= $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
+                                                                        <option value="<?= $row['id'] ?>" <?= isset($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
                                                                     <?php endforeach ?>
                                                                 <?php endif ?>
                                                             </select>
@@ -69,7 +69,7 @@
                                                     <div class="col-sm-6">
                                                         <select name="status" class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
-                                                                <option value="<?= $key ?>" <?= $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
+                                                                <option value="<?= $key ?>" <?= isset($product['status']) && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
                                                             <?php endforeach ?>
                                                         </select>
                                                     </div>
@@ -95,7 +95,9 @@
                                                             <label class="col-sm-2 col-form-label"><?= $row['name'] ?></label>
                                                             <div class="col-sm-10">
                                                                 <div class="input-group">
-                                                                    <input type="hidden" name="pav_<?= $row['pav_id'] ?>" value="<?= $row['pav_id'] ?>">
+                                                                    <?php if (isset($row['pav_id'])) : ?>
+                                                                        <input type="hidden" name="pav_<?= $row['pav_id'] ?>" value="<?= $row['pav_id'] ?>">
+                                                                    <?php endif ?>
                                                                     <input type="text" class="form-control" name="attribute_<?= $row['id'] ?>" value="<?= isset($row['value']) ? $row['value'] : set_value('short_descriptons') ?>" required>
                                                                 </div>
                                                             </div>

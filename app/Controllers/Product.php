@@ -19,9 +19,14 @@ class Product extends BaseController
     function index()
     {
         $product_m = new ProductModel();
-        if ($this->request->getMethod() == 'post') {
+        if ($this->request->getMethod() == 'get') {
+            $product_name = $this->request->getGet('product_name');
+            $product_status = $this->request->getGet('product_status');
+            $product_creator = $this->request->getGet('product_creator');
             $filter_data = [
-                'name' => $this->request->getVar('filter_product_name'),
+                'name'     => $product_name,
+                'admin_id' => $product_creator,
+                'status'   => $product_status
             ];
             $product_m->filter($filter_data);
         }
@@ -38,7 +43,7 @@ class Product extends BaseController
      */
     function view()
     {
-        $product_id = $this->request->getGet('id');
+        $product_id = $this->request->getUri()->getSegment(3);
 
         $menu_m = new MenuModel();
         $data['menu'] = $menu_m->select('id, name')->where('parent_id >', 0)->findAll();
@@ -53,7 +58,7 @@ class Product extends BaseController
         $product_m = new ProductModel();
         $product = $product_m->find($product_id);
         if (!$product) {
-            return redirect()->to('product');
+            return redirect()->to('product-line');
         }
         $data['product_attribute'] = $product_attribute_m->find_all($product_id);
         $data['product'] = $product;
@@ -94,7 +99,7 @@ class Product extends BaseController
         $product_m = new ProductModel();
         $is_save = $product_m->save($data);
         if (!$is_save) {
-            return redirect_with_message('product/save', UNEXPECTED_ERROR);
+            return redirect_with_message('product-line/save', UNEXPECTED_ERROR_MESSAGE);
         }
 
         //after save product, we need to save product attribute values
@@ -142,13 +147,12 @@ class Product extends BaseController
             $is_save = $product_attribute_value_m->save($data);
             if (!$is_save) {
                 $product_attribute_value_m->transRollback();
-                return redirect()->to('product/save', UNEXPECTED_ERROR);
+                return redirect()->to('product-line/save', UNEXPECTED_ERROR_MESSAGE);
             }
             $product_attribute_value_m->transCommit();
         }
         $product_attribute_value_m->transComplete();
-
-        return redirect()->to('product');
+        return redirect()->to('product-line');
     }
 
     /**
@@ -162,20 +166,20 @@ class Product extends BaseController
 
         //if product id is empty, return error response
         if (!$product_id) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
         $product_attribute_value_m = new ProductAttributeValuesModel();
         $is_delete = $product_attribute_value_m->where('product_id', $product_id)->delete();
         if (!$is_delete) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
         $product_m = new ProductModel();
         $is_delete = $product_m->delete($product_id);
         if (!$is_delete) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
-        return $this->respond(response_successed(), 200);
+        return $this->respond(response_successed(), HTTP_OK);
     }
 }

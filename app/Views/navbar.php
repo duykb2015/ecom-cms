@@ -1,5 +1,5 @@
 <?php
-$menus = [
+$menu = [
     [
         'url' => base_url('/'),
         'active' => '/',
@@ -10,19 +10,17 @@ $menus = [
     [
         'url' => '',
         'active' => 'admin',
-        'level' => 1,
+        'level' => 3,
         'name' => 'Quản lý Tài khoản',
         'icon' => '<i class="feather icon-user"></i>',
         'sub_menu' => [
             [
                 'url' => base_url('admin'),
                 'name' => 'Danh sách',
-                'level' => 3,
             ],
             [
                 'url' => base_url('admin/save'),
                 'name' => 'Thêm',
-                'level' => 3,
             ],
         ]
     ],
@@ -36,31 +34,10 @@ $menus = [
             [
                 'url' => base_url('menu'),
                 'name' => 'Danh sách',
-                'level' => 2,
             ],
             [
                 'url' => base_url('menu/save'),
                 'name' => 'Thêm mới',
-                'level' => 3,
-            ],
-        ]
-    ],
-    [
-        'url' => '',
-        'name' => 'Quản lý thuộc tính',
-        'active' => 'product-attribute',
-        'level' => 2,
-        'icon' => '<i class="feather icon-box"></i>',
-        'sub_menu' => [
-            [
-                'url' => base_url('product-attribute'),
-                'name' => 'Danh sách',
-                'level' => 2,
-            ],
-            [
-                'url' => base_url('product-attribute/save'),
-                'name' => 'Thêm mới',
-                'level' => 2,
             ],
         ]
     ],
@@ -68,29 +45,69 @@ $menus = [
         'url' => '',
         'name' => 'Quản lý sản phẩm',
         'active' => 'product',
-        'level' => 1,
+        'level' => 2,
         'icon' => '<i class="feather icon-shopping-cart"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('product'),
+                'url' => '',
+                'name' => 'Danh mục',
+                'active' => 'product-category',
+                'sub_menu' => [
+                    [
+                        'url' => base_url('product-category'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('product-category/save'),
+                        'name' => 'Thêm mới',
+                    ],
+                ]
+            ],
+            [
+                'url' => '',
+                'name' => 'Thuộc tính',
+                'active' => 'product-attribute',
+                'sub_menu' => [
+                    [
+                        'url' => base_url('product-attribute'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('product-attribute/save'),
+                        'name' => 'Thêm mới',
+                    ],
+                ]
+            ],
+            [
+                'url' => '',
                 'name' => 'Dòng sản phẩm',
-                'level' => 1,
+                'active' => 'product-line',
+                'sub_menu' => [
+                    [
+                        'url' => base_url('product-line'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('product-line/save'),
+                        'name' => 'Thêm mới',
+                    ],
+                ]
             ],
             [
-                'url' => base_url('product/save'),
-                'name' => 'Thêm dòng sản phẩm',
-                'level' => 2,
-            ],
-            [
-                'url' => base_url('product-item'),
-                'name' => 'Danh sách sản phẩm',
-                'level' => 1,
-            ],
-            [
-                'url' => base_url('product-item/save'),
-                'name' => 'Thêm mới',
-                'level' => 2,
-            ],
+                'url' => '',
+                'name' => 'Sản phẩm',
+                'active' => 'product-item',
+                'sub_menu' => [
+                    [
+                        'url' => base_url('product-item'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('product-item/save'),
+                        'name' => 'Thêm mới',
+                    ],
+                ]
+            ]
         ]
     ],
 
@@ -103,9 +120,10 @@ $menus = [
     <div class="pcoded-inner-navbar main-menu">
         <div class="pcoded-navigatio-lavel">Bảng điều khiển</div>
         <ul class="pcoded-item pcoded-left-item">
-            <?php foreach ($menus as $row) : ?>
-                <?php $class_active = url_is($row['active'] . '*') ? 'active pcoded-trigger' : ''; ?>
-                <?php if (session()->get('level') >= $row['level']) : ?>
+            <?php $level = session()->get('level') ?>
+            <?php foreach ($menu as $row) : ?>
+                <?php $class_active = url_is($row['active'] . '*') ? ' pcoded-trigger' : '' ?>
+                <?php if ($level >= $row['level']) : ?>
                     <li class="<?= !empty($row['url']) ? '' : 'pcoded-hasmenu' ?> <?= $class_active ?>">
                         <a href="<?= !empty($row['url']) ? $row['url'] : 'javascript:void(0)' ?>">
                             <span class="pcoded-micon"><?= $row['icon'] ?></span>
@@ -114,14 +132,31 @@ $menus = [
 
                         <?php if (!empty($row['sub_menu'])) : ?>
                             <ul class="pcoded-submenu">
-                                <?php foreach ($row['sub_menu'] as $val) : ?>
-                                    <?php if (session()->get('level') >= $val['level']) : ?>
-                                        <li class="<?= url_is(str_replace(base_url(), '', $val['url'])) ? 'active' : '' ?>">
-                                            <a href="<?= $val['url'] ?>">
-                                                <span class="pcoded-mtext"><?= $val['name'] ?></span>
+                                <?php foreach ($row['sub_menu'] as $sub) : ?>
+
+                                    <?php if (!empty($sub['sub_menu'])) : ?>
+                                        <?php $sub_class_active = url_is($sub['active'] . '*') ? ' pcoded-trigger' : '' ?>
+                                        <li class="pcoded-hasmenu <?= $sub_class_active ?>">
+                                            <a href="javascript:void(0)">
+                                                <span class="pcoded-mtext"><?= $sub['name'] ?></span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <?php foreach ($sub['sub_menu'] as $val) : ?>
+                                                    <li class="<?= url_is(str_replace(base_url(), '', $val['url'])) ? 'active' : '' ?>">
+                                                        <a href="<?= $val['url'] ?>">
+                                                            <span class="pcoded-mtext"><?= $val['name'] ?></span>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </li>
+                                    <?php else : ?>
+                                        <li class="<?= url_is(str_replace(base_url(), '', $sub['url'])) ? 'active' : '' ?>">
+                                            <a href="<?= $sub['url'] ?>">
+                                                <span class="pcoded-mtext"><?= $sub['name'] ?></span>
                                             </a>
                                         </li>
-                                    <?php endif; ?>
+                                    <?php endif ?>
                                 <?php endforeach ?>
                             </ul>
                         <?php endif ?>

@@ -90,23 +90,23 @@
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-price"></i></span>
-                                                            <input type="text" class="form-control" name="price" placeholder="Giá" value="<?= isset($product['price']) ? $product['price'] : set_value('price') ?>" required>
+                                                            <input type="text" class="form-control" name="price[]" placeholder="Giá" value="<?= isset($product['price']) ? $product['price'] : set_value('price') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-color-picker"></i></span>
-                                                            <input type="text" class="form-control" id="hexcode" name="hexcode" placeholder="Mã màu" value="<?= isset($product['hexcode']) ? $product['hexcode'] : set_value('hexcode') ?>" required>
+                                                            <input type="text" class="form-control" id="hexcode[]" name="hexcode" placeholder="Mã màu" value="<?= isset($product['hexcode']) ? $product['hexcode'] : set_value('hexcode') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                            <input type="text" class="form-control" name="quantity" placeholder="Số lượng" value="<?= isset($product['quantity']) ? $product['quantity'] : set_value('quantity') ?>" required>
+                                                            <input type="text" class="form-control" name="quantity[]" placeholder="Số lượng" value="<?= isset($product['quantity']) ? $product['quantity'] : set_value('quantity') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <select name="status" class="form-control">
+                                                        <select name="status[]" class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
                                                                 <option value="<?= $key ?>" <?= isset($product_item['status']) && $product_item['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
                                                             <?php endforeach ?>

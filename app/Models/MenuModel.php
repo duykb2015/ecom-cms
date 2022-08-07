@@ -50,7 +50,7 @@ class MenuModel extends Model
         ])->join('menu as pm', 'pm.id = menu.parent_id', 'left')
             ->orderBy('menu.updated_at', 'desc');
 
-        $data['menu'] = $query->paginate(10);
+        $data['menu'] = $query->paginate(RESULT_LIMIT);
         $data['pager'] = $query->pager;
 
         return $data;
@@ -72,6 +72,9 @@ class MenuModel extends Model
         }
         if ($data['type']) {
             $this->where('menu.type', $data['type']);
+        }
+        if (isset($data['status']) && $data['status'] != '') {
+            $this->where('menu.status', $data['status']);
         }
         return $this;
     }

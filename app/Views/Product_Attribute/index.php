@@ -67,10 +67,9 @@
                                 <thead>
                                     <tr>
                                         <th width="30%" class="text-center">Tên thuộc tính</th>
-                                        <th width="20%" class="text-center">Nhóm</th>
-                                        <th width="10%">Trạng thái</th>
-                                        <th width="10%">Ngày tạo</th>
-                                        <th width="10%">Ngày cập nhật</th>
+                                        <th width="20%" class="text-center">Trạng thái</th>
+                                        <th width="20%" class="text-center">Ngày tạo</th>
+                                        <th width="20%" class="text-center">Ngày cập nhật</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -80,11 +79,10 @@
                                         <?php foreach ($product_attributes as $row) : ?>
                                             <tr id="attribute-<?= $row['id'] ?>">
                                                 <th scope="row" class="text-center"><?= $row['name'] ?></th>
-                                                <td class="text-center"><?= ATTRIBUTE_STATUS[$row['is_group']] ?></td>
                                                 <td class="text-center">
                                                     <div class="checkbox-fade fade-in-primary">
                                                         <label class="check-task">
-                                                            <input type="checkbox" id="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
+                                                            <input type="checkbox" id="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == DISPLAY ? 'checked' : '' ?>>
                                                             <span class="cr">
                                                                 <i class="cr-icon feather icon-check txt-default"></i>
                                                             </span>
@@ -95,7 +93,7 @@
                                                 <td><?= $row['updated_at'] ?></td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
-                                                        <a href="<?= base_url('product-attribute/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                        <a href="<?= base_url('product-attribute/save/' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>
                                                         </a>
                                                         <a href="javascript:void(0)" onclick="delete_attribute('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">

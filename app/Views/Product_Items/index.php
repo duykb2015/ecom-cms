@@ -80,7 +80,7 @@
                                                                     <td class="text-center" width="10%">
                                                                         <div class="checkbox-fade fade-in-primary mr-0 mt-3">
                                                                             <label class="check-task">
-                                                                                <input type="checkbox" onclick="return change_status(this, '<?= $product['id'] ?>', '<?= $product['name'] ?>')" <?= $product['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
+                                                                                <input type="checkbox" onclick="return change_status(this, '<?= $product['id'] ?>', '<?= $product['name'] ?>')" <?= $product['status'] == DISPLAY ? 'checked' : '' ?>>
                                                                                 <span class="cr">
                                                                                     <i class="cr-icon feather icon-check txt-default"></i>
                                                                                 </span>
@@ -91,7 +91,7 @@
                                                                     <td> <?= $product['updated_at'] ?></td>
                                                                     <td class="action-icon">
                                                                         <div class="btn-group btn-group-sm">
-                                                                            <a href="<?= base_url('product/save?id=' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                                            <a href="<?= base_url('product/save/' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>
                                                                             </a>
                                                                             <a href="javascript:void(0)" onclick="delete_product_item('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">

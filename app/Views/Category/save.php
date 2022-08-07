@@ -27,7 +27,7 @@
                             <div class="card">
                                 <div class="card-block">
                                     <?php $error = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($error)) : ?>
+                                    <?php if (isset($error)) : ?>
                                         <div class="alert alert-danger">
                                             <div class="row">
                                                 <div class="col-11">
@@ -39,34 +39,51 @@
                                             </div>
                                         </div>
                                     <?php endif ?>
-                                    <form id="form-menu" action="<?= base_url('product-attribute/save') ?>" method="POST">
-                                        <input type="hidden" name="product_attribute_id" value="<?= isset($product_attribute['id']) ? $product_attribute['id'] : '' ?>">
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
-                                            <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
+                                    <form id="form-menu" action="<?= base_url('product-category/save') ?>" method="POST">
+                                        <input type="hidden" name="category_id" value="<?= isset($category['id']) ? $category['id'] : '' ?>">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="name">Tên danh mục</label>
+                                                <div class="input-group">
+                                                    <input id="name" type="text" name="name" class="form-control" value="<?= isset($category['name']) ? $category['name'] : set_value('name') ?>" required>
+                                                </div>
                                             </div>
-                                        </div><div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
-                                            <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Trạng thái</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="status">
-                                                    <?php foreach (STATUS as $key => $val) : ?>
-                                                        <option <?= isset($product_attribute['status']) && $product_attribute['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
-                                                    <?php endforeach ?>
-                                                </select>
+                                            <div class="col-sm-6">
+                                                <label for="slug">Slug</label>
+                                                <div class="input-group">
+                                                    <input id="slug" type="text" name="slug" class="form-control" value="<?= isset($category['slug']) ? $category['slug'] : set_value('slug') ?>">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="parent_id">Menu</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="menu_id">
+                                                        <?php if (isset($menu)) : ?>
+                                                            <?php foreach ($menu as $val) : ?>
+                                                                <option <?= isset($category['menu_id']) && $category['menu_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
+                                                            <?php endforeach ?>
+                                                        <?php endif ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="status">Trạng thái</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" name="status">
+                                                        <?php foreach (STATUS as $key => $val) : ?>
+                                                            <option <?= isset($category['status']) && $category['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                        <?php endforeach ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-sm-12 text-right">
-                                                <button type="submit" class="btn btn-primary m-b-0">Lưu</button>
-                                                <a href="<?= base_url('product-attribute') ?>" class="btn btn-default waves-effect">Huỷ</a>
+                                                <button type="submit" class="btn btn-primary m-b-0 ">Lưu</button>
+                                                <a href="<?= base_url('product-category') ?>" class="btn btn-default waves-effect">Huỷ</a>
                                             </div>
                                         </div>
                                     </form>

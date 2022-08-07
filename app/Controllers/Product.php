@@ -9,7 +9,6 @@ use App\Libraries\UploadHandler;
 use App\Models\MenuModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductAttributeValuesModel;
-use Predis\Command\Redis\UNSUBSCRIBE;
 
 class Product extends BaseController
 {
@@ -20,11 +19,16 @@ class Product extends BaseController
     function index()
     {
         $product_m = new ProductModel();
+        if ($this->request->getMethod() == 'post') {
+            $filter_data = [
+                'name' => $this->request->getVar('filter_product_name'),
+            ];
+            $product_m->filter($filter_data);
+        }
         $data = [
             'products' => $product_m->findAll(),
-            'pager' => $product_m->pager
+            'pager'    => $product_m->pager
         ];
-
         return view('Product/index', $data);
     }
 
@@ -51,7 +55,7 @@ class Product extends BaseController
         if (!$product) {
             return redirect()->to('product');
         }
-        $data['product_attribute'] = $product_attribute_m->find_all();
+        $data['product_attribute'] = $product_attribute_m->find_all($product_id);
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
         return view('product/save', $data);
@@ -90,14 +94,15 @@ class Product extends BaseController
         $product_m = new ProductModel();
         $is_save = $product_m->save($data);
         if (!$is_save) {
-            return redirect()->to('product/save', UNEXPECTED_ERROR);
+            return redirect_with_message('product/save', UNEXPECTED_ERROR);
         }
 
         //after save product, we need to save product attribute values
-        //get product id
-        if (!$product_id) {
-            $product_save_id = $product_m->getInsertID();
-        } else {
+
+        //get product inserted id for insert attribute values
+        $product_save_id = $product_m->getInsertID();
+        //if it's an update. the insert id will be zero, so we will use the already have product id
+        if ($product_id) {
             $product_save_id = $product_id;
         }
 
@@ -105,28 +110,31 @@ class Product extends BaseController
         $product_attribute_value_m = new ProductAttributeValuesModel();
 
         //get all product attribute id (for what? because we need to know which product attribute value to save)
-        $product_attribute_id = $product_attribute_m->select('id')->where('is_group', 1)->findAll();
+        $product_attribute_ids = $product_attribute_m->select('id')->where('is_group', 1)->findAll();
 
         //if it's an update, need to get bold product attribute and product attribute value
         if ($product_id) {
-            //Đặt lại tên cho hàm này
-            $product_attribute_id = $product_attribute_m->find_all_id($product_id);
+            $product_attribute_ids = $product_attribute_m->find_id($product_id);
         }
         //Since the number of ids will coincide with the amount of data requested,
         //we just need to loop through the ids
         $product_attribute_value_m->transStart();
-        foreach ($product_attribute_id as $value) {
-            $product_attribute_value = $this->request->getPost('attribute_' . $value['id']);
+        foreach ($product_attribute_ids as $item) {
+            $product_attribute_value = $this->request->getPost('attribute_' . $item['id']);
+
+            //if it's an update, need to get product attribute values id
             if ($product_id) {
-                $product_attribute_value_id = $this->request->getPost('pav_' . $value['pav_id']);
+                // pav: Product Attribute Values
+                $product_attribute_value_id = $this->request->getPost('pav_' . $item['pav_id']);
             }
             $data = [
                 'product_id' => $product_save_id,
-                'product_attribute_id' => $value['id'],
+                'product_attribute_id' => $item['id'],
                 'value' => $product_attribute_value,
                 'status' => 1
             ];
 
+            //if it's an update
             if ($product_attribute_value_id) {
                 $data['id'] = $product_attribute_value_id;
             }
@@ -144,50 +152,28 @@ class Product extends BaseController
     }
 
     /**
-     * Used to change status of a product
-     */
-    public function change_status()
-    {
-        //get product id from post data
-        $id = $this->request->getPost('id');
-
-        //if product id is empty, return error response
-        if (!$id) {
-            return $this->respond(response_failed(), 200);
-        }
-
-        //prepare data to update
-        $data = [
-            'status' => $this->request->getPost('status'),
-        ];
-
-        //update product status
-        $product_m = new ProductModel();
-        $product_m->update($id, $data);
-        return $this->respond(response_successed(), 200);
-    }
-
-    /**
      * Used to delete a product
      * 
      */
     public function delete()
     {
         //get product id from post data
-        $id = $this->request->getPost('id');
+        $product_id = $this->request->getPost('id');
 
         //if product id is empty, return error response
-        if (!$id) {
+        if (!$product_id) {
+            return $this->respond(response_failed(), 200);
+        }
+
+        $product_attribute_value_m = new ProductAttributeValuesModel();
+        $is_delete = $product_attribute_value_m->where('product_id', $product_id)->delete();
+        if (!$is_delete) {
             return $this->respond(response_failed(), 200);
         }
 
         $product_m = new ProductModel();
-        $images = $product_m->select('images')->find($id);
-
-        $upload = new UploadHandler();
-        $upload->remove_images($images['images']);
-
-        if (!$product_m->delete($id)) {
+        $is_delete = $product_m->delete($product_id);
+        if (!$is_delete) {
             return $this->respond(response_failed(), 200);
         }
         return $this->respond(response_successed(), 200);

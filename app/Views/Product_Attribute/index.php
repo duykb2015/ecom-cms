@@ -44,12 +44,12 @@
 
                                                     <div class="col-sm-4">
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="filter_product_attribute_name" placeholder="Nhập tên thuộc tính để tìm">
+                                                            <input type="text" class="form-control" name="product_attribute_name" placeholder="Nhập tên thuộc tính để tìm">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="input-group mb-3">
-                                                            <select class="form-control" name="filter_product_attribute_group">
+                                                            <select class="form-control" name="product_attribute_group">
                                                                 <option value="">Nhóm thuộc tính</option>
                                                                 <option value="1">Chung</option>
                                                                 <option value="0">Riêng</option>
@@ -78,7 +78,7 @@
                                     <?php if (!empty($product_attributes)) : ?>
 
                                         <?php foreach ($product_attributes as $row) : ?>
-                                            <tr id="menu-<?= $row['id'] ?>">
+                                            <tr id="attribute-<?= $row['id'] ?>">
                                                 <th scope="row" class="text-center"><?= $row['name'] ?></th>
                                                 <td class="text-center"><?= ATTRIBUTE_STATUS[$row['is_group']] ?></td>
                                                 <td class="text-center">
@@ -98,7 +98,7 @@
                                                         <a href="<?= base_url('product-attribute/save?id=' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>
                                                         </a>
-                                                        <a href="javascript:void(0)" onclick="delete_menu('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
+                                                        <a href="javascript:void(0)" onclick="delete_attribute('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-delete"></span>
                                                         </a>
                                                     </div>
@@ -139,7 +139,7 @@
     <script>
         function change_status(element, id, name) {
 
-            const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của Menu "${name}" ?`);
+            const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của thuộc tính "${name}" ?`);
             if (!is_confirm) {
                 return false
             }
@@ -174,8 +174,8 @@
                 });
         }
 
-        function delete_menu(id, name) {
-            const is_confirm = confirm(`Bạn muốn xóa Menu "${name}" ?`);
+        function delete_attribute(id, name) {
+            const is_confirm = confirm(`Bạn muốn xóa thuộc tính "${name}" ?`);
             if (!is_confirm) {
                 return
             }
@@ -188,12 +188,12 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('menu/delete') ?>', requestOptions)
+            fetch('<?= base_url('product-attribute/delete') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
                         msgbox_success(result.message)
-                        document.getElementById(`menu-${id}`).remove()
+                        document.getElementById(`attribute-${id}`).remove()
                         return
                     }
 

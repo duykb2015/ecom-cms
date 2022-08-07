@@ -11,23 +11,15 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-
                                     <h4><?= $title ?></h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Page-header end -->
-                <!-- Main-body start -->
-
-                <!-- Page-header start -->
-
-                <!-- Page body start -->
                 <div class="page-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <!-- Product edit card start -->
                             <div class="card">
                                 <div class="row">
                                     <?php $error = session()->getFlashdata('error_msg') ?>
@@ -45,13 +37,13 @@
                                     <?php endif ?>
                                     <div class="col-sm-12">
                                         <div class="product-edit">
-                                            <form class="md-float-material card-block" action="<?= base_url('product/save') ?>" method="POST">
-                                                <input type="hidden" name="product_id" value="<?= isset($product['id']) ? $product['id'] : '' ?>">
+                                            <form class="md-float-material card-block " action="<?= base_url('product-item/save') ?>" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="id" value="<?= isset($product['id']) ? $product['id'] : '' ?>">
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-cube"></i></span>
-                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Tên dòng sản phẩm" value="<?= isset($product['name']) ? $product['name'] : set_value('name') ?>" required>
+                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Tên sản phẩm" value="<?= isset($product['name']) ? $product['name'] : set_value('name') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -61,17 +53,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row mb-4">
                                                     <div class="col-sm-6">
-                                                        <div class="input-group">
-                                                            <select name="menu_id" class="form-control">
-                                                                <?php if (isset($menu)) : ?>
-                                                                    <?php foreach ($menu as $row) : ?>
-                                                                        <option value="<?= $row['id'] ?>" <?= isset($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
-                                                                    <?php endforeach ?>
-                                                                <?php endif ?>
-                                                            </select>
-                                                        </div>
+                                                        <select name="product_id" class="form-control">
+                                                            <option value="">Chọn dòng sản phẩm</option>
+                                                            <?php if (isset($product)) :  ?>
+                                                                <?php foreach ($product as $row) : ?>
+                                                                    <option value="<?= $row['id'] ?>" <?= isset($product_item['product_id']) && $product_item['product_id'] == $key ? 'selected' : '' ?>><?= $row['name'] ?></option>
+                                                                <?php endforeach ?>
+                                                            <?php endif ?>
+                                                        </select>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <select name="status" class="form-control">
@@ -81,19 +72,29 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
                                                 <div class="row mb-3">
-                                                    <div class="col-sm-6">
-                                                        <textarea name="additional_information" id="editor1" required><?= isset($product['additional_information']) ? $product['additional_information'] : 'Thông tin thêm về sản phẩm ...' ?></textarea>
+                                                    <div class="col-sm-12">
+                                                        <div class="d-inline">
+                                                            <h5>Tải lên hình ảnh sản phẩm</h5>
+                                                        </div>
+                                                        <br>
+                                                        <h6>Hãy chọn thật kỹ ảnh để tránh xảy ra sai sót, bức ảnh đầu tiên sẽ là ảnh hiển thị ở trang chủ </h6>
+                                                        <input type="file" name="images[]" id="filer_input" multiple="multiple">
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        <textarea name="support_information" id="editor2" required><?= isset($product['support_information']) ? $product['support_information'] : 'Hỗ trợ khi mua hàng ...' ?></textarea>
+                                                </div>
+
+                                                <div class="row mb-4">
+                                                    <div class="col-sm-12 mb-3">
+                                                        <h5>Mô tả sản phẩm</h5>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <textarea name="description" id="editor1" required><?= isset($product['description']) ? $product['description'] : 'Mô tả về về sản phẩm ...' ?></textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
-                                                        <h5>Thông số kĩ thuật chung</h5>
+                                                        <h5>Thông số kĩ thuật riêng</h5>
                                                     </div>
                                                 </div>
                                                 <?php if (isset($product_attribute)) : ?>
@@ -112,11 +113,10 @@
                                                     <?php endforeach ?>
                                                 <?php endif ?>
 
-
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
-                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Lưu</button>
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Tiếp tục</button>
                                                             <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
                                                         </div>
                                                     </div>
@@ -147,7 +147,6 @@
     <?= $this->section('js') ?>
     <script>
         CKEDITOR.replace('editor1');
-        CKEDITOR.replace('editor2');
 
         function slug(str) {
 
@@ -166,14 +165,9 @@
 
             return str
         }
-
+        //slug
         $('#name').on('keyup', function() {
             $('#slug').val(slug($(this).val()))
         })
-
-        $('#remove-alert').on('click', function() {
-            $('.alert').remove();
-        })
     </script>
-
     <?= $this->endSection() ?>

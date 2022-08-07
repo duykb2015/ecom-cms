@@ -34,7 +34,7 @@
                                                     <?= $error ?>
                                                 </div>
                                                 <div class="col-1 text-right">
-                                                    <span aria-hidden="true" onclick="remove_alert()">&times;</span>
+                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,8 +88,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12 text-right">
-                                                <button type="submit" class="btn btn-primary m-b-0 ">Submit</button>
-                                                <a href="<?= base_url('menu') ?>" class="btn btn-default waves-effect">Canel</a>
+                                                <button type="submit" class="btn btn-primary m-b-0 ">Lưu</button>
+                                                <a href="<?= base_url('menu') ?>" class="btn btn-default waves-effect">Huỷ</a>
                                             </div>
                                         </div>
                                     </form>
@@ -129,10 +129,6 @@
     $('#name').on('keyup', function() {
         $('#slug').val(slug($(this).val()))
     })
-
-    function remove_alert() {
-        $('.alert').remove();
-    }
 </script>
 
 

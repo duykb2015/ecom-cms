@@ -180,3 +180,18 @@ function create_slug($string)
     $string = strtolower($string);
     return $string;
 }
+
+/**
+ * Used to remove file from server, if exists
+ *
+ * @param string $images json encode string of images name
+ * @return bool TRUE on success or FALSE on failure
+ */
+function remove($file_name)
+{
+    $file = ROOTPATH . 'public/uploads/' . $file_name;
+    if (!file_exists($file)) {
+        return false;
+    }
+    return unlink($file);;
+}

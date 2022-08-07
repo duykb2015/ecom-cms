@@ -33,12 +33,24 @@
                                                     <thead>
                                                         <tr>
                                                             <td class="align-middle border-0" colspan="7">
-                                                                <form action="<?= base_url('product') ?>" method="post">
+                                                                <form action="<?= base_url('product-item') ?>" method="post">
                                                                     <div class="row">
 
-                                                                        <div class="col-sm-10">
+                                                                        <div class="col-sm-4">
                                                                             <div class="input-group">
-                                                                                <input type="text" class="form-control" name="filter_product_name" placeholder="Nhập tên dòng sản phẩm để lọc">
+                                                                                <input type="text" class="form-control" name="product_item_name" placeholder="Nhập tên sản phẩm để tìm">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="input-group mb-3">
+                                                                                <select class="form-control" name="produc_id">
+                                                                                    <option value="">Dòng sản phẩm</option>
+                                                                                    <?php if (isset($product)) : ?>
+                                                                                        <?php foreach ($product as $row) : ?>
+                                                                                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                                                                        <?php endforeach; ?>
+                                                                                    <?php endif; ?>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-2 text-center">
@@ -61,19 +73,28 @@
                                                     <tbody>
                                                         <?php if (!empty($products)) : ?>
                                                             <?php foreach ($products as $product) : ?>
-                                                                <tr id="product-<?= $product['id'] ?>">
+                                                                <tr>
                                                                     <th class="pro-name" scope="row">
                                                                         <?= $product['name'] ?>
                                                                     </th>
-                                                                    <td width="10%"><?= PRODUCT_STATUS[$product['status']] ?></td>
+                                                                    <td class="text-center" width="10%">
+                                                                        <div class="checkbox-fade fade-in-primary mr-0 mt-3">
+                                                                            <label class="check-task">
+                                                                                <input type="checkbox" onclick="return change_status(this, '<?= $product['id'] ?>', '<?= $product['name'] ?>')" <?= $product['status'] == STATUS_DISPLAY ? 'checked' : '' ?>>
+                                                                                <span class="cr">
+                                                                                    <i class="cr-icon feather icon-check txt-default"></i>
+                                                                                </span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
                                                                     <td> <?= $product['created_at'] ?></td>
                                                                     <td> <?= $product['updated_at'] ?></td>
-                                                                    <td>
+                                                                    <td class="action-icon">
                                                                         <div class="btn-group btn-group-sm">
                                                                             <a href="<?= base_url('product/save?id=' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>
                                                                             </a>
-                                                                            <a href="javascript:void(0)" onclick="delete_product('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
+                                                                            <a href="javascript:void(0)" onclick="delete_product_item('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-delete"></span>
                                                                             </a>
                                                                         </div>
@@ -116,8 +137,45 @@
     <?= $this->section('js') ?>
 
     <script>
-        function delete_product(id, name) {
-            const is_confirm = confirm(`Bạn muốn xóa dòng sản phẩm "${name}" ?`);
+        function change_status(element, id, name) {
+
+            const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của sản phẩm "${name}" ?`);
+            if (!is_confirm) {
+                return false
+            }
+
+            const data = new FormData();
+            data.append('id', id);
+            data.append('status', element.checked ? 1 : 0);
+            var requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch('<?= base_url('product/action-status') ?>', requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        msgbox_success(result.message)
+                        return true
+                    }
+
+                    const error = result.result.error;
+                    if (error) {
+                        msgbox_error(error)
+                        return false
+                    }
+
+                })
+                .catch(error => {
+                    msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!')
+                    return false
+                });
+        }
+
+        function delete_product_item(id, name) {
+            const is_confirm = confirm(`Bạn muốn xóa sản phẩm "${name}" ?`);
             if (!is_confirm) {
                 return
             }
@@ -135,7 +193,7 @@
                 .then(result => {
                     if (result.success) {
                         msgbox_success(result.message)
-                        document.getElementById(`product-${id}`).remove()
+                        document.getElementById(`menu-${id}`).remove()
                         return true
                     }
 

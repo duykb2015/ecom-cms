@@ -18,16 +18,18 @@ class ProductAttributes extends BaseController
     {
         $product_attribute_m = new ProductAttributesModel();
         if ($this->request->getMethod() == 'post') {
-            $filter_product_attribute_name = $this->request->getPost('filter_product_attribute_name');
-            $filter_product_attribute_group = $this->request->getPost('filter_product_attribute_group');
+            $product_attribute_name  = $this->request->getPost('product_attribute_name');
+            $product_attribute_group = $this->request->getPost('product_attribute_group');
             $filter_data = [
-                'name' => $filter_product_attribute_name,
-                'is_group'   => $filter_product_attribute_group,
+                'name'       => $product_attribute_name,
+                'is_group'   => $product_attribute_group,
             ];
-            $data = $product_attribute_m->filter($filter_data);
-            return view('product_attribute/index', $data);
+            $product_attribute_m->filter($filter_data);
         }
-        $data['product_attributes'] = $product_attribute_m->findAll();
+        $data = [
+            'product_attributes' => $product_attribute_m->paginate(10),
+            'pager'              => $product_attribute_m->pager
+        ];
         return view('product_attribute/index', $data);
     }
 

@@ -41,7 +41,7 @@
                                                             <?= $errors ?>
                                                         </div>
                                                         <div class="col-1 text-right">
-                                                            <span aria-hidden="true" onclick="remove_alert()">&times;</span>
+                                                            <span aria-hidden="true" id="remove-alert">&times;</span>
                                                         </div>
                                                     </div>
                                                 <?php else : ?>
@@ -52,7 +52,7 @@
                                                                     <?= $error ?>
                                                                 </div>
                                                                 <div class="col-1 text-right">
-                                                                    <span aria-hidden="true" onclick="remove_alert()">&times;</span>
+                                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -113,8 +113,8 @@
                                                                 <!-- end of row -->
                                                                 <div class="row">
                                                                     <div class="col-md-12 text-right">
-                                                                        <button type="submit" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
-                                                                        <a href="<?= base_url('admin/') ?>" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                        <button type="submit" class="btn btn-primary waves-effect waves-light m-r-20">Lưu</button>
+                                                                        <a href="<?= base_url('admin/') ?>" id="edit-cancel" class="btn btn-default waves-effect">Huỷ</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -142,11 +142,4 @@
         <!-- Main body end -->
     </div>
 </div>
-<?= $this->endSection() ?>
-<?= $this->section('js') ?>
-<script>
-    function remove_alert() {
-        $('.alert').remove();
-    }
-</script>
 <?= $this->endSection() ?>

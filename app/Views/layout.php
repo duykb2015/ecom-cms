@@ -34,7 +34,7 @@
 
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\css\app.css">
     </link>
-    <link type="text/css" rel="stylesheet" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css" >
+    <link type="text/css" rel="stylesheet" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\jquery.filer.css">
     <link type="text/css" rel="stylesheet" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css">
     <script src="<?= base_url() ?>/ckeditor/ckeditor.js"></script>
 
@@ -42,6 +42,7 @@
         body {
             font-size: 16px;
         }
+
         select.form-control:not([size]):not([multiple]) {
             height: auto !important;
         }
@@ -140,7 +141,11 @@
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\js\script.js"></script>
 
     <script type="text/javascript" src="<?= base_url() ?>\templates\admin\js\app.js"></script>
-
+    <script>
+        $('#remove-alert').on('click', function() {
+            $('.alert').remove();
+        })
+    </script>
     <?= $this->renderSection('js') ?>
 </body>
 

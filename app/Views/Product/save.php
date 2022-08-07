@@ -30,10 +30,17 @@
                             <!-- Product edit card start -->
                             <div class="card">
                                 <div class="row">
-                                    <?php $errors = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($errors)) : ?>
+                                    <?php $error = session()->getFlashdata('error_msg') ?>
+                                    <?php if (!empty($error)) : ?>
                                         <div class="alert alert-danger">
-                                            <?= $errors ?>
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <?= $error ?>
+                                                </div>
+                                                <div class="col-1 text-right">
+                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     <?php endif ?>
                                     <div class="col-sm-12">
@@ -109,9 +116,8 @@
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
-                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Save
-                                                            </button>
-                                                            <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Cancel</a>
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Lưu</button>
+                                                            <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,9 +171,9 @@
             $('#slug').val(slug($(this).val()))
         })
 
-        function remove_alert() {
+        $('#remove-alert').on('click', function() {
             $('.alert').remove();
-        }
+        })
     </script>
 
     <?= $this->endSection() ?>

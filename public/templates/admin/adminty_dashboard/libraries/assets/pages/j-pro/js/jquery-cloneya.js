@@ -16,16 +16,16 @@
         clonePosition: 'after',
         minimum: 1,
         // renaming limit
-        maximum: 999, //setting it to a high number, by default
+        maximum: 99, //setting it to a high number, by default
 
         //limit: 999,
 
-        valueClone: false,
+        valueClone: true,
         dataClone: false,
-        deepClone: false,
+        deepClone: true,
         serializeID: true,
         ignore: 'label.error',
-        preserveChildCount: false
+        preserveChildCount: true
     };
     /**
      * Create the class CloneYa
@@ -280,7 +280,6 @@
                 // the child count only needs preservation if they are clonable.
 
                 var originalChildren = toClone.find('.' + name + '-wrap');
-                alert(originalChildren);
 
                 // for each wrapper
                 newClone.find('.' + name + '-wrap').each(function (index) {

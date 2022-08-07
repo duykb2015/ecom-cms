@@ -2,8 +2,10 @@
 
 namespace App\Libraries;
 
-class UploadHandler
+class Upload
 {
+
+
     /**
      * Used to upload multiple images to server
      *
@@ -22,21 +24,5 @@ class UploadHandler
             }
         }
         return json_encode($file_name);
-    }
-
-    /**
-     * Used to remove unused images
-     *
-     * @param string $images json encode string of images name
-     */
-    function remove_images($images)
-    {
-        $images = json_decode($images);
-        foreach ($images as $img) {
-            $file = ROOTPATH . 'public/uploads/' . $img;
-            if (file_exists($file)) {
-                unlink($file);
-            }
-        }
     }
 }

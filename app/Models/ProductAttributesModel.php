@@ -75,14 +75,27 @@ class ProductAttributesModel extends Model
         return $query->findAll();
     }
 
-    public function find_all_id($product_id)
+    /**
+     * Get all product attributes and product attribute values id
+     * 
+     * @param int $id Product id or Product item id
+     * @param bool $is_group If true, it's will get by product id, else it's will get by product item id
+     * @return array
+     */
+    public function find_id($id, bool $is_group = true)
     {
         $query = $this->select([
             'product_attributes.id',
             'pav.id as pav_id',
-        ])->where('is_group', 1)
-            ->join('product_attribute_values as pav', 'product_attributes.id = pav.product_attribute_id', 'left')
-            ->where('pav.product_id', $product_id);
+        ])->join('product_attribute_values as pav', 'product_attributes.id = pav.product_attribute_id', 'left');
+
+        if ($is_group) {
+            $this->where('is_group', 1)
+                ->where('pav.product_id', $id);
+        } else {
+            $this->where('is_group', 0)
+                ->where('pav.product_item_id', $id);
+        }
         return  $query->findAll();
     }
 }

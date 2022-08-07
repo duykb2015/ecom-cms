@@ -38,6 +38,12 @@ class ProductItems extends Migration
                 'type' => 'TEXT',
                 'null' => FALSE,
             ],
+            'is_full' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'null' => FALSE,
+                'default' => 0,
+            ],
             'status' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,

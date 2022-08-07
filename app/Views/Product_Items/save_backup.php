@@ -22,23 +22,17 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="row">
-                                    <?php $error = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($error)) : ?>
+                                    <?php $errors = session()->getFlashdata('error_msg') ?>
+                                    <?php if (!empty($errors)) : ?>
                                         <div class="alert alert-danger">
-                                            <div class="row">
-                                                <div class="col-11">
-                                                    <?= $error ?>
-                                                </div>
-                                                <div class="col-1 text-right">
-                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
-                                                </div>
-                                            </div>
+                                            <?= $errors ?>
                                         </div>
                                     <?php endif ?>
                                     <div class="col-sm-12">
                                         <div class="product-edit">
                                             <form class="md-float-material card-block " action="<?= base_url('product-item/save') ?>" method="POST" enctype="multipart/form-data">
-                                                <input type="hidden" name="id" value="<?= isset($product['id']) ? $product['id'] : '' ?>">
+                                                <input type="hidden" name="product_id" value="<?= isset($product['id']) ? $product['id'] : '' ?>">
+
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
@@ -72,6 +66,55 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-primary" id="add-color">
+                                                            Thêm màu
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3" id="color">
+
+                                                    <div class="col-sm-11">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="icofont icofont-color-picker"></i></span>
+                                                            <input type="text" class="form-control" id="color-name" name="color" placeholder="Màu sản phẩm (ghi tiếng Anh)" value="<?= isset($product['color']) ? $product['color'] : set_value('color') ?>" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-1">
+                                                        <button type="button" class="btn btn-danger" id="delete-color">
+                                                            Xoá
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="icofont icofont-price"></i></span>
+                                                            <input type="text" class="form-control" name="price" placeholder="Giá" value="<?= isset($product['price']) ? $product['price'] : set_value('price') ?>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="icofont icofont-color-picker"></i></span>
+                                                            <input type="text" class="form-control" id="hexcode" name="hexcode" placeholder="Mã màu" value="<?= isset($product['hexcode']) ? $product['hexcode'] : set_value('hexcode') ?>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
+                                                            <input type="text" class="form-control" name="quantity" placeholder="Số lượng" value="<?= isset($product['quantity']) ? $product['quantity'] : set_value('quantity') ?>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <select name="status" class="form-control">
+                                                            <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
+                                                                <option value="<?= $key ?>" <?= isset($product_item['status']) && $product_item['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
+                                                            <?php endforeach ?>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+
                                                 <div class="row mb-3">
                                                     <div class="col-sm-12">
                                                         <div class="d-inline">
@@ -116,8 +159,9 @@
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
-                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Tiếp tục</button>
-                                                            <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Save
+                                                            </button>
+                                                            <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Cancel</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,6 +212,20 @@
         //slug
         $('#name').on('keyup', function() {
             $('#slug').val(slug($(this).val()))
+        })
+        // Remove alert
+        function remove_alert() {
+            $('.alert').remove();
+        }
+
+        let i = 1
+        data = $('#color').html()
+        $('#add-color').on('click', function(event) {
+            $('#color').append(data)
+        })
+
+        $('#delete-color').on('click', function(event) {
+            $('#color').html('')
         })
     </script>
     <?= $this->endSection() ?>

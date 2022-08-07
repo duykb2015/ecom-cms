@@ -94,14 +94,15 @@ class Product extends BaseController
         $product_m = new ProductModel();
         $is_save = $product_m->save($data);
         if (!$is_save) {
-            return redirect()->to('product/save', UNEXPECTED_ERROR);
+            return redirect_with_message('product/save', UNEXPECTED_ERROR);
         }
 
         //after save product, we need to save product attribute values
-        //get product id
-        if (!$product_id) {
-            $product_save_id = $product_m->getInsertID();
-        } else {
+
+        //get product inserted id for insert attribute values
+        $product_save_id = $product_m->getInsertID();
+        //if it's an update. the insert id will be zero, so we will use the already have product id
+        if ($product_id) {
             $product_save_id = $product_id;
         }
 
@@ -109,32 +110,31 @@ class Product extends BaseController
         $product_attribute_value_m = new ProductAttributeValuesModel();
 
         //get all product attribute id (for what? because we need to know which product attribute value to save)
-        $product_attribute_id = $product_attribute_m->select('id')->where('is_group', 1)->findAll();
+        $product_attribute_ids = $product_attribute_m->select('id')->where('is_group', 1)->findAll();
 
         //if it's an update, need to get bold product attribute and product attribute value
         if ($product_id) {
-            //Đặt lại tên cho hàm này
-            $product_attribute_id = $product_attribute_m->find_all_id($product_id);
+            $product_attribute_ids = $product_attribute_m->find_id($product_id);
         }
         //Since the number of ids will coincide with the amount of data requested,
         //we just need to loop through the ids
         $product_attribute_value_m->transStart();
-        foreach ($product_attribute_id as $value) {
-            $product_attribute_value = $this->request->getPost('attribute_' . $value['id']);
+        foreach ($product_attribute_ids as $item) {
+            $product_attribute_value = $this->request->getPost('attribute_' . $item['id']);
 
-            $product_attribute_value_id = '';
             //if it's an update, need to get product attribute values id
             if ($product_id) {
                 // pav: Product Attribute Values
-                $product_attribute_value_id = $this->request->getPost('pav_' . $value['pav_id']);
+                $product_attribute_value_id = $this->request->getPost('pav_' . $item['pav_id']);
             }
             $data = [
                 'product_id' => $product_save_id,
-                'product_attribute_id' => $value['id'],
+                'product_attribute_id' => $item['id'],
                 'value' => $product_attribute_value,
                 'status' => 1
             ];
 
+            //if it's an update
             if ($product_attribute_value_id) {
                 $data['id'] = $product_attribute_value_id;
             }

@@ -75,6 +75,7 @@ class MenuModel extends Model
         }
         if (isset($data['status']) && $data['status'] != '') {
             $this->where('menu.status', $data['status']);
+
         }
         return $this;
     }

@@ -67,7 +67,9 @@
                                                             <select name="menu_id" class="form-control">
                                                                 <?php if (isset($menu)) : ?>
                                                                     <?php foreach ($menu as $row) : ?>
+
                                                                         <option value="<?= $row['id'] ?>" <?= !empty($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
+
                                                                     <?php endforeach ?>
                                                                 <?php endif ?>
                                                             </select>
@@ -77,6 +79,7 @@
                                                         <select name="status" class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
                                                                 <option value="<?= $key ?>" <?= !empty($product['status']) && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
+
                                                             <?php endforeach ?>
                                                         </select>
                                                     </div>
@@ -102,10 +105,12 @@
                                                             <label class="col-sm-2 col-form-label"><?= $row['name'] ?></label>
                                                             <div class="col-sm-10">
                                                                 <div class="input-group">
+
                                                                     <?php if (!empty($row['pav_id'])) : ?>
                                                                         <input type="hidden" name="pav_<?= $row['pav_id'] ?>" value="<?= $row['pav_id'] ?>">
                                                                     <?php endif ?>
                                                                     <input type="text" class="form-control" name="attribute_<?= $row['id'] ?>" value="<?= !empty($row['value']) ? $row['value'] : set_value('short_descriptons') ?>" required>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -117,7 +122,9 @@
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
                                                             <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Lưu</button>
+
                                                             <a href="<?= base_url('product-line') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
+
                                                         </div>
                                                     </div>
                                                 </div>

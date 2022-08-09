@@ -50,6 +50,7 @@ class ProductModel extends Model
         if (isset($data['status']) && $data['status'] != '') {
             $this->where('status', $data['status']);
         }
+
         return $this;
     }
 }

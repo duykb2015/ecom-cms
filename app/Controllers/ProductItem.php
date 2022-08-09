@@ -36,6 +36,7 @@ class ProductItem extends BaseController
     {
         $product_item_id = $this->request->getUri()->getSegment(3);
 
+
         $product_m = new ProductModel();
         $product = $product_m->select('id, name')->findAll();
         $data['product'] = $product;
@@ -82,6 +83,7 @@ class ProductItem extends BaseController
 
         $is_save = $product_items_m->save($data);
         if (!$is_save) {
+
             return redirect_with_message('product-item/save', UNEXPECTED_ERROR_MESSAGE);
         }
         //get product item inserted id for insert attribute values
@@ -120,7 +122,9 @@ class ProductItem extends BaseController
             $is_save = $product_attribute_value_m->save($data);
             if (!$is_save) {
                 $product_attribute_value_m->transRollback();
+
                 return redirect()->to('product-item/save', UNEXPECTED_ERROR_MESSAGE);
+
             }
             $product_attribute_value_m->transCommit();
         }

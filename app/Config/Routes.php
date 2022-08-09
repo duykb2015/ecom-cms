@@ -51,8 +51,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('profile', 'Admin::profile');
         $routes->post('profile', 'Admin::change_profile');
 
-        $routes->get('save', 'Admin::view');
-        $routes->get('save/:any', 'Admin::view');
+        $routes->get('detail', 'Admin::detail');
+        $routes->get('detail/:any', 'Admin::detail');
 
         $routes->post('save', 'Admin::save');
         $routes->post('save/:any', 'Admin::save');
@@ -63,8 +63,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
     $routes->group('menu', function ($routes) {
         $routes->get('', 'Menu::index');
 
-        $routes->get('save', 'Menu::view');
-        $routes->get('save/:any', 'Menu::view');
+        $routes->get('detail', 'Menu::detail');
+        $routes->get('detail/:any', 'Menu::detail');
 
         $routes->post('save', 'Menu::save');
         $routes->post('save/:any', 'Menu::save');
@@ -75,25 +75,24 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
     });
 
     $routes->group('product-category', function ($routes) {
-        $routes->get('', 'Category::index');
+        $routes->get('', 'ProductCategory::index');
 
-        $routes->get('save', 'Category::view');
-        $routes->get('save/:any', 'Category::view');
+        $routes->get('detail', 'ProductCategory::detail');
+        $routes->get('detail/:any', 'ProductCategory::detail');
 
-        $routes->post('save', 'Category::save');
-        $routes->post('save/:any', 'Category::save');
+        $routes->post('save', 'ProductCategory::save');
+        $routes->post('save/:any', 'ProductCategory::save');
 
-        $routes->post('action-status', 'Category::change_status');
+        $routes->post('action-status', 'ProductCategory::change_status');
 
-        $routes->post('delete', 'Category::delete');
+        $routes->post('delete', 'ProductCategory::delete');
     });
 
     $routes->group('product-attribute', function ($routes) {
         $routes->get('', 'ProductAttributes::index');
-        $routes->post('', 'ProductAttributes::index');
 
-        $routes->get('save', 'ProductAttributes::view');
-        $routes->get('save/:any', 'ProductAttributes::view');
+        $routes->get('detail', 'ProductAttributes::detail');
+        $routes->get('detail/:any', 'ProductAttributes::detail');
 
         $routes->post('save', 'ProductAttributes::save');
         $routes->post('save/:any', 'ProductAttributes::save');
@@ -105,10 +104,9 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('product-line', function ($routes) {
         $routes->get('', 'Product::index');
-        $routes->post('', 'Product::index');
 
-        $routes->get('save', 'Product::view');
-        $routes->get('save/:any', 'Product::view');
+        $routes->get('detail', 'Product::detail');
+        $routes->get('detail/:any', 'Product::detail');
 
         $routes->post('save', 'Product::save');
         $routes->post('save/:any', 'Product::save');
@@ -122,8 +120,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('', 'ProductItem::index');
         $routes->post('', 'ProductItem::index');
 
-        $routes->get('save', 'ProductItem::view');
-        $routes->get('save/:any', 'ProductItem::view');
+        $routes->get('detail', 'ProductItem::detail');
+        $routes->get('detail/:any', 'ProductItem::detail');
 
         $routes->post('save', 'ProductItem::save');
         $routes->post('save/:any', 'ProductItem::save');

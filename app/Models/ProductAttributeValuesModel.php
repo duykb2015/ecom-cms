@@ -39,4 +39,28 @@ class ProductAttributeValuesModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function filter($data)
+    {
+        if (isset($data['name'])) {
+            $this->like('name', $data['name']);
+        }
+        if (isset($data['key'])) {
+            $this->like('key', $data['key']);
+        }
+        if (isset($data['value'])) {
+            $this->like('value', $data['value']);
+        }
+        if (isset($data['status']) && $data['status'] != '') {
+            $this->where('status', $data['status']);
+        }
+        return $this;
+    }
+
+    public function find_all()
+    {
+        // $this->select('pav.id, pav.name, product_attributes.product_id, pav.key, pav.value, pav.status, pav.created_at, pav.updated_at');
+        // $this->join('product_attributes', 'product_attributes.id = pav.product_attribute_id');
+        // return $this->findAll();
+    }
 }

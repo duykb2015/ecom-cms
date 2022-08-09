@@ -32,7 +32,7 @@ class ProductItem extends BaseController
         return view('product_items/index', $data);
     }
 
-    public function view()
+    public function detail()
     {
         $product_item_id = $this->request->getUri()->getSegment(3);
 
@@ -40,21 +40,25 @@ class ProductItem extends BaseController
         $product = $product_m->select('id, name')->findAll();
         $data['product'] = $product;
 
-        $product_attribute_m = new ProductAttributesModel();
+        $product_attribute_values_m = new ProductAttributeValuesModel();
         if (!$product_item_id) {
-            $data['product_attribute'] = $product_attribute_m->where('is_group', 0)->findAll();
+            $data['product_attribute'] = $product_attribute_values_m->findAll();
             $data['title'] = 'Thêm mới sản phẩm';
-            return view('product_items/save', $data);
+            return view('product_items/detail', $data);
         }
         $product_item_m = new ProductItemsModel();
         $product = $product_m->find($product_item_id);
         if (!$product) {
             return redirect()->to('product');
         }
-        $data['product_attribute'] = $product_attribute_m->find_all($product_item_id);
+        $product_attribute_m = new ProductAttributesModel();
+        $product_attributes = $product_attribute_m->select('product_attribute_value_id')->where('product_item_id', $product_item_id)->findAll();
+        foreach ($product_attributes as $value) {
+            $data['product_attributes'][] = $value['product_attribute_value_id'];
+        }
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
-        return view('product/save', $data);
+        return view('product/detail', $data);
     }
 
     public function save()
@@ -82,7 +86,7 @@ class ProductItem extends BaseController
 
         $is_save = $product_items_m->save($data);
         if (!$is_save) {
-            return redirect_with_message('product-item/save', UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
         }
         //get product item inserted id for insert attribute values
         $product_save_item_id = $product_items_m->getInsertId();
@@ -120,7 +124,7 @@ class ProductItem extends BaseController
             $is_save = $product_attribute_value_m->save($data);
             if (!$is_save) {
                 $product_attribute_value_m->transRollback();
-                return redirect()->to('product-item/save', UNEXPECTED_ERROR_MESSAGE);
+                return redirect()->to('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
             }
             $product_attribute_value_m->transCommit();
         }

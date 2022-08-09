@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Category extends Migration
+class ProductAttributes extends Migration
 {
     public function up()
     {
@@ -15,19 +15,19 @@ class Category extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'menu_id' => [
+            'product_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
-                'null' => FALSE,
+                'null' => TRUE,
             ],
-            'name' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => FALSE,
+            'product_item_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'null' => TRUE,
             ],
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'product_attribute_value_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
                 'null' => FALSE,
             ],
             'status' => [
@@ -40,17 +40,19 @@ class Category extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('menu_id', 'menu', 'id');
+        $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
+        $this->forge->addForeignKey('product_attribute_value_id', 'product_attribute_values', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('category', TRUE, $attributes);
+        $this->forge->createTable('product_attributes', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('category', TRUE);
+        $this->forge->dropTable('product_attributes', TRUE,);
     }
 }

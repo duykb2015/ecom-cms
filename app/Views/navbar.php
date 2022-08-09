@@ -19,7 +19,7 @@ $menu = [
                 'name' => 'Danh sách',
             ],
             [
-                'url' => base_url('admin/save'),
+                'url' => base_url('admin/detail'),
                 'name' => 'Thêm',
             ],
         ]
@@ -36,7 +36,7 @@ $menu = [
                 'name' => 'Danh sách',
             ],
             [
-                'url' => base_url('menu/save'),
+                'url' => base_url('menu/detail'),
                 'name' => 'Thêm mới',
             ],
         ]
@@ -58,7 +58,7 @@ $menu = [
                         'name' => 'Danh sách',
                     ],
                     [
-                        'url' => base_url('product-category/save'),
+                        'url' => base_url('product-category/detail'),
                         'name' => 'Thêm mới',
                     ],
                 ]
@@ -73,7 +73,7 @@ $menu = [
                         'name' => 'Danh sách',
                     ],
                     [
-                        'url' => base_url('product-attribute/save'),
+                        'url' => base_url('product-attribute/detail'),
                         'name' => 'Thêm mới',
                     ],
                 ]
@@ -88,7 +88,7 @@ $menu = [
                         'name' => 'Danh sách',
                     ],
                     [
-                        'url' => base_url('product-line/save'),
+                        'url' => base_url('product-line/detail'),
                         'name' => 'Thêm mới',
                     ],
                 ]
@@ -103,7 +103,7 @@ $menu = [
                         'name' => 'Danh sách',
                     ],
                     [
-                        'url' => base_url('product-item/save'),
+                        'url' => base_url('product-item/detail'),
                         'name' => 'Thêm mới',
                     ],
                 ]

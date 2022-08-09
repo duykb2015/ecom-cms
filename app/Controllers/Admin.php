@@ -55,13 +55,13 @@ class Admin extends BaseController
      * Used to view create and update account page
      * 
      */
-    public function view()
+    public function detail()
     {
 
         $id = $this->request->getUri()->getSegment(3);
         if (!$id) {
             $data['title'] = "Thêm Mới Tài Khoản";
-            return view('admin/save', $data);
+            return view('admin/detail', $data);
         }
         $admin_m = new AdminModel();
         $account = $admin_m->find($id);
@@ -70,7 +70,7 @@ class Admin extends BaseController
         }
         $data['title'] = "Chỉnh Sửa Tài Khoản";
         $data['account'] = $account;
-        return view('admin/save', $data);
+        return view('admin/detail', $data);
     }
 
     /**
@@ -101,9 +101,9 @@ class Admin extends BaseController
         if (!$validation->run($inputs)) {
             $error_msg = $validation->getErrors();
             if (!$user_id) {
-                return redirect_with_message(site_url('admin/save'), $error_msg);
+                return redirect_with_message(site_url('admin/detail'), $error_msg);
             }
-            return redirect_with_message(site_url('admin/save?id=') . $user_id, $error_msg);
+            return redirect_with_message(site_url('admin/detail?id=') . $user_id, $error_msg);
         }
 
         $admin_m = new AdminModel();
@@ -112,21 +112,21 @@ class Admin extends BaseController
             $user = $admin_m->where('username', $username)->first();
             if ($user) {
                 $error_msg = 'Tài khoản đã tồn tại!';
-                return redirect_with_message(site_url('admin/save'), $error_msg);
+                return redirect_with_message(site_url('admin/detail'), $error_msg);
             }
         } else {
             $data['id'] = $user_id;
         }
 
         $data['username'] = $username;
-        $data['password'] = $password;
+        $data['password'] = md5($password);
         $data['level']    = $level;
         $data['status']   = $status;
 
         //if create failed, notice and redirect to register page again
         $is_save = $admin_m->save($data);
         if (!$is_save) {
-            return redirect_with_message(site_url('admin/save'), UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message(site_url('admin/detail'), UNEXPECTED_ERROR_MESSAGE);
         }
         return redirect()->to('admin');
     }

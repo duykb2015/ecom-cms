@@ -106,7 +106,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <select name="status[]" class="form-control">
+                                                        <select name="status[] " class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
                                                                 <option value="<?= $key ?>" <?= isset($product_item['status']) && $product_item['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
                                                             <?php endforeach ?>

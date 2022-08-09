@@ -35,12 +35,12 @@ class ProductAttribute extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product_attributes', TRUE, $attributes);
+        $this->forge->createTable('attributes', TRUE, $attributes);
     
     }
 
     public function down()
     {
-        $this->forge->dropTable('product_attributes', TRUE);
+        $this->forge->dropTable('attributes', TRUE);
     }
 }

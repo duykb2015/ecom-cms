@@ -34,7 +34,8 @@ class ProductItem extends BaseController
 
     public function view()
     {
-        $product_item_id = $this->request->getGet('id');
+        $product_item_id = $this->request->getUri()->getSegment(3);
+
 
         $product_m = new ProductModel();
         $product = $product_m->select('id, name')->findAll();
@@ -82,7 +83,8 @@ class ProductItem extends BaseController
 
         $is_save = $product_items_m->save($data);
         if (!$is_save) {
-            return redirect_with_message('product-item/save', UNEXPECTED_ERROR);
+
+            return redirect_with_message('product-item/save', UNEXPECTED_ERROR_MESSAGE);
         }
         //get product item inserted id for insert attribute values
         $product_save_item_id = $product_items_m->getInsertId();
@@ -120,7 +122,9 @@ class ProductItem extends BaseController
             $is_save = $product_attribute_value_m->save($data);
             if (!$is_save) {
                 $product_attribute_value_m->transRollback();
-                return redirect()->to('product-item/save', UNEXPECTED_ERROR);
+
+                return redirect()->to('product-item/save', UNEXPECTED_ERROR_MESSAGE);
+
             }
             $product_attribute_value_m->transCommit();
         }

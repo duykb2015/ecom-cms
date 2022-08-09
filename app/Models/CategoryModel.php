@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProductModel extends Model
+class CategoryModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'product';
+    protected $table            = 'category';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -21,6 +21,7 @@ class ProductModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -39,18 +40,25 @@ class ProductModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function find_all()
+    {
+        $query = $this->select('category.id, category.name, menu.name as menu_name, category.status, category.created_at, category.updated_at')
+            ->join('menu', 'menu.id = category.menu_id')
+            ->orderBy('id', 'DESC');
+        $result['category'] = $query->paginate(RESULT_LIMIT);
+        $result['pager'] = $query->pager;
+        return $result;
+    }
+
     public function filter($data)
     {
         if ($data['name']) {
-            $this->like('name', $data['name']);
-        }
-        if ($data['admin_id']) {
-            $this->where('admin_id', $data['admin_id']);
-        }
-        if (isset($data['status']) && $data['status'] != '') {
-            $this->where('status', $data['status']);
+            $this->like('category.name', $data['name']);
         }
 
+        if (isset($data['status']) && $data['status'] != '') {
+            $this->where('category.status', $data['status']);
+        }
         return $this;
     }
 }

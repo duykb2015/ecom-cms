@@ -18,21 +18,23 @@ class Menu extends BaseController
     public function index()
     {
         $menu_m = new MenuModel();
-        $parent_menu = $menu_m->where(['parent_id' => 0, 'status' => 1])->findAll();
         //The method is not deprecated, the optional [$upper] parameter is deprecated.
-        if ($this->request->getMethod() == 'post') {
-            $filter_menu_name   = $this->request->getPost('filter_menu_name');
-            $filter_menu_parent = $this->request->getPost('filter_menu_parent');
-            $filter_menu_type   = $this->request->getPost('filter_menu_type');
+        if ($this->request->getMethod() == 'get') {
+            $menu_name   = $this->request->getGet('menu_name');
+            $menu_parent = $this->request->getGet('menu_parent');
+            $menu_type   = $this->request->getGet('menu_type');
+            $menu_status = $this->request->getGet('menu_status');
             $filter_data = [
-                'name' => $filter_menu_name,
-                'parent_id' => $filter_menu_parent,
-                'type'   => $filter_menu_type,
+                'name' => $menu_name,
+                'parent_id' => $menu_parent,
+                'type'   => $menu_type,
+                'status' => $menu_status,
             ];
             $menu_m->filter($filter_data);
         }
 
         $data = $menu_m->find_all();
+        $parent_menu = $menu_m->where(['parent_id' => 0, 'status' => 1])->findAll();
         $data['parent_menu'] = $parent_menu;
         return view('Menu/index', $data);
     }
@@ -43,7 +45,7 @@ class Menu extends BaseController
      */
     public function view()
     {
-        $menu_id = $this->request->getGet('id');
+        $menu_id = $this->request->getUri()->getSegment(3);
         $menu_m = new MenuModel();
         $data['parent_menu'] = $menu_m->where(['parent_id' => 0, 'status' => 1])->findAll();
 
@@ -75,8 +77,8 @@ class Menu extends BaseController
         $name      = $this->request->getPost('name');
         $slug      = $this->request->getPost('slug');
         $parent_id = $this->request->getPost('parent_id');
-        $type      = $this->request->getPost('type');
         $status    = $this->request->getPost('status');
+        $type = ($parent_id == 0) ? 0 : 1;
 
         $data = [
             'name' => $name,
@@ -96,9 +98,8 @@ class Menu extends BaseController
             $data['id'] = $menu_id;
         }
 
-
         if (!$menu_m->save($data)) {
-            return redirect_with_message(site_url('menu/create'), UNEXPECTED_ERROR);
+            return redirect_with_message(site_url('menu/create/' . $menu_id), UNEXPECTED_ERROR_MESSAGE);
         }
         return redirect()->to('menu');
     }
@@ -114,22 +115,17 @@ class Menu extends BaseController
 
         //if menu id is empty, return error response
         if (!$id) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
-        //prepare data to update
-        $data = [
-            'status'    => $this->request->getPost('status'),
-        ];
-
-        //update menu status
+        $data['status'] = $this->request->getPost('status');
         $menu_m = new MenuModel();
         $is_update = $menu_m->update($id, $data);
         if (!$is_update) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
-        return $this->respond(response_successed(), 200);
+        return $this->respond(response_successed(), HTTP_OK);
     }
 
 
@@ -144,15 +140,15 @@ class Menu extends BaseController
 
         //if menu id is empty, return error response
         if (!$id) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
         //delete menu
         $menu_m = new MenuModel();
         $is_delete = $menu_m->delete($id);
         if (!$is_delete) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
-        return $this->respond(response_successed(), 200);
+        return $this->respond(response_successed(), HTTP_OK);
     }
 }

@@ -39,7 +39,7 @@ class ProductAttributes extends BaseController
      */
     public function view()
     {
-        $product_attribute_id = $this->request->getGet('id');
+        $product_attribute_id = $this->request->getUri()->getSegment(3);
 
         if (!$product_attribute_id) {
             $data['title'] = 'Thêm mới thuộc tính';
@@ -63,6 +63,7 @@ class ProductAttributes extends BaseController
         $is_group             = $this->request->getPost('is_group');
         $status               = $this->request->getPost('status');
 
+        pre($name);
         $data = [
             'name' => $name,
             'is_group' => $is_group,
@@ -81,7 +82,7 @@ class ProductAttributes extends BaseController
 
         $is_save = $product_attribute_m->save($data);
         if (!$is_save) {
-            return redirect_with_message('product-attribute/save', UNEXPECTED_ERROR);
+            return redirect_with_message('product-attribute/save', UNEXPECTED_ERROR_MESSAGE);
         }
         return redirect()->to(base_url('product-attribute'));
     }
@@ -97,7 +98,7 @@ class ProductAttributes extends BaseController
 
         //if menu id is empty, return error response
         if (!$id) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
         $data = [
@@ -108,9 +109,9 @@ class ProductAttributes extends BaseController
         $product_attribute_m = new ProductAttributesModel();
         $is_update = $product_attribute_m->update($id, $data);
         if (!$is_update) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
-        return $this->respond(response_successed(), 200);
+        return $this->respond(response_successed(), HTTP_OK);
     }
 
 
@@ -125,15 +126,15 @@ class ProductAttributes extends BaseController
 
         //if menu id is empty, return error response
         if (!$id) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
 
         //delete menu
         $product_attribute_m = new ProductAttributesModel();
         $is_delete = $product_attribute_m->delete($id);
         if (!$is_delete) {
-            return $this->respond(response_failed(), 200);
+            return $this->respond(response_failed(), HTTP_OK);
         }
-        return $this->respond(response_successed(), 200);
+        return $this->respond(response_successed(), HTTP_OK);
     }
 }

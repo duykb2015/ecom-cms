@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($accounts)) : ?>
+                                    <?php if (isset($accounts)) : ?>
                                         <?php foreach ($accounts as $account) : ?>
                                             <tr id="menu-<?= $account['id'] ?>">
                                                 <td><?= $account['username'] ?></td>
@@ -54,7 +54,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
-                                                        <a href="<?= base_url('admin/save?id=' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                        <a href="<?= base_url('admin/save/' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>
                                                         </a>
                                                         <a href="javascript:void(0)" onclick="delete_account('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <?php if (!empty($pager)) : ?>
+                            <?php if (isset($pager)) : ?>
                                 <?= $pager->links('default', 'default_full') ?>
                             <?php endif ?>
                         </div>

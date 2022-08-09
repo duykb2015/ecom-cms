@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Product extends Migration
+class Category extends Migration
 {
     public function up()
     {
@@ -15,33 +15,19 @@ class Product extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'admin_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => FALSE,
-            ],
-            'category_id' => [
+            'menu_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'null' => FALSE,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 512,
+                'constraint' => 255,
+                'null' => FALSE,
             ],
             'slug' => [
                 'type' => 'VARCHAR',
-                'constraint' => 512,
-                'null' => FALSE,
-            ],
-            'additional_information' => [
-                'type' => 'VARCHAR',
-                'constraint' => 2048,
-                'null' => FALSE,
-            ],
-            'support_information' => [
-                'type' => 'VARCHAR',
-                'constraint' => 2048,
+                'constraint' => 255,
                 'null' => FALSE,
             ],
             'status' => [
@@ -54,19 +40,17 @@ class Product extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('admin_id', 'admin', 'id');
         $this->forge->addForeignKey('menu_id', 'menu', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('product', TRUE, $attributes);
-    
+        $this->forge->createTable('category', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('product', TRUE);
+        $this->forge->dropTable('category', TRUE);
     }
 }

@@ -12,7 +12,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Danh sách Sản Phẩm</h4>
+                                    <h4>Danh sách Dòng Sản Phẩm</h4>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                                                     </thead>
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%" class="text-center">Tên sản phẩm</th>
+                                                            <th width="30%" class="text-center">Tên dòng sản phẩm</th>
                                                             <th width="10%">Trạng thái</th>
                                                             <th width="15%">Ngày tạo</th>
                                                             <th width="15%">Ngày cập nhật</th>

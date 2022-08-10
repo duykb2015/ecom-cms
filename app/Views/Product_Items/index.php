@@ -71,8 +71,8 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if (!empty($products)) : ?>
-                                                            <?php foreach ($products as $product) : ?>
+                                                        <?php if (!empty($product_items)) : ?>
+                                                            <?php foreach ($product_items as $product) : ?>
                                                                 <tr>
                                                                     <td class="font-weight-bold"><?= $product['name'] ?></td>
                                                                     <td class="text-center" width="10%">
@@ -89,7 +89,7 @@
                                                                     <td> <?= $product['updated_at'] ?></td>
                                                                     <td class="action-icon">
                                                                         <div class="btn-group btn-group-sm">
-                                                                            <a href="<?= base_url('product/detail/' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                                            <a href="<?= base_url('product-item/detail/' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>
                                                                             </a>
                                                                             <a href="javascript:void(0)" onclick="delete_product_item('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">

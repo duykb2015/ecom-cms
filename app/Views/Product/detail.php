@@ -117,7 +117,7 @@
                                                 <div id="attributes" class="row">
                                                     <div class="col-sm-12">
                                                         <select class="js-example-basic-multiple col-sm-12" name="product_attribute_value[]" multiple="multiple">
-                                                            <option value="">Chọn thông số kĩ thuật</option>
+                                                            <option value=""></option>
                                                             <?php if (isset($product_attribute_values)) : ?>
                                                                 <?php foreach ($product_attribute_values as $row) : ?>
                                                                     <option value="<?= $row['id'] ?>" <?= isset($product_attributes) && in_array($row['id'], $product_attributes) ? 'selected' : '' ?>><?= $row['name'] ?></option>
@@ -188,12 +188,6 @@
             $('.alert').remove();
         })
 
-        $('#clone-button').on('click', function() {
-            var clone = $('#attributes').clone(true);
-            clone.find('select').attr('name', 'product_attribute[]');
-            clone.find('select').val('');
-            $('#attributes').after(clone);
-        })
     </script>
 
     <?= $this->endSection() ?>

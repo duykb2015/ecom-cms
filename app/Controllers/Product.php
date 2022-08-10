@@ -5,8 +5,6 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ProductModel;
 use CodeIgniter\API\ResponseTrait;
-use App\Libraries\UploadHandler;
-use App\Models\MenuModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductAttributeValuesModel;
 use App\Models\ProductCategoryModel;
@@ -116,26 +114,25 @@ class Product extends BaseController
         //after save product, we need to save product attribute values
         //get product inserted id for insert attribute values
         $product_save_id = $product_m->getInsertID();
+
         //if it's an update. the insert id will be zero, so we will use the already have product id
-        $product_attribute_m = new ProductAttributesModel();
         if ($product_id) {
             $product_save_id = $product_id;
-
-            //Find another way better to do this, because this way make id go up 
-            //everytime we update product attribute values
-            $product_attribute_m->where('product_id', $product_save_id)->delete();
         }
 
         $product_attribute_value_ids = $this->request->getPost('product_attribute_value');
         foreach ($product_attribute_value_ids as $item) {
             $insert_data[] = [
                 'product_id' => $product_save_id,
-                'product_attribute_value_id ' => $item,
+                'product_attribute_value_id' => $item,
                 'status' => 1
             ];
         }
-
-        $err = $product_attribute_m->insertBatch($insert_data);
+        $product_attribute_m = new ProductAttributesModel();
+        $where = [
+            'product_id' => $product_save_id
+        ];
+        $err = $product_attribute_m->insertOrDelete($insert_data, $where);
         if (!$err) {
             return redirect_with_message('product-line/detail', UNEXPECTED_ERROR_MESSAGE);
         }
@@ -156,8 +153,8 @@ class Product extends BaseController
             return $this->respond(response_failed(), HTTP_OK);
         }
 
-        $product_attribute_value_m = new ProductAttributeValuesModel();
-        $is_delete = $product_attribute_value_m->where('product_id', $product_id)->delete();
+        $product_attribute_m = new ProductAttributesModel();
+        $is_delete = $product_attribute_m->where('product_id', $product_id)->delete();
         if (!$is_delete) {
             return $this->respond(response_failed(), HTTP_OK);
         }

@@ -34,7 +34,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <?php $errors = session()->getFlashdata('error_msg') ?>
-                                            <?php if (isset($errors)) : ?>
+                                            <?php if (!empty($errors)) : ?>
                                                 <?php if (!is_array($errors)) : ?>
                                                     <div class="alert alert-danger">
                                                         <div class="col-11">
@@ -59,6 +59,7 @@
                                                     <?php endforeach ?>
                                                 <?php endif ?>
                                             <?php endif ?>
+                                            <h5 class="card-header-text">Thông tin cơ bản</h5>
                                         </div>
 
                                         <div class="card-block">
@@ -70,22 +71,21 @@
                                                             <div class="general-info">
                                                                 <div class="row">
                                                                     <div class="col-md-6">
-                                                                        <label for="username">Tên tài khoản</label>
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control" value="<?= isset($account['username']) ? $account['username'] : set_value('username') ?>" name="username" placeholder="Tên ...">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
+                                                                            <input type="text" class="form-control" value="<?= isset($account['username']) ? $account['username'] : set_value('username') ?>" name="username" placeholder="Tên tài khoản">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label for="password">Mật khẩu</label>
                                                                         <div class="input-group">
-                                                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu ...">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-password"></i></span>
+                                                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <!-- end of table col-lg-6 -->
                                                                     <div class="col-md-6">
-                                                                        <label for="status">Trạng thái</label>
                                                                         <div class="input-group">
                                                                             <select name="status" class="form-control">
                                                                                 <option value="1" <?= isset($account['status']) && $account['status'] == 1 ? 'selected' : '' ?>>Bình thường</option>
@@ -94,7 +94,6 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label for="level">Cấp bậc</label>
                                                                         <div class="input-group">
                                                                             <select name="level" class="form-control">
                                                                                 <option value="1" <?= isset($account['level']) && $account['level'] == 1 ? 'selected' : '' ?>>

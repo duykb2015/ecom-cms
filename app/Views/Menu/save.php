@@ -40,47 +40,52 @@
                                         </div>
                                     <?php endif ?>
                                     <form id="form-menu" action="<?= base_url('menu/save') ?>" method="POST">
-                                        <input type="hidden" name="menu_id" value="<?= !empty($menu['id']) ? $menu['id'] : '' ?>">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label for="name">Tên menu</label>
-                                                <div class="input-group">
-                                                    <input id="name" type="text" name="name" class="form-control" value="<?= !empty($menu['name']) ? $menu['name'] : set_value('name') ?>" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label for="slug">Slug</label>
-                                                <div class="input-group">
-                                                    <input id="slug" type="text" name="slug" class="form-control" value="<?= !empty($menu['slug']) ? $menu['slug'] : set_value('slug') ?>">
-                                                </div>
+                                        <input type="hidden" name="menu_id" value="<?= isset($menu['id']) ? $menu['id'] : '' ?>">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Tên</label>
+                                            <div class="col-sm-10">
+                                                <input id="name" type="text" name="name" class="form-control" value="<?= isset($menu['name']) ? $menu['name'] : set_value('name') ?>" required>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label for="parent_id">Menu Cha</label>
-                                                <div class="input-group">
-                                                    <select class="form-control" name="parent_id">
-                                                        <option value="0">Không</option>
-                                                        <?php if (isset($parent_menu)) : ?>
-                                                            <?php foreach ($parent_menu as $val) : ?>
-                                                                <option <?= !empty($menu['parent_id']) && $menu['parent_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
-                                                            <?php endforeach ?>
-                                                        <?php endif ?>
-                                                    </select>
-                                                </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Slug</label>
+                                            <div class="col-sm-10">
+                                                <input id="slug" type="text" name="slug" class="form-control" value="<?= isset($menu['slug']) ? $menu['slug'] : set_value('slug') ?>">
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label for="status">Trạng thái</label>
-                                                <div class="input-group">
-                                                    <select class="form-control" name="status">
-                                                        <?php foreach (STATUS as $key => $val) : ?>
-                                                            <option <?= !empty($menu['status']) && $menu['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
-                                                        <?php endforeach ?>
-                                                    </select>
-                                                </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Menu Cha</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="parent_id">
+                                                    <option value="0">Không chọn</option>
+                                                    <?php foreach ($parent_menu as $val) : ?>
+                                                        <option <?= isset($menu['parent_id']) && $menu['parent_id'] == $val['id'] ? 'selected' : '' ?> value="<?= $val['id'] ?>"><?= $val['name'] ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
                                             </div>
                                         </div>
 
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Loại</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="type">
+                                                    <?php foreach (MENU_TYPE as $key => $val) : ?>
+                                                        <option <?= isset($menu['type']) && $menu['type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="status">
+                                                    <?php foreach (STATUS_CMS as $key => $val) : ?>
+                                                        <option <?= isset($menu['status']) && $menu['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-12 text-right">
                                                 <button type="submit" class="btn btn-primary m-b-0 ">Lưu</button>

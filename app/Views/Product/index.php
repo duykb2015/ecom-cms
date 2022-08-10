@@ -33,33 +33,15 @@
                                                     <thead>
                                                         <tr>
                                                             <td class="align-middle border-0" colspan="7">
-                                                                <form action="<?= base_url('product-line') ?>" method="GET">
+                                                                <form action="<?= base_url('product') ?>" method="post">
                                                                     <div class="row">
 
-                                                                        <div class="col-sm-5">
+                                                                        <div class="col-sm-10">
                                                                             <div class="input-group">
-                                                                                <input type="text" class="form-control" name="product_name" placeholder="Nhập tên dòng sản phẩm để lọc">
+                                                                                <input type="text" class="form-control" name="filter_product_name" placeholder="Nhập tên dòng sản phẩm để lọc">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="input-group">
-                                                                                <select class="form-control" name="creator">
-                                                                                    <option value="">Người tạo</option>
-                                                                                    <option value="<?= session()->get('id') ?>">Bạn</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="input-group mb-3">
-                                                                                <select class="form-control" name="menu_status">
-                                                                                    <option value="">Trạng thái</option>
-                                                                                    <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
-                                                                                        <option value="<?= $key ?>" <?= !empty($_GET['product_status']) ? $_GET['product_status'] : 'selected' ?>><?= $val ?></option>
-                                                                                    <?php endforeach ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-1 text-center">
+                                                                        <div class="col-sm-2 text-center">
                                                                             <button type="submit" class="btn btn-success">Lọc</button>
                                                                         </div>
                                                                     </div>
@@ -69,8 +51,8 @@
                                                     </thead>
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%" class="text-center">Tên sản phẩm</th>
-                                                            <th width="10%">Trạng thái</th>
+                                                            <th class="text-center">Tên sản phẩm</th>
+                                                            <th class="text-center" width="10%">Trạng thái</th>
                                                             <th width="15%">Ngày tạo</th>
                                                             <th width="15%">Ngày cập nhật</th>
                                                             <th width="10%"></th>
@@ -88,7 +70,7 @@
                                                                     <td> <?= $product['updated_at'] ?></td>
                                                                     <td>
                                                                         <div class="btn-group btn-group-sm">
-                                                                            <a href="<?= base_url('product-line/save/' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
+                                                                            <a href="<?= base_url('product/save?id=' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>
                                                                             </a>
                                                                             <a href="javascript:void(0)" onclick="delete_product('<?= $product['id'] ?>', '<?= $product['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
@@ -148,7 +130,7 @@
                 redirect: 'follow'
             };
 
-            fetch('<?= base_url('product-line/delete') ?>', requestOptions)
+            fetch('<?= base_url('product/delete') ?>', requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {

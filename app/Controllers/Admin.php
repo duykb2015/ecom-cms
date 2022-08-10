@@ -57,8 +57,7 @@ class Admin extends BaseController
      */
     public function view()
     {
-
-        $id = $this->request->getUri()->getSegment(3);
+        $id = $this->request->getGet('id');
         if (!$id) {
             $data['title'] = "Thêm Mới Tài Khoản";
             return view('admin/save', $data);
@@ -79,7 +78,7 @@ class Admin extends BaseController
      */
     function save()
     {
-        $user_id  = $this->request->getPost('id');
+        $user_id       = $this->request->getPost('id');
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         $level    = $this->request->getPost('level');
@@ -126,7 +125,7 @@ class Admin extends BaseController
         //if create failed, notice and redirect to register page again
         $is_save = $admin_m->save($data);
         if (!$is_save) {
-            return redirect_with_message(site_url('admin/save'), UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message(site_url('admin/save'), UNEXPECTED_ERROR);
         }
         return redirect()->to('admin');
     }
@@ -141,17 +140,17 @@ class Admin extends BaseController
         $id = $this->request->getPost('id');
         //if account id is empty, return error response
         if (!$id) {
-            return $this->respond(response_failed(), HTTP_OK);
+            return $this->respond(response_failed(), 200);
         }
         //cannot delete exclusive admin account, of course
         if ($id == 1) {
-            return $this->respond(response_failed('Bạn không thể xoá tài khoản này!'), HTTP_OK);
+            return $this->respond(response_failed('Bạn không thể xoá tài khoản này!'), 200);
         }
 
         $admin_m = new AdminModel();
         if ($admin_m->delete($id)) {
-            return $this->respond(response_failed(), HTTP_OK);
+            return $this->respond(response_failed(), 200);
         }
-        return $this->respond(response_successed(), HTTP_OK);
+        return $this->respond(response_successed(), 200);
     }
 }

@@ -44,12 +44,17 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
                                             <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
+                                                <input id="name" type="text" name="name" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
                                             </div>
-                                        </div><div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Nhóm thuộc tính</label>
                                             <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
+                                                <select class="form-control" name="is_group">
+                                                    <?php foreach (ATTRIBUTE_STATUS as $key => $val) : ?>
+                                                        <option <?= isset($product_attribute['is_groups']) && $product_attribute['is_groups'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -57,7 +62,7 @@
                                             <label class="col-sm-2 col-form-label">Trạng thái</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" name="status">
-                                                    <?php foreach (STATUS as $key => $val) : ?>
+                                                    <?php foreach (STATUS_CMS as $key => $val) : ?>
                                                         <option <?= isset($product_attribute['status']) && $product_attribute['status'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $val ?></option>
                                                     <?php endforeach ?>
                                                 </select>

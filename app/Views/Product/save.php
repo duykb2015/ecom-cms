@@ -45,19 +45,19 @@
                                     <?php endif ?>
                                     <div class="col-sm-12">
                                         <div class="product-edit">
-                                            <form class="md-float-material card-block" action="<?= base_url('product-line/save') ?>" method="POST">
-                                                <input type="hidden" name="product_id" value="<?= !empty($product['id']) ? $product['id'] : '' ?>">
+                                            <form class="md-float-material card-block" action="<?= base_url('product/save') ?>" method="POST">
+                                                <input type="hidden" name="product_id" value="<?= isset($product['id']) ? $product['id'] : '' ?>">
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-cube"></i></span>
-                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Tên dòng sản phẩm" value="<?= !empty($product['name']) ? $product['name'] : set_value('name') ?>" required>
+                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Tên dòng sản phẩm" value="<?= isset($product['name']) ? $product['name'] : set_value('name') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="icofont icofont-cube"></i></span>
-                                                            <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug" value="<?= !empty($product['slug']) ? $product['slug'] : set_value('slug') ?>" required>
+                                                            <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug" value="<?= isset($product['slug']) ? $product['slug'] : set_value('slug') ?>" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -67,9 +67,7 @@
                                                             <select name="menu_id" class="form-control">
                                                                 <?php if (isset($menu)) : ?>
                                                                     <?php foreach ($menu as $row) : ?>
-
-                                                                        <option value="<?= $row['id'] ?>" <?= !empty($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
-
+                                                                        <option value="<?= $row['id'] ?>" <?= isset($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
                                                                     <?php endforeach ?>
                                                                 <?php endif ?>
                                                             </select>
@@ -78,8 +76,7 @@
                                                     <div class="col-sm-6">
                                                         <select name="status" class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
-                                                                <option value="<?= $key ?>" <?= !empty($product['status']) && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
-
+                                                                <option value="<?= $key ?>" <?= isset($product['status']) && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
                                                             <?php endforeach ?>
                                                         </select>
                                                     </div>
@@ -87,10 +84,10 @@
 
                                                 <div class="row mb-3">
                                                     <div class="col-sm-6">
-                                                        <textarea name="additional_information" id="editor1" required><?= !empty($product['additional_information']) ? $product['additional_information'] : 'Thông tin thêm về sản phẩm ...' ?></textarea>
+                                                        <textarea name="additional_information" id="editor1" required><?= isset($product['additional_information']) ? $product['additional_information'] : 'Thông tin thêm về sản phẩm ...' ?></textarea>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <textarea name="support_information" id="editor2" required><?= !empty($product['support_information']) ? $product['support_information'] : 'Hỗ trợ khi mua hàng ...' ?></textarea>
+                                                        <textarea name="support_information" id="editor2" required><?= isset($product['support_information']) ? $product['support_information'] : 'Hỗ trợ khi mua hàng ...' ?></textarea>
                                                     </div>
                                                 </div>
 
@@ -105,12 +102,10 @@
                                                             <label class="col-sm-2 col-form-label"><?= $row['name'] ?></label>
                                                             <div class="col-sm-10">
                                                                 <div class="input-group">
-
-                                                                    <?php if (!empty($row['pav_id'])) : ?>
+                                                                    <?php if (isset($row['pav_id'])) : ?>
                                                                         <input type="hidden" name="pav_<?= $row['pav_id'] ?>" value="<?= $row['pav_id'] ?>">
                                                                     <?php endif ?>
-                                                                    <input type="text" class="form-control" name="attribute_<?= $row['id'] ?>" value="<?= !empty($row['value']) ? $row['value'] : set_value('short_descriptons') ?>" required>
-
+                                                                    <input type="text" class="form-control" name="attribute_<?= $row['id'] ?>" value="<?= isset($row['value']) ? $row['value'] : set_value('short_descriptons') ?>" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -122,9 +117,7 @@
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
                                                             <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Lưu</button>
-
-                                                            <a href="<?= base_url('product-line') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
-
+                                                            <a href="<?= base_url('product') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
                                                         </div>
                                                     </div>
                                                 </div>

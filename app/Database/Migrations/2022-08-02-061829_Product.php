@@ -20,7 +20,7 @@ class Product extends Migration
                 'constraint' => 11,
                 'null' => FALSE,
             ],
-            'category_id' => [
+            'menu_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'null' => FALSE,

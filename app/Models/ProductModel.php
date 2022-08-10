@@ -44,13 +44,6 @@ class ProductModel extends Model
         if ($data['name']) {
             $this->like('name', $data['name']);
         }
-        if ($data['admin_id']) {
-            $this->where('admin_id', $data['admin_id']);
-        }
-        if (isset($data['status']) && $data['status'] != '') {
-            $this->where('status', $data['status']);
-        }
-
         return $this;
     }
 }

@@ -43,7 +43,7 @@ class Menu extends BaseController
      * Used to view menu infomation 
      * 
      */
-    public function view()
+    public function detail()
     {
         $menu_id = $this->request->getUri()->getSegment(3);
         $menu_m = new MenuModel();
@@ -51,7 +51,7 @@ class Menu extends BaseController
 
         if (!$menu_id) {
             $data['title'] = "Thêm Mới Menu";
-            return view('menu/save', $data);
+            return view('menu/detail', $data);
         }
 
         $menu = $menu_m->find($menu_id);
@@ -62,7 +62,7 @@ class Menu extends BaseController
 
         $data['title'] = "Chỉnh Sửa Menu";
         $data['menu'] = $menu;
-        return view('menu/save', $data);
+        return view('menu/detail', $data);
     }
 
 
@@ -92,7 +92,7 @@ class Menu extends BaseController
         if (!$menu_id) {
             $menu = $menu_m->where(['slug' => $slug])->find();
             if ($menu) {
-                return redirect_with_message(base_url('menu/save'), 'Menu đã tồn tại');
+                return redirect_with_message(base_url('menu/detail'), 'Menu đã tồn tại');
             }
         } else {
             $data['id'] = $menu_id;

@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CategoryModel extends Model
+class ProductCategoryModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'category';
+    protected $table            = 'product_category';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -42,10 +42,9 @@ class CategoryModel extends Model
 
     public function find_all()
     {
-        $query = $this->select('category.id, category.name, menu.name as menu_name, category.status, category.created_at, category.updated_at')
-            ->join('menu', 'menu.id = category.menu_id')
-            ->orderBy('id', 'DESC');
-        $result['category'] = $query->paginate(RESULT_LIMIT);
+        $query = $this->select('product_category.id, product_category.name, menu.name as menu_name, product_category.status, product_category.created_at, product_category.updated_at')
+            ->join('menu', 'menu.id = product_category.menu_id');
+        $result['product_category'] = $query->paginate(RESULT_LIMIT);
         $result['pager'] = $query->pager;
         return $result;
     }
@@ -53,11 +52,13 @@ class CategoryModel extends Model
     public function filter($data)
     {
         if ($data['name']) {
-            $this->like('category.name', $data['name']);
+            $this->like('product_category.name', $data['name']);
         }
-
+        if ($data['menu_id']) {
+            $this->where('product_category.menu_id', $data['menu_id']);
+        }
         if (isset($data['status']) && $data['status'] != '') {
-            $this->where('category.status', $data['status']);
+            $this->where('product_category.status', $data['status']);
         }
         return $this;
     }

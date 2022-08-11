@@ -11,19 +11,19 @@
     <meta name="author" content="#">
 
     <!-- Favicon icon -->
-    <link rel="icon" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\images\favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?= base_url() ?>\templates\libraries\assets\images\favicon.ico" type="image/x-icon">
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
     <!-- Required Fremwork -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\bootstrap\css\bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\libraries\bower_components\bootstrap\css\bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\pages\notification\notification.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\libraries\assets\pages\notification\notification.css">
 
     <!-- Animate.css -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\animate.css\css\animate.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\libraries\bower_components\animate.css\css\animate.css">
 
     <!-- Style.css -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\css\style.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>\templates\libraries\assets\css\style.css">
 </head>
 
 <body class="fix-menu">
@@ -36,7 +36,7 @@
 
                     <form class="md-float-material form-material" method="POST" action="<?= base_url('login') ?>">
                         <div class="text-center">
-                            <img src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\images\logo.png" alt="logo.png">
+                            <img src="<?= base_url() ?>\templates\libraries\assets\images\logo.png" alt="logo.png">
                         </div>
                         <div class="auth-box card">
                             <div class="card-block">
@@ -89,13 +89,13 @@
 
     <!-- Warning Section Ends -->
     <!-- Required Jquery -->
-    <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\jquery\js\jquery.min.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\bower_components\jquery\js\jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\bower_components\bootstrap\js\bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\bower_components\bootstrap\js\bootstrap.min.js"></script>
 
     <!-- notification js -->
-    <script type="text/javascript" src="<?= base_url() ?>\templates\admin\adminty_dashboard\libraries\assets\js\bootstrap-growl.min.js"></script>
-    <script type="text/javascript" src="<?= base_url() ?>\templates\admin\js\app.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\js\bootstrap-growl.min.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\js\app.js"></script>
 
 </body>
 

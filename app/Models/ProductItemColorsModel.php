@@ -39,4 +39,41 @@ class ProductItemColorsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Convinient method to insert product attribute
+     * 
+     * @param array $data Data to insert
+     * @param array $where where to find in product attribute
+     * @param bool $clean_data if this parameter is provide, it will delete unnecessary data in product attribute table
+     * @return bool
+     */
+
+    public function insertOrDelete($data, array $where, $clean_data = true)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+        $product_item_images = $this->where($where)->findAll();
+
+        if ($clean_data) {
+            $product_item_images_name = array_column($data, 'name');
+            foreach ($product_item_images as $row) {
+                if (!in_array($row['name'], $product_item_images_name)) {
+                    $this->delete($row['id']);
+                }
+            }
+        }
+
+        foreach ($data as $row) {
+            if (in_array($row['name'], array_column($product_item_images, 'name'))) {
+                continue;
+            }
+            $is_insert = $this->insert($row);
+            if (!$is_insert) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

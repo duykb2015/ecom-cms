@@ -74,7 +74,7 @@ function response_failed(?string $error = null)
         'success' => false,
         'message' => 'Có lỗi xảy ra',
         'result' =>  [
-            'error' => $error != null ? $error : 'Có lỗi xảy ra, thử lại sau'
+            'error' => ($error != null) ? $error : 'Có lỗi xảy ra, thử lại sau'
         ]
     ];
 }
@@ -90,7 +90,7 @@ function response_successed($url = null)
         'success' => true,
         'message' => 'Thành công',
         'result'  =>  [
-            'url_redirect' => $url != null ? $url : ''
+            'url_redirect' => ($url != null) ? $url : ''
         ]
     ];
 }

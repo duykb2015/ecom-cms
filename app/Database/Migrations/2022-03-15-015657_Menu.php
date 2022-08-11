@@ -18,7 +18,7 @@ class Menu extends Migration
             ],
             'parent_id' => [
                 'type' => 'INT',
-                'constraint' => 4,
+                'constraint' => 11,
                 'null' => TRUE,
             ],
             'name' => [

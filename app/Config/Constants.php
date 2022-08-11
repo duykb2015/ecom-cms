@@ -93,61 +93,98 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
-define('BANNED_LEVEL', 0);
-define('UNVERIFIED_LEVEL', 1);
-define('MODERATOR_LEVEL', 2);
-define('ADMIN_LEVEL', 3);;
+
+/**
+ * ------------------------
+ * Level Types
+ * ------------------------
+ * 
+ * This defines the level types that are available.
+ */
+define('BANNED', 0);
+define('NORMAL', 1);
+define('MODERATOR', 2);
+define('ADMIN', 3);;
 define('LEVEL_TYPE', [
-    BANNED_LEVEL => '<span style="color:black, text-decoration: line-through">Banned</span>',
-    UNVERIFIED_LEVEL => 'Không cấp quyền',
-    MODERATOR_LEVEL => '<span class="text-primary">Moderator</span>',
-    ADMIN_LEVEL => '<span class="text-danger">Admin</span>'
+    NORMAL => 'Không cấp quyền',
+    MODERATOR => 'Moderator',
+    ADMIN => 'Admin'
 ]);
-
-define('STATUS_HIDDEN', 0);
-define('STATUS_DISPLAY', 1);
-define('STATUS_CMS', [
-    STATUS_DISPLAY => 'Hiển thị',
-    STATUS_HIDDEN => 'Ẩn',
-]);
-
-define('MENU_TYPE_CATEGORY', 0);
-define('MENU_TYPE_POST', 1);
-define('MENU_TYPE_SERVICE', 2);
-define('MENU_TYPE', [
-    MENU_TYPE_CATEGORY => 'Danh mục',
-    MENU_TYPE_POST => 'Sản phẩm',
-    MENU_TYPE_SERVICE => 'Dịch vụ'
-]);
-
-define('ACCOUNT_STATUS_BANNED', 0);
-define('ACCOUNT_STATUS_NORMAL', 1);
 define('ACCOUNT_STATUS', [
-    ACCOUNT_STATUS_BANNED => '<span class="badge badge-dark">Bị cấm</span>',
-    ACCOUNT_STATUS_NORMAL => '<span class="badge badge-success ">Bình thường</span>'
+    BANNED => 'Bị cấm',
+    NORMAL => 'Bình thường',
 ]);
 
-define('ATTRIBUTE_PRIVATE', 0);
-define('ATTRIBUTE_PUBLIC', 1);
-define('ATTRIBUTE_STATUS', [
-    ATTRIBUTE_PUBLIC => 'Chung',
-    ATTRIBUTE_PRIVATE => 'Riêng'
-
+/**
+ * ------------------------
+ * Status Types
+ * ------------------------
+ * 
+ * Defines the status types.
+ */
+define('HIDDEN', 0);
+define('DISPLAY', 1);
+define('STATUS', [
+    HIDDEN => 'Ẩn',
+    DISPLAY => 'Hiển thị',
 ]);
 
-define('PRODUCT_STATUS_HIDDEN', 0);
-define('PRODUCT_STATUS_DISPLAY', 1);
-define('PRODUCT_STATUS_UPCOMING', 2);
-define('PRODUCT_STATUS_STOPSELL', 3);
-define('PRODUCT_STATUS_SOLDOUT', 4);
+/**
+ * -----------------------
+ * Menu Types
+ * -----------------------
+ * 
+ */
+define('MAIN', 0);
+define('SUB', 1);
+define('MENU_TYPE', [
+    MAIN => 'Menu cha',
+    SUB => 'Menu con',
+]);
+
+/**
+ * -----------------------
+ * Product Status
+ * -----------------------
+ * 
+ */
+define('UPCOMING', 2);
+define('STOPSELL', 3);
+define('SOLDOUT', 4);
 define('PRODUCT_STATUS', [
-    PRODUCT_STATUS_HIDDEN => 'Ẩn',
-    PRODUCT_STATUS_DISPLAY => 'Hiển thị',
-    PRODUCT_STATUS_UPCOMING => 'Sắp ra mắt',
-    PRODUCT_STATUS_STOPSELL => 'Ngưng bán',
-    PRODUCT_STATUS_SOLDOUT => 'Hết hàng'
+    HIDDEN => 'Ẩn',
+    DISPLAY => 'Hiển thị',
+    UPCOMING => 'Sắp ra mắt',
+    STOPSELL => 'Ngưng bán',
+    SOLDOUT => 'Hết hàng'
 ]);
 
-define('SUCCESS', 'Thành công');
-define('WRONG_LOGIN_INFO', 'Thông tin đăng nhập sai, vui lòng kiểm tra lại!');
-define('UNEXPECTED_ERROR', 'Đã có lỗi xảy ra, vui lòng thử lại sau!');
+/**
+ * -----------------------
+ * DATABASE CONSTANTS
+ * -----------------------
+ * 
+ * List of constants for the database.
+ */
+define('RESULT_LIMIT', 10);
+
+/**
+ * -----------------------
+ * MESSAGE
+ * -----------------------
+ * 
+ * Define reusable messages
+ */
+define('SUCCESS_MESSAGE', 'Thành công');
+define('WRONG_LOGIN_INFO_MESSAGE', 'Thông tin đăng nhập sai, vui lòng kiểm tra lại!');
+define('UNEXPECTED_ERROR_MESSAGE', 'Đã có lỗi xảy ra, vui lòng thử lại sau!');
+
+/**
+ * -----------------------
+ * HTTP Status
+ * -----------------------
+ * 
+ * Define HTTP status codes
+ */
+
+define('HTTP_OK', 200);

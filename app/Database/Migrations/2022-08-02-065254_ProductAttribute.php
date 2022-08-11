@@ -20,11 +20,6 @@ class ProductAttribute extends Migration
                 'constraint' => 255,
                 'null' => FALSE,
             ],
-            'is_group' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
-                'null' => FALSE,
-            ],
             'status' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,

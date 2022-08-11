@@ -98,4 +98,41 @@ class ProductAttributesModel extends Model
         }
         return  $query->findAll();
     }
+
+    /**
+     * Convinient method to insert product attribute
+     * 
+     * @param array $data Data to insert
+     * @param array $where where to find in product attribute
+     * @param bool $clean_data if this parameter is provide, it will delete unnecessary data in product attribute table
+     * @return bool
+     */
+
+    public function insertOrDelete($data, array $where, $clean_data = true)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+        $product_attributes = $this->where($where)->findAll();
+
+        if ($clean_data) {
+            $product_attribute_value_id = array_column($data, 'product_attribute_value_id');
+            foreach ($product_attributes as $row) {
+                if (!in_array($row['product_attribute_value_id'], $product_attribute_value_id)) {
+                    $this->delete($row['id']);
+                }
+            }
+        }
+
+        foreach ($data as $row) {
+            if (in_array($row['product_attribute_value_id'], array_column($product_attributes, 'product_attribute_value_id'))) {
+                continue;
+            }
+            $is_insert = $this->insert($row);
+            if (!$is_insert) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -42,14 +42,21 @@
                                     <form id="form-menu" action="<?= base_url('product-attribute/save') ?>" method="POST">
                                         <input type="hidden" name="product_attribute_id" value="<?= isset($product_attribute['id']) ? $product_attribute['id'] : '' ?>">
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
+                                            <label class="col-sm-2 col-form-label">Tên;</label>
                                             <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
+                                                <input type="text" name="name" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
                                             </div>
-                                        </div><div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Tên thuộc tính</label>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Key</label>
                                             <div class="col-sm-10">
-                                                <input id="name" type="text" name="name[]" class="form-control" value="<?= isset($product_attribute['name']) ? $product_attribute['name'] : set_value('name') ?>">
+                                                <input type="text" name="key" class="form-control" value="<?= isset($product_attribute['key']) ? $product_attribute['key'] : set_value('key') ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Value</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="value" class="form-control" value="<?= isset($product_attribute['value']) ? $product_attribute['value'] : set_value('value') ?>">
                                             </div>
                                         </div>
 
@@ -80,34 +87,4 @@
         </div>
     </div>
 </div>
-<?= $this->endSection() ?>
-
-<?= $this->section('js') ?>
-<script>
-    // function slug() {}
-    function slug(str) {
-
-        str = str.replace(/^\s+|\s+$/g, "");
-        str = str.toLowerCase();
-
-        var from = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;";
-        var to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------";
-        for (var i = 0; i < from.length; i++) {
-            str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
-        }
-
-        str = str.replace(/[^a-z0-9 -]/g, '')
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-")
-
-        return str
-    }
-
-    $('#name').on('keyup', function() {
-        $('#slug').val(slug($(this).val()))
-    })
-</script>
-
-
-
 <?= $this->endSection() ?>

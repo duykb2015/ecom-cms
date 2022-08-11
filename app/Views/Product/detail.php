@@ -1,4 +1,19 @@
 <?= $this->extend('layout') ?>
+<?= $this->section('css') ?>
+<!-- Select 2 css -->
+<link rel="stylesheet" href="<?= base_url() ?>\templates\libraries\bower_components\select2\css\select2.min.css">
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+        background-color: white !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #01a9ac !important;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -11,7 +26,6 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-
                                     <h4><?= $title ?></h4>
                                 </div>
                             </div>
@@ -45,41 +59,40 @@
                                     <?php endif ?>
                                     <div class="col-sm-12">
                                         <div class="product-edit">
-                                            <form class="md-float-material card-block" action="<?= base_url('product-line/save') ?>" method="POST">
+                                            <form class="md-float-material card-block" id="j-forms" action="<?= base_url('product-line/save') ?>" method="POST">
                                                 <input type="hidden" name="product_id" value="<?= !empty($product['id']) ? $product['id'] : '' ?>">
                                                 <div class="row">
                                                     <div class="col-sm-6">
+                                                        <label for="name">Tên dòng sản phẩm</label>
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="icofont icofont-cube"></i></span>
                                                             <input type="text" class="form-control" id="name" name="name" placeholder="Tên dòng sản phẩm" value="<?= !empty($product['name']) ? $product['name'] : set_value('name') ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
+                                                        <label for="slug">Slug</label>
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="icofont icofont-cube"></i></span>
                                                             <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug" value="<?= !empty($product['slug']) ? $product['slug'] : set_value('slug') ?>" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-6">
+                                                        <label for="menu_id">Danh mục</label>
                                                         <div class="input-group">
-                                                            <select name="menu_id" class="form-control">
-                                                                <?php if (isset($menu)) : ?>
-                                                                    <?php foreach ($menu as $row) : ?>
-
-                                                                        <option value="<?= $row['id'] ?>" <?= !empty($product['menu_id']) && $product['menu_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
-
+                                                            <select name="category_id" class="form-control">
+                                                                <?php if (isset($category)) : ?>
+                                                                    <?php foreach ($category as $row) : ?>
+                                                                        <option value="<?= $row['id'] ?>" <?= !empty($product['category_id']) && $product['category_id'] == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
                                                                     <?php endforeach ?>
                                                                 <?php endif ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
+                                                        <label for="status">Trạng thái</label>
                                                         <select name="status" class="form-control">
                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
-                                                                <option value="<?= $key ?>" <?= !empty($product['status']) && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
-
+                                                                <option value="<?= $key ?>" <?= !empty($product['status'])  && $product['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
                                                             <?php endforeach ?>
                                                         </select>
                                                     </div>
@@ -87,9 +100,11 @@
 
                                                 <div class="row mb-3">
                                                     <div class="col-sm-6">
+                                                        <label for="additional_information">Thông tin thêm về sản phẩm</label>
                                                         <textarea name="additional_information" id="editor1" required><?= !empty($product['additional_information']) ? $product['additional_information'] : 'Thông tin thêm về sản phẩm ...' ?></textarea>
                                                     </div>
                                                     <div class="col-sm-6">
+                                                        <label for="support_information">Hỗ trợ khi mua sản phẩm</label>
                                                         <textarea name="support_information" id="editor2" required><?= !empty($product['support_information']) ? $product['support_information'] : 'Hỗ trợ khi mua hàng ...' ?></textarea>
                                                     </div>
                                                 </div>
@@ -99,52 +114,33 @@
                                                         <h5>Thông số kĩ thuật chung</h5>
                                                     </div>
                                                 </div>
-                                                <?php if (isset($product_attribute)) : ?>
-                                                    <?php foreach ($product_attribute as $row) : ?>
-                                                        <div class="row">
-                                                            <label class="col-sm-2 col-form-label"><?= $row['name'] ?></label>
-                                                            <div class="col-sm-10">
-                                                                <div class="input-group">
-
-                                                                    <?php if (!empty($row['pav_id'])) : ?>
-                                                                        <input type="hidden" name="pav_<?= $row['pav_id'] ?>" value="<?= $row['pav_id'] ?>">
-                                                                    <?php endif ?>
-                                                                    <input type="text" class="form-control" name="attribute_<?= $row['id'] ?>" value="<?= !empty($row['value']) ? $row['value'] : set_value('short_descriptons') ?>" required>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <?php endforeach ?>
-                                                <?php endif ?>
-
-
+                                                <div id="attributes" class="row">
+                                                    <div class="col-sm-12">
+                                                        <select class="js-example-basic-multiple col-sm-12" name="product_attribute_value[]" multiple="multiple">
+                                                            <option value=""></option>
+                                                            <?php if (isset($product_attribute_values)) : ?>
+                                                                <?php foreach ($product_attribute_values as $row) : ?>
+                                                                    <option value="<?= $row['id'] ?>" <?= isset($product_attributes) && in_array($row['id'], $product_attributes) ? 'selected' : '' ?>><?= $row['name'] ?></option>
+                                                                <?php endforeach ?>
+                                                            <?php endif ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="text-right m-t-20">
                                                             <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Lưu</button>
-
                                                             <a href="<?= base_url('product-line') ?>" class="btn btn-light waves-effect waves-light">Huỷ</a>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
-                                        <!-- Product edit card end -->
-
                                     </div>
-
-                                    <!-- Main-body end -->
-
                                 </div>
-                                <!-- Page-body end -->
                             </div>
                         </div>
-                        <!-- Main-body end -->
                     </div>
-
-                    <!-- Page body start -->
-                    <!-- Page body end -->
                 </div>
             </div>
         </div>
@@ -152,6 +148,16 @@
     <?= $this->endSection() ?>
 
     <?= $this->section('js') ?>
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\bower_components\select2\js\select2.full.min.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\js\jquery.quicksearch.js"></script>
+    <!-- Multiselect js -->
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\bower_components\bootstrap-multiselect\js\bootstrap-multiselect.js"></script>
+    <!-- Custom js -->
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\pages\advance-elements\select2-custom.js"></script>
+    <!-- Clone form -->
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\pages\j-pro\js\jquery-cloneya.min.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\pages\j-pro\js\custom\cloned-form.js"></script>
     <script>
         CKEDITOR.replace('editor1');
         CKEDITOR.replace('editor2');
@@ -181,6 +187,7 @@
         $('#remove-alert').on('click', function() {
             $('.alert').remove();
         })
+
     </script>
 
     <?= $this->endSection() ?>

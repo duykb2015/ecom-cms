@@ -39,4 +39,18 @@ class ProductItemsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function filter($data)
+    {
+        if ($data['name']) {
+            $this->like('name', $data['name']);
+        }
+        if ($data['product_id']) {
+            $this->where('product_id ', $data['product_id']);
+        }
+        if (isset($data['status']) && $data['status'] != '') {
+            $this->where('status', $data['status']);
+        }
+        return $this;
+    }
 }

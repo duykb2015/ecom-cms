@@ -94,10 +94,10 @@
                                         <?php foreach ($product_attributes as $row) : ?>
                                             <tr id="attribute-<?= $row['id'] ?>">
                                                 <td class="font-weight-bold"><?= $row['name'] ?></td>
-                                                <td class="text-center"><?= $row['key'] ?></td>
+                                                <td ><?= $row['key'] ?></td>
                                                 <td class="text-center"><?= $row['value'] ?></td>
                                                 <td class="text-center">
-                                                    <div class="checkbox-fade fade-in-primary">
+                                                    <div class="checkbox-fade fade-in-primary ml-1">
                                                         <label class="check-task">
                                                             <input type="checkbox" id="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == DISPLAY ? 'checked' : '' ?>>
                                                             <span class="cr">

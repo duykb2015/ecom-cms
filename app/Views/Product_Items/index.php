@@ -76,7 +76,7 @@
                                                             <th width="20%" class="text-center">Trạng thái</th>
                                                             <th width="20%" class="text-center">Ngày tạo</th>
                                                             <th width="20%" class="text-center">Ngày cập nhật</th>
-                                                            <th width="10%"></th>
+                                                            <th width="10%" class="text-center"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

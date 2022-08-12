@@ -348,7 +348,7 @@
         return str
     }
 
-    $('#name').on('keyup', function() {
+    $('#name').on('input', function() {
         $('#slug').val(slug($(this).val()))
     })
     data = $('#color').html()

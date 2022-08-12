@@ -71,9 +71,9 @@
                                     <tr>
                                         <th width="20%" class="text-center">Tên</th>
                                         <th width="20%" class="text-center">Thuộc menu</th>
-                                        <th width="20%">Trạng thái</th>
-                                        <th width="20%">Ngày tạo</th>
-                                        <th width="20%">Ngày cập nhật</th>
+                                        <th width="20%" class="text-center">Trạng thái</th>
+                                        <th width="20%" class="text-center">Ngày tạo</th>
+                                        <th width="20%" class="text-center">Ngày cập nhật</th>
                                         <th width="10%"></th>
                                     </tr>
                                 </thead>
@@ -83,8 +83,8 @@
                                             <tr id="category-<?= $row['id'] ?>">
                                                 <td class="font-weight-bold"><?= $row['name'] ?></td>
                                                 <td class="text-center"><?= $row['menu_name'] ?></td>
-                                                <td>
-                                                    <div class="checkbox-fade fade-in-primary">
+                                                <td class="text-center">
+                                                    <div class="checkbox-fade fade-in-primary ml-2">
                                                         <label class="check-task">
                                                             <input type="checkbox" onclick="return change_status(this, '<?= $row['id'] ?>', '<?= $row['name'] ?>')" <?= $row['status'] == DISPLAY ? 'checked' : '' ?>>
                                                             <span class="cr">
@@ -93,9 +93,9 @@
                                                         </label>
                                                     </div>
                                                 </td>
-                                                <td><?= $row['created_at'] ?></td>
-                                                <td><?= $row['updated_at'] ?></td>
-                                                <td>
+                                                <td class="text-center"><?= $row['created_at'] ?></td>
+                                                <td class="text-center"><?= $row['updated_at'] ?></td>
+                                                <td class="text-center">
                                                     <div class="btn-group btn-group-sm">
                                                         <a href="<?= base_url('product-category/detail/' . $row['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>

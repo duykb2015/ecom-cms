@@ -43,10 +43,12 @@ class ProductItem extends BaseController
     {
         $product_item_id = $this->request->getUri()->getSegment(3);
 
+        //product
         $product_m = new ProductModel();
         $product = $product_m->select('id, name')->findAll();
         $data['product'] = $product;
 
+        //product attibute values
         $product_attribute_values_m = new ProductAttributeValuesModel();
         $data['product_attribute_values'] = $product_attribute_values_m->findAll();
 
@@ -54,16 +56,31 @@ class ProductItem extends BaseController
             $data['title'] = 'Thêm mới sản phẩm';
             return view('product_items/detail', $data);
         }
-        $product = $product_m->find($product_item_id);
-        if (!$product) {
+        $product_items_m = new ProductItemsModel();
+        $product_item = $product_items_m->find($product_item_id);
+        if (!$product_item) {
             return redirect()->to('product-item');
         }
+
+        //product item colors
+        $product_item_colors_m = new ProductItemColorsModel();
+        $product_item_colors = $product_item_colors_m->where('product_item_id', $product_item_id)->findAll();
+        $data['product_item_colors'] = $product_item_colors;
+
+        //product item images
+        $product_item_images_m = new ProductItemImagesModel();
+        $product_item_images = $product_item_images_m->where('product_item_id', $product_item_id)->findAll();
+        $data['product_item_images'] = $product_item_images;
+
+        //product attribute
         $product_attribute_m = new ProductAttributesModel();
         $product_attributes = $product_attribute_m->select('product_attribute_value_id')->where('product_item_id', $product_item_id)->findAll();
+
         foreach ($product_attributes as $value) {
             $data['product_attributes'][] = $value['product_attribute_value_id'];
         }
-        $data['product'] = $product;
+
+        $data['product_item'] = $product_item;
         $data['title'] = 'Chỉnh sửa sản phẩm';
         return view('product_items/detail', $data);
     }
@@ -166,6 +183,7 @@ class ProductItem extends BaseController
             'product_item_id' => $product_item_save_id,
             'product_id' => $product_id
         ];
+
         $err = $product_attribute_m->insertOrDelete($attribute_data, $where);
         if ($err) {
             return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
@@ -195,18 +213,17 @@ class ProductItem extends BaseController
             return $this->respond(response_failed(), HTTP_OK);
         }
 
-        $product_item_colors_m = new ProductItemImagesModel();
-        $images = $product_item_colors_m->where('product_item_id', $product_item_id)->findAll();
+        $product_item_images_m = new ProductItemImagesModel();
+        $images = $product_item_images_m->where('product_item_id', $product_item_id)->findAll();
         if ($images) {
             foreach ($images as $image) {
-                $image_path = ROOTPATH . 'public\uploads' . $image['name'];
+                $image_path = IMAGE_PATH . $image['name'];
                 if (file_exists($image_path)) {
                     unlink($image_path);
                 }
             }
         }
-
-        $is_delete = $product_item_colors_m->where('product_item_id', $product_item_id)->delete();
+        $is_delete = $product_item_images_m->where('product_item_id', $product_item_id)->delete();
         if (!$is_delete) {
             return $this->respond(response_failed(), HTTP_OK);
         }
@@ -217,5 +234,51 @@ class ProductItem extends BaseController
             return $this->respond(response_failed(), HTTP_OK);
         }
         return $this->respond(response_successed(), HTTP_OK);
+    }
+
+    /**
+     * Delete an color of product item (on index page)
+     * 
+     * @param int $id product item id
+     * @return 
+     */
+    public function delete_color()
+    {
+        $product_item_id = $this->request->uri->getSegment(3);
+        $color_id        = $this->request->uri->getSegment(4);
+
+        $product_item_colors_m = new ProductItemColorsModel();
+        $is_delete = $product_item_colors_m->delete($color_id);
+        if (!$is_delete) {
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
+        }
+        return redirect_with_message('product-item/detail/' . $product_item_id, SUCCESS_MESSAGE, 'success_msg');
+    }
+
+    /**
+     * Delete an color of product item (on index page)
+     * 
+     * @param int $id product item id
+     * @return 
+     */
+    public function delete_image()
+    {
+        $product_item_id = $this->request->uri->getSegment(3);
+        $image_id        = $this->request->uri->getSegment(4);
+
+        $product_item_images_m = new ProductItemImagesModel();
+        $image = $product_item_images_m->find($image_id);
+        if ($image) {
+            $image_path = IMAGE_PATH . $image['name'];
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
+
+        $is_delete = $product_item_images_m->delete($image_id);
+        if (!$is_delete) {
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
+        }
+        return redirect_with_message('product-item/detail/' . $product_item_id, SUCCESS_MESSAGE, 'success_msg');
     }
 }

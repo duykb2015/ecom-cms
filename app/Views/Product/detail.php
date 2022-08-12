@@ -44,19 +44,6 @@
                             <!-- Product edit card start -->
                             <div class="card">
                                 <div class="row">
-                                    <?php $error = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($error)) : ?>
-                                        <div class="alert alert-danger">
-                                            <div class="row">
-                                                <div class="col-11">
-                                                    <?= $error ?>
-                                                </div>
-                                                <div class="col-1 text-right">
-                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
                                     <div class="col-sm-12">
                                         <div class="product-edit">
                                             <form class="md-float-material card-block" id="j-forms" action="<?= base_url('product-line/save') ?>" method="POST">
@@ -180,7 +167,7 @@
             return str
         }
 
-        $('#name').on('keyup', function() {
+        $('#name').on('input', function() {
             $('#slug').val(slug($(this).val()))
         })
 

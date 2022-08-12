@@ -30,7 +30,7 @@ class Upload
         ];
         $validate = Services::validation();
         if (!$validate->setRules($validationRule)) {
-            return false; //$this->validator->getErrors();
+            return false;
         }
         return true;
     }
@@ -54,7 +54,7 @@ class Upload
             }
             $newName = $img->getRandomName();
             $file_name[] = $newName;
-            $img->move(ROOTPATH . 'public\uploads', $newName);
+            $img->move(IMAGE_PATH, $newName);
         }
         return $file_name;
     }

@@ -81,10 +81,10 @@
                                                     <thead>
                                                         <tr>
                                                             <th width="30%" class="text-center">Tên dòng sản phẩm</th>
-                                                            <th width="10%">Trạng thái</th>
-                                                            <th width="15%">Ngày tạo</th>
-                                                            <th width="15%">Ngày cập nhật</th>
-                                                            <th width="10%"></th>
+                                                            <th width="10%" class="text-center">Trạng thái</th>
+                                                            <th width="15%" class="text-center">Ngày tạo</th>
+                                                            <th width="15%" class="text-center">Ngày cập nhật</th>
+                                                            <th width="10%" class="text-center"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -92,10 +92,10 @@
                                                             <?php foreach ($products as $product) : ?>
                                                                 <tr id="product-<?= $product['id'] ?>">
                                                                     <td class="font-weight-bold"><?= $product['name'] ?></th>
-                                                                    <td width="10%"><?= PRODUCT_STATUS[$product['status']] ?></td>
-                                                                    <td> <?= $product['created_at'] ?></td>
-                                                                    <td> <?= $product['updated_at'] ?></td>
-                                                                    <td>
+                                                                    <td width="10%" class="text-center"><?= PRODUCT_STATUS[$product['status']] ?></td>
+                                                                    <td class="text-center"> <?= $product['created_at'] ?></td>
+                                                                    <td class="text-center"> <?= $product['updated_at'] ?></td>
+                                                                    <td class="text-center">
                                                                         <div class="btn-group btn-group-sm">
                                                                             <a href="<?= base_url('product-line/detail/' . $product['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                                                 <span class="icofont icofont-ui-edit"></span>

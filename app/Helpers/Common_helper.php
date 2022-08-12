@@ -195,3 +195,38 @@ function remove($file_name)
     }
     return unlink($file);;
 }
+
+/**
+ * Return local filesize
+ * 
+ * @param string $file_name Path to file
+ * @param int $index the size of file will return in
+ * 
+ * 0 - bytes (B)
+ * 
+ * 1 - kilobytes (KB)
+ * 
+ * 2 - megabytes (MB)
+ * 
+ * 3 - gigabytes (GB)
+ * 
+ * @return int|bool size of file, FALSE on failure
+
+ */
+function get_file_size(string $filename, int $index = 0)
+{
+    $size = filesize($filename);
+    if (!$size) {
+        return false;
+    }
+    switch ($index) {
+        case 1:
+            return round($size / 1024, 2);
+        case 2:
+            return round($size / pow(1024, 2), 2);
+        case 3:
+            return round($size / pow(1024, 3), 2);
+        default:
+            return $size;
+    }
+}

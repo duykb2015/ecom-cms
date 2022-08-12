@@ -188,3 +188,12 @@ define('UNEXPECTED_ERROR_MESSAGE', 'Đã có lỗi xảy ra, vui lòng thử l�
  */
 
 define('HTTP_OK', 200);
+
+/**
+ * -----------------------
+ * Image path
+ * -----------------------
+ * 
+ * Define path to image folder
+ */
+define('IMAGE_PATH', ROOTPATH . 'public\uploads\\');

@@ -76,7 +76,7 @@
                                                             <th width="20%" class="text-center">Trạng thái</th>
                                                             <th width="20%" class="text-center">Ngày tạo</th>
                                                             <th width="20%" class="text-center">Ngày cập nhật</th>
-                                                            <th width="10%"></th>
+                                                            <th width="10%" class="text-center"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -109,19 +109,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="text-center">
+                                                <?php if (!empty($pager)) : ?>
+                                                    <?= $pager->links('default', 'default_full') ?>
+                                                <?php endif ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Product list card end -->
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <?php if (!empty($pager)) : ?>
-                                    <?= $pager->links('default', 'default_full') ?>
-                                <?php endif ?>
-                            </div>
                         </div>
                     </div>
                 </div>

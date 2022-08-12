@@ -22,7 +22,7 @@ class Admin extends BaseController
 
         foreach ($accounts as $key => $account) {
             $account['last_login_at'] = get_time_ago(strtotime($account['last_login_at']));
-            $accounts[$key] = $account;
+            $accounts[$key]           = $account;
         }
         $data['accounts'] = $accounts;
         return view('admin/index', $data);
@@ -39,14 +39,12 @@ class Admin extends BaseController
         if ($id == null) {
             return redirect()->to('/admin');
         }
-
         $admin_m = new AdminModel();
         $account = $admin_m->find($id);
         //yes, be careful never too much
         if (empty($account)) {
             return redirect()->to('/admin');
         }
-
         $data['account'] = $account;
         return view('admin/profile', $data);
     }
@@ -107,21 +105,21 @@ class Admin extends BaseController
         }
 
         $admin_m = new AdminModel();
-        //if create new user, it's will need to check if username is exist
-        if (!$user_id) {
-            $user = $admin_m->where('username', $username)->first();
-            if ($user) {
-                $error_msg = 'Tài khoản đã tồn tại!';
-                return redirect_with_message(site_url('admin/detail'), $error_msg);
-            }
-        } else {
+        $user = $admin_m->where('username', $username)->first();
+        if ($user) {
+            $error_msg = 'Tài khoản đã tồn tại!';
+            return redirect_with_message(site_url('admin/detail'), $error_msg);
+        }
+        $data = [
+            'username' => $username,
+            'password' => $password,
+            'level'    => $level,
+            'status'   => $status
+        ];
+
+        if ($user_id) {
             $data['id'] = $user_id;
         }
-
-        $data['username'] = $username;
-        $data['password'] = md5($password);
-        $data['level']    = $level;
-        $data['status']   = $status;
 
         //if create failed, notice and redirect to register page again
         $is_save = $admin_m->save($data);

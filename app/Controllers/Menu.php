@@ -25,10 +25,10 @@ class Menu extends BaseController
             $menu_type   = $this->request->getGet('menu_type');
             $menu_status = $this->request->getGet('menu_status');
             $filter_data = [
-                'name' => $menu_name,
+                'name'      => $menu_name,
                 'parent_id' => $menu_parent,
-                'type'   => $menu_type,
-                'status' => $menu_status,
+                'type'      => $menu_type,
+                'status'    => $menu_status,
             ];
             $menu_m->filter($filter_data);
         }
@@ -65,7 +65,6 @@ class Menu extends BaseController
         return view('menu/detail', $data);
     }
 
-
     /**
      * Combination of create and update that will attempt to determine whether the data should be inserted or updated.
      * 
@@ -73,28 +72,27 @@ class Menu extends BaseController
     public function save()
     {
         //get post data
-        $menu_id   = $this->request->getPost('menu_id');
-        $name      = $this->request->getPost('name');
-        $slug      = $this->request->getPost('slug');
-        $parent_id = $this->request->getPost('parent_id');
-        $status    = $this->request->getPost('status');
-        $type = ($parent_id == 0) ? 0 : 1;
+        $menu_id        = $this->request->getPost('menu_id');
+        $menu_name      = $this->request->getPost('name');
+        $menu_slug      = $this->request->getPost('slug');
+        $menu_parent_id = $this->request->getPost('parent_id');
+        $menu_status    = $this->request->getPost('status');
+        $menu_type      = ($menu_parent_id == 0) ? 0 : 1;
 
         $data = [
-            'name' => $name,
-            'slug' => $slug,
-            'parent_id' => $parent_id,
-            'type' => $type,
-            'status' => $status
+            'name'      => $menu_name,
+            'slug'      => $menu_slug,
+            'parent_id' => $menu_parent_id,
+            'type'      => $menu_type,
+            'status'    => $menu_status
         ];
 
         $menu_m = new MenuModel();
-        if (!$menu_id) {
-            $menu = $menu_m->where(['slug' => $slug])->find();
-            if ($menu) {
-                return redirect_with_message(base_url('menu/detail'), 'Menu đã tồn tại');
-            }
-        } else {
+        $menu = $menu_m->where(['slug' => $menu_slug])->find();
+        if ($menu) {
+            return redirect_with_message(base_url('menu/detail'), 'Menu đã tồn tại');
+        }
+        if ($menu_id) {
             $data['id'] = $menu_id;
         }
 
@@ -112,8 +110,6 @@ class Menu extends BaseController
     {
         //get menu id from post data
         $id = $this->request->getPost('id');
-
-        //if menu id is empty, return error response
         if (!$id) {
             return $this->respond(response_failed(), HTTP_OK);
         }
@@ -135,10 +131,7 @@ class Menu extends BaseController
      */
     public function delete()
     {
-        //get menu id from post data
         $id = $this->request->getPost('id');
-
-        //if menu id is empty, return error response
         if (!$id) {
             return $this->respond(response_failed(), HTTP_OK);
         }

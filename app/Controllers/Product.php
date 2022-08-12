@@ -58,18 +58,21 @@ class Product extends BaseController
             $data['title'] = 'Thêm mới dòng sản phẩm';
             return view('product/detail', $data);
         }
+
         $product_m = new ProductModel();
         $product = $product_m->find($product_id);
         if (!$product) {
             return redirect()->to('product-line');
         }
 
-        //Cách tạm bợ dùng để lấy những thuộc tính đã có của sản phẩm cho việc chỉnh sửa
+        //select all product attributes of this product, that already have to edit
         $product_attribute_m = new ProductAttributesModel();
         $product_attributes = $product_attribute_m->select('product_attribute_value_id')->where('product_id', $product_id)->findAll();
-        foreach ($product_attributes as $value) {
-            $data['product_attributes'][] = $value['product_attribute_value_id'];
+        pre($product_attributes);
+        foreach ($product_attributes as $row) {
+            $attributes[] = $row['product_attribute_value_id'];
         }
+        $data['product_attributes'] = $attributes;
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
         return view('product/detail', $data);
@@ -101,11 +104,17 @@ class Product extends BaseController
             'support_information'    => $support_information,
             'status'                 => $status,
         ];
+
+        $product_m = new ProductModel();
+        $product = $product_m->where('name', $name)->first();
+        if ($product) {
+            return redirect_with_message('product-line', 'Sản phẩm đã tồn tại!');
+        }
+
         //check if product_id is not empty then update product else insert new product
         if ($product_id) {
             $data['id'] = $product_id;
         }
-        $product_m = new ProductModel();
         $is_save = $product_m->save($data);
         if (!$is_save) {
             return redirect_with_message('product-line/detail', UNEXPECTED_ERROR_MESSAGE);

@@ -11,6 +11,11 @@
     .select2-container--default .select2-selection--multiple .select2-selection__choice {
         background-color: #01a9ac !important;
     }
+
+    .hexcode {
+        padding-top: 22px;
+        padding-bottom: 21px;
+    }
 </style>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
@@ -36,24 +41,48 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="row">
-                                    <?php $error = session()->getFlashdata('error_msg') ?>
-                                    <?php if (!empty($error)) : ?>
-                                        <div class="alert alert-danger">
-                                            <div class="row">
-                                                <div class="col-11">
-                                                    <?= $error ?>
-                                                </div>
-                                                <div class="col-1 text-right">
-                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
+
                                     <div class="col-sm-12">
                                         <div class="product-edit">
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <?php $error = session()->getFlashdata('error_msg') ?>
+                                                    <?php if (!empty($error)) : ?>
+                                                        <div class="alert alert-danger">
+                                                            <div class="row">
+                                                                <div class="col-11">
+                                                                    <?= $error ?>
+                                                                </div>
+                                                                <div class="col-1 text-right">
+                                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif ?>
+                                                    <?php $success = session()->getFlashdata('success_msg') ?>
+                                                    <?php if (!empty($success)) : ?>
+                                                        <div class="alert alert-primary">
+                                                            <div class="row">
+                                                                <div class="col-11">
+                                                                    <?= $success ?>
+                                                                </div>
+                                                                <div class="col-1 text-right">
+                                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif ?>
+                                                </div>
+                                            </div>
+
                                             <form class="md-float-material card-block " action="<?= base_url('product-item/save') ?>" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="product_item_id" value="<?= isset($product_item['id']) ? $product_item['id'] : '' ?>">
+                                                <div class="d-inline ">
+                                                    <h5 class="mb-3">Thông tin sản phẩm</h5>
+                                                </div>
                                                 <div class="row">
+
                                                     <div class="col-sm-6">
                                                         <label for="name">Tên sản phẩm</label>
                                                         <div class="input-group">
@@ -90,53 +119,108 @@
                                                     </div>
                                                 </div>
                                                 <div class="clone-link mb-3">
-                                                    <div class="toclone">
-                                                        <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
-                                                        <button class=" delete  btn btn-danger m-b-15">Xoá màu</button>
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label for="color">Tên màu sắc</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control" name="colors[]" placeholder="Màu sản phẩm" value="<?= isset($product_item['color']) ? $product_item['color'] : set_value('color') ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="hexcode">Mã màu (dạng hexcode)</label>
-                                                                <div class="input-group">
-                                                                    <!-- <input type="color" name="" id=""> -->
-                                                                    <input type="color" class="form-control" name="hexcodes[]" placeholder="Mã màu, dạng hexcode" value="<?= isset($product_item['hexcode']) ? $product_item['hexcode'] : set_value('hexcode') ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="price">Giá</label>
-                                                                <div class="input-group">
-                                                                    <input type="number" class="form-control" name="prices[]" placeholder="Giá" value="<?= isset($product_item['price']) ? $product_item['price'] : set_value('price') ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="price">Giảm giá (%)</label>
-                                                                <div class="input-group">
-                                                                    <input type="number" class="form-control" name="discounts[]" placeholder="Giảm giá" value="<?= isset($product_item['price']) ? $product_item['price'] : set_value('price') ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="quantity">Số lượng</label>
-                                                                <div class="input-group">
-                                                                    <input type="number" class="form-control" name="quantitys[]" placeholder="Số lượng" value="<?= isset($product_item['quantity']) ? $product_item['quantity'] : set_value('quantity') ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="status">Trạng thái</label>
-                                                                <select name="status[] " class="form-control">
-                                                                    <option value=""></option>
-                                                                    <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
-                                                                        <option value="<?= $key ?>" <?= isset($product_item['status']) && $product_item['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
-                                                                    <?php endforeach ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
+                                                    <div class="d-inline ">
+                                                        <h5 class="mb-3">Màu sắc sản phẩm</h5>
                                                     </div>
+                                                    <?php if (!empty($product_item_colors)) : ?>
+                                                        <?php foreach ($product_item_colors as $row) : ?>
+                                                            <div class="toclone">
+                                                                <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
+
+                                                                <input type="hidden" name="color-id" value="<?= $row['id'] ?>">
+                                                                <a href="<?= base_url('product-item/delete-color/' . $product_item['id'] . '/' . $row['id']) ?>" onclick="return confirm('Bạn có chắc muốn xoá màu này?')" class="btn btn-danger m-b-15">Xoá màu</a>
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label for="color">Tên màu sắc</label>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="colors[]" placeholder="Màu sản phẩm" value="<?= $row['name'] ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="hexcode">Mã màu (dạng hexcode)</label>
+                                                                        <div class="input-group">
+                                                                            <input type="color" class="form-control hexcode" name="hexcodes[]" placeholder="Mã màu, dạng hexcode" value="<?= $row['hexcode'] ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="price">Giá</label>
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control" name="prices[]" placeholder="Giá" value="<?= $row['price'] ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="price">Giảm giá (%)</label>
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control" name="discounts[]" placeholder="Giảm giá" value="<?= $row['discount'] ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="quantity">Số lượng</label>
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control" name="quantitys[]" placeholder="Số lượng" value="<?= $row['quantity'] ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="status">Trạng thái</label>
+                                                                        <select name="status[] " class="form-control">
+                                                                            <option value=""></option>
+                                                                            <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
+                                                                                <option value="<?= $key ?>" <?= $row['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
+                                                                            <?php endforeach ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach ?>
+                                                    <?php else : ?>
+                                                        <div class="toclone">
+                                                            <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
+                                                            <button class=" delete btn btn-danger m-b-15">Xoá màu</button>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <label for="color">Tên màu sắc</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="colors[]" placeholder="Màu sản phẩm" value="<?= set_value('color') ?>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="hexcode">Mã màu (dạng hexcode)</label>
+                                                                    <div class="input-group">
+                                                                        <input type="color" class="form-control hexcode" name="hexcodes[]" placeholder="Mã màu, dạng hexcode" value="<?= set_value('hexcode') ?>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="price">Giá</label>
+                                                                    <div class="input-group">
+                                                                        <input type="number" class="form-control" name="prices[]" placeholder="Giá" value="<?= set_value('price') ?>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="price">Giảm giá (%)</label>
+                                                                    <div class="input-group">
+                                                                        <input type="number" class="form-control" name="discounts[]" placeholder="Giảm giá" value="<?= set_value('price') ?>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="quantity">Số lượng</label>
+                                                                    <div class="input-group">
+                                                                        <input type="number" class="form-control" name="quantitys[]" placeholder="Số lượng" value="<?= set_value('quantity') ?>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="status">Trạng thái</label>
+                                                                    <select name="status[] " class="form-control">
+                                                                        <option value=""></option>
+                                                                        <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
+                                                                            <option value="<?= $key ?>"><?= $val ?></option>
+                                                                        <?php endforeach ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    <?php endif ?>
                                                     <!-- end /.toclone -->
                                                 </div>
                                                 <div class="row mb-3">
@@ -147,6 +231,30 @@
                                                         <br>
                                                         <h6>Hãy chọn thật kỹ ảnh để tránh xảy ra sai sót, bức ảnh đầu tiên sẽ là ảnh hiển thị ở trang chủ </h6>
                                                         <input type="file" name="images[]" id="filer_input" multiple="multiple" required>
+                                                        <div class="jFiler-items jFiler-row">
+                                                            <ul class="jFiler-items-list jFiler-items-default">
+                                                                <?php if (isset($product_item_images)) : ?>
+                                                                    <?php foreach ($product_item_images as $row) : ?>
+                                                                        <li class="jFiler-item" data-jfiler-index="0">
+                                                                            <div class="jFiler-item-container">
+                                                                                <div class="jFiler-item-inner">
+                                                                                    <div class="jFiler-item-icon pull-left"><i class="icon-jfi-file-o jfi-file-type-image jfi-file-ext-png"></i></div>
+                                                                                    <div class="jFiler-item-info pull-left">
+                                                                                        <div class="jFiler-item-title" title="<?= $row['name'] ?>"><?= $row['name'] ?></div>
+                                                                                        <div class="jFiler-item-others"><span><?= get_file_size(IMAGE_PATH . $row['name'], 2) ?> MB</span><span>type: <?= getimagesize(IMAGE_PATH . $row['name'])['mime'] ?></span><span class="jFiler-item-status"></span></div>
+                                                                                        <div class="jFiler-item-assets">
+                                                                                            <ul class="list-inline">
+                                                                                                <li><a href="<?= base_url('product-item/delete-image/' . $product_item['id'] . '/' . $row['id']) ?>" class="icon-jfi-trash jFiler-item-trash-action" onclick="return confirm('Bạn có chắc muốn xoá ảnh này?')"></a></li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    <?php endforeach ?>
+                                                                <?php endif ?>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
 

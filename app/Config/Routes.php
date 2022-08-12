@@ -123,10 +123,17 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->get('detail', 'ProductItem::detail');
         $routes->get('detail/:any', 'ProductItem::detail');
 
+        //the first :any is product_item_id, the second :any is product_item_color_id
+        //The name for this router is not quite right
+        $routes->get('delete-color/:any/:any', 'ProductItem::delete_color');
+        $routes->get('delete-image/:any/:any', 'ProductItem::delete_image');
+
         $routes->post('save', 'ProductItem::save');
         $routes->post('save/:any', 'ProductItem::save');
 
         $routes->post('delete', 'ProductItem::delete');
+
+        
     });
 });
 

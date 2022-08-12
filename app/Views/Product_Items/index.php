@@ -109,19 +109,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="text-center">
+                                                <?php if (!empty($pager)) : ?>
+                                                    <?= $pager->links('default', 'default_full') ?>
+                                                <?php endif ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Product list card end -->
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <?php if (!empty($pager)) : ?>
-                                    <?= $pager->links('default', 'default_full') ?>
-                                <?php endif ?>
-                            </div>
                         </div>
                     </div>
                 </div>

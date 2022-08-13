@@ -124,7 +124,7 @@
                                                     </div>
                                                     <?php if (!empty($product_item_colors)) : ?>
                                                         <?php foreach ($product_item_colors as $row) : ?>
-                                                            <div class="toclone">
+                                                            <div class="toclone mt-3">
                                                                 <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
 
                                                                 <input type="hidden" name="color-id" value="<?= $row['id'] ?>">
@@ -162,8 +162,8 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
-                                                                        <label for="status">Trạng thái</label>
-                                                                        <select name="status[] " class="form-control">
+                                                                        <label for="color_status">Trạng thái</label>
+                                                                        <select name="color_status[] " class="form-control">
                                                                             <option value=""></option>
                                                                             <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
                                                                                 <option value="<?= $key ?>" <?= $row['status'] == $key ? 'selected' : '' ?>><?= $val ?></option>
@@ -174,7 +174,7 @@
                                                             </div>
                                                         <?php endforeach ?>
                                                     <?php else : ?>
-                                                        <div class="toclone">
+                                                        <div class="toclone mt-3">
                                                             <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
                                                             <button class=" delete btn btn-danger m-b-15">Xoá màu</button>
                                                             <div class="row">
@@ -209,8 +209,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <label for="status">Trạng thái</label>
-                                                                    <select name="status[] " class="form-control">
+                                                                    <label for="color_status">Trạng thái</label>
+                                                                    <select name="color_status[] " class="form-control">
                                                                         <option value=""></option>
                                                                         <?php foreach (PRODUCT_STATUS as $key => $val) : ?>
                                                                             <option value="<?= $key ?>"><?= $val ?></option>
@@ -230,7 +230,8 @@
                                                         </div>
                                                         <br>
                                                         <h6>Hãy chọn thật kỹ ảnh để tránh xảy ra sai sót, bức ảnh đầu tiên sẽ là ảnh hiển thị ở trang chủ </h6>
-                                                        <input type="file" name="images[]" id="filer_input" multiple="multiple" required>
+                                                        <?php $uri = service('uri');  ?>
+                                                        <input type="file" name="images[]" id="filer_input" multiple="multiple" <?= !empty($uri->getSegment(3)) ? '' : 'required' ?>>
                                                         <div class="jFiler-items jFiler-row">
                                                             <ul class="jFiler-items-list jFiler-items-default">
                                                                 <?php if (isset($product_item_images)) : ?>
@@ -240,7 +241,7 @@
                                                                                 <div class="jFiler-item-inner">
                                                                                     <div class="jFiler-item-icon pull-left"><i class="icon-jfi-file-o jfi-file-type-image jfi-file-ext-png"></i></div>
                                                                                     <div class="jFiler-item-info pull-left">
-                                                                                        <div class="jFiler-item-title" title="<?= $row['name'] ?>"><?= $row['name'] ?></div>
+                                                                                        <div class="jFiler-item-title" title="<?= $row['name'] ?>"><a href="<?= base_url('uploads/' . $row['name']) ?>" target="_blank" rel="noopener noreferrer"><?= $row['name'] ?></a></div>
                                                                                         <div class="jFiler-item-others"><span><?= get_file_size(IMAGE_PATH . $row['name'], 2) ?> MB</span><span>type: <?= getimagesize(IMAGE_PATH . $row['name'])['mime'] ?></span><span class="jFiler-item-status"></span></div>
                                                                                         <div class="jFiler-item-assets">
                                                                                             <ul class="list-inline">
@@ -255,15 +256,6 @@
                                                                 <?php endif ?>
                                                             </ul>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-4">
-                                                    <div class="col-sm-12 mb-3">
-                                                        <h5>Mô tả sản phẩm</h5>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="description" id="editor1" required><?= isset($product_item['description']) ? $product_item['description'] : 'Mô tả về về sản phẩm ...' ?></textarea>
                                                     </div>
                                                 </div>
 
@@ -328,8 +320,6 @@
 <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\pages\j-pro\js\jquery-cloneya.min.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>\templates\libraries\assets\pages\j-pro\js\custom\cloned-form.js"></script>
 <script>
-    CKEDITOR.replace('editor1');
-
     function slug(str) {
 
         str = str.replace(/^\s+|\s+$/g, "");

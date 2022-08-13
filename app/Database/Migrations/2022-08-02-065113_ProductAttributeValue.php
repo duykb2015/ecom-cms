@@ -15,19 +15,14 @@ class ProductAttributeValue extends Migration
                 'null' => FALSE,
                 'auto_increment' => TRUE,
             ],
-            'product_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => TRUE,
+            'name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 512,
+                'null' => FALSE,
             ],
-            'product_item_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => TRUE,
-            ],
-            'product_attribute_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
+            'key' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
                 'null' => FALSE,
             ],
             'value' => [
@@ -45,9 +40,6 @@ class ProductAttributeValue extends Migration
             'updated_at DATETIME NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp'
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('product_id', 'product', 'id');
-        $this->forge->addForeignKey('product_item_id', 'product_items', 'id');
-        $this->forge->addForeignKey('product_attribute_id', 'product_attributes', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',

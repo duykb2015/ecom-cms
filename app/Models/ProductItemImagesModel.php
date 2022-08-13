@@ -71,7 +71,7 @@ class ProductItemImagesModel extends Model
             }
             $is_insert = $this->insert($row);
             if (!$is_insert) {
-                return false;
+                return $is_insert;
             }
         }
         return true;

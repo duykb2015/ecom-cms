@@ -83,9 +83,11 @@ class ProductAttributes extends BaseController
 
         //Check if product attribute is exist
         $product_attribute_value_m = new ProductAttributeValuesModel();
-        $product_attribute = $product_attribute_value_m->where('name', $product_attribute_name)->first();
-        if ($product_attribute) {
-            return redirect_with_message('product-attribute/detail', 'Thuộc tính đã tồn tại');
+        $product_attribute_value = $product_attribute_value_m->where('name', $product_attribute_name)->first();
+        if ($product_attribute_value) {
+            if ($product_attribute_value['id'] != $product_attribute_id) {
+                return redirect_with_message('product-attribute/detail', 'Thuộc tính đã tồn tại');
+            }
         }
 
         if ($product_attribute_id) {

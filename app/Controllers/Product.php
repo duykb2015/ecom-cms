@@ -49,7 +49,11 @@ class Product extends BaseController
         $product_id = $this->request->getUri()->getSegment(3);
 
         $product_category_m = new ProductCategoryModel();
-        $data['category'] = $product_category_m->select('id, name')->findAll();
+        $category = $product_category_m->select('id, name')->findAll();
+        if (!$category) {
+            return redirect_with_message('product-category/detail', 'Bạn cần có danh mục trước mới có thể thêm sản phẩm');
+        }
+        $data['category'] = $category;
 
         $product_attribute_values_m = new ProductAttributeValuesModel();
         $data['product_attribute_values'] = $product_attribute_values_m->findAll();
@@ -68,7 +72,6 @@ class Product extends BaseController
         //select all product attributes of this product, that already have to edit
         $product_attribute_m = new ProductAttributesModel();
         $product_attributes = $product_attribute_m->select('product_attribute_value_id')->where('product_id', $product_id)->findAll();
-        pre($product_attributes);
         foreach ($product_attributes as $row) {
             $attributes[] = $row['product_attribute_value_id'];
         }
@@ -92,6 +95,7 @@ class Product extends BaseController
         $slug                   = $this->request->getPost('slug');
         $additional_information = $this->request->getPost('additional_information');
         $support_information    = $this->request->getPost('support_information');
+        $description            = $this->request->getPost('description');
         $status                 = $this->request->getPost('status');
 
         //prepare data
@@ -102,19 +106,23 @@ class Product extends BaseController
             'category_id'            => $category_id,
             'additional_information' => $additional_information,
             'support_information'    => $support_information,
+            'description'            => $description,
             'status'                 => $status,
         ];
 
         $product_m = new ProductModel();
         $product = $product_m->where('name', $name)->first();
         if ($product) {
-            return redirect_with_message('product-line', 'Sản phẩm đã tồn tại!');
+            if ($product['id'] != $product_id) {
+                return redirect_with_message('product-line/detail/' . $product_id, 'Sản phẩm đã tồn tại!');
+            }
         }
 
         //check if product_id is not empty then update product else insert new product
         if ($product_id) {
             $data['id'] = $product_id;
         }
+
         $is_save = $product_m->save($data);
         if (!$is_save) {
             return redirect_with_message('product-line/detail', UNEXPECTED_ERROR_MESSAGE);

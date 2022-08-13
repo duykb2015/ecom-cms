@@ -46,11 +46,11 @@ class Category extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('category', TRUE, $attributes);
+        $this->forge->createTable('product_category', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('category', TRUE);
+        $this->forge->dropTable('product_category', TRUE);
     }
 }

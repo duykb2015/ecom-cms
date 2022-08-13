@@ -37,7 +37,11 @@ class ProductCategory extends BaseController
     {
         $category_id = $this->request->getUri()->getSegment(3);
         $menu_m = new MenuModel();
-        $data['menu'] = $menu_m->where(['status' => 1])->findAll();
+        $menu = $menu_m->where(['status' => 1])->findAll();
+        if (!$menu) {
+            return redirect_with_message('menu/detail', 'Bạn cần có menu trước mới có thể thêm danh mục');
+        }
+        $data['menu'] = $menu;
         if (!$category_id) {
             $data['title'] = 'Thêm mới danh mục';
             return view('product_category/detail', $data);
@@ -67,7 +71,7 @@ class ProductCategory extends BaseController
         ];
         $category_m = new ProductCategoryModel();
         if (!$category_id) {
-            $category = $category_m->where(['slug' => $slug])->find();
+            $category = $category_m->where(['name' => $name])->first();
             if ($category) {
                 return redirect_with_message(base_url('product-category/detail'), 'Danh mục đã tồn tại');
             }

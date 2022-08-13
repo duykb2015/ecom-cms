@@ -90,7 +90,9 @@ class Menu extends BaseController
         $menu_m = new MenuModel();
         $menu = $menu_m->where(['slug' => $menu_slug])->find();
         if ($menu) {
-            return redirect_with_message(base_url('menu/detail'), 'Menu đã tồn tại');
+            if ($menu['id'] != $menu_id) {
+                return redirect_with_message(base_url('menu/detail') . '/' . $menu_id, 'Menu đã tồn tại');
+            }
         }
         if ($menu_id) {
             $data['id'] = $menu_id;

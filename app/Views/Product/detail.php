@@ -95,7 +95,14 @@
                                                         <textarea name="support_information" id="editor2" required><?= !empty($product['support_information']) ? $product['support_information'] : 'Hỗ trợ khi mua hàng ...' ?></textarea>
                                                     </div>
                                                 </div>
-
+                                                <div class="row mb-4">
+                                                    <div class="col-sm-12 mb-3">
+                                                        <h5>Mô tả sản phẩm</h5>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <textarea name="description" id="editor3" required><?= isset($product['description']) ? $product['description'] : 'Mô tả về về sản phẩm ...' ?></textarea>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
                                                         <h5>Thông số kĩ thuật chung</h5>
@@ -148,7 +155,7 @@
     <script>
         CKEDITOR.replace('editor1');
         CKEDITOR.replace('editor2');
-
+        CKEDITOR.replace('editor3');
         function slug(str) {
 
             str = str.replace(/^\s+|\s+$/g, "");
@@ -174,7 +181,6 @@
         $('#remove-alert').on('click', function() {
             $('.alert').remove();
         })
-
     </script>
 
     <?= $this->endSection() ?>

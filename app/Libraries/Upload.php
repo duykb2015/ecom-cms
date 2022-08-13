@@ -43,13 +43,9 @@ class Upload
      * @return array|bool a string name of uploaded images or FALSE on failure
      */
     function multiple_images($images, $name_from_input = 'images')
-    {
-        if (!isset($images) || empty($images)) {
-            return false;
-        }
-        
+    {   
         foreach ($images[$name_from_input] as $img) {
-            if (!$img->isValid() && $img->hasMoved()) {
+            if (!$img->isValid() && !$img->hasMoved()) {
                 return false;
             }
             $newName = $img->getRandomName();

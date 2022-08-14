@@ -30,7 +30,7 @@ class ProductCategory extends BaseController
         $category = $category_m->find_all();
         $data = $category;
         $data['menu'] = $menu_m->where(['status' => 1])->findAll();
-        return view('product_category/index', $data);
+        return view('Product_category/index', $data);
     }
 
     public function detail()
@@ -44,7 +44,7 @@ class ProductCategory extends BaseController
         $data['menu'] = $menu;
         if (!$category_id) {
             $data['title'] = 'Thêm mới danh mục';
-            return view('product_category/detail', $data);
+            return view('Product_category/detail', $data);
         }
         $category_m = new ProductCategoryModel();
         $category = $category_m->find($category_id);
@@ -53,7 +53,7 @@ class ProductCategory extends BaseController
         }
         $data['category'] = $category;
         $data['title'] = 'Cập nhật danh mục';
-        return view('product_category/detail', $data);
+        return view('Product_category/detail', $data);
     }
 
     public function save()

@@ -35,7 +35,7 @@ class ProductAttributes extends BaseController
             'product_attributes' => $product_attribute_m->paginate(10),
             'pager'              => $product_attribute_m->pager
         ];
-        return view('product_attribute/index', $data);
+        return view('Product_attribute/index', $data);
     }
 
     /**
@@ -48,7 +48,7 @@ class ProductAttributes extends BaseController
 
         if (!$product_attribute_id) {
             $data['title'] = 'Thêm mới thuộc tính';
-            return view('product_attribute/detail', $data);
+            return view('Product_attribute/detail', $data);
         }
         $product_attribute_value_m = new ProductAttributeValuesModel();
         $product_attribute = $product_attribute_value_m->find($product_attribute_id);
@@ -58,7 +58,7 @@ class ProductAttributes extends BaseController
         }
         $data['product_attribute'] = $product_attribute;
         $data['title'] = 'Chỉnh sửa thuộc tính';
-        return view('product_attribute/detail', $data);
+        return view('Product_attribute/detail', $data);
     }
 
     /**

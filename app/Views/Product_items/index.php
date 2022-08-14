@@ -134,42 +134,6 @@
     <?= $this->section('js') ?>
 
     <script>
-        function change_status(element, id, name) {
-
-            const is_confirm = confirm(`Bạn muốn thay đổi trạng thái của sản phẩm "${name}" ?`);
-            if (!is_confirm) {
-                return false
-            }
-
-            const data = new FormData();
-            data.append('id', id);
-            data.append('status', element.checked ? 1 : 0);
-            var requestOptions = {
-                method: 'POST',
-                body: data,
-                redirect: 'follow'
-            };
-
-            fetch('<?= base_url('product-item/action-status') ?>', requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        msgbox_success(result.message)
-                        return true
-                    }
-
-                    const error = result.result.error;
-                    if (error) {
-                        msgbox_error(error)
-                        return false
-                    }
-
-                })
-                .catch(error => {
-                    msgbox_error('Có lỗi xảy ra. Vui lòng thử lại!')
-                    return false
-                });
-        }
 
         function delete_product_item(id, name) {
             const is_confirm = confirm(`Bạn muốn xóa sản phẩm "${name}" ?`);

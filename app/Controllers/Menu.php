@@ -51,7 +51,7 @@ class Menu extends BaseController
 
         if (!$menu_id) {
             $data['title'] = "Thêm Mới Menu";
-            return view('menu/detail', $data);
+            return view('Menu/detail', $data);
         }
 
         $menu = $menu_m->find($menu_id);
@@ -62,7 +62,7 @@ class Menu extends BaseController
 
         $data['title'] = "Chỉnh Sửa Menu";
         $data['menu'] = $menu;
-        return view('menu/detail', $data);
+        return view('Menu/detail', $data);
     }
 
     /**
@@ -91,7 +91,7 @@ class Menu extends BaseController
         $menu = $menu_m->where(['slug' => $menu_slug])->find();
         if ($menu) {
             if ($menu['id'] != $menu_id) {
-                return redirect_with_message(base_url('menu/detail') . '/' . $menu_id, 'Menu đã tồn tại');
+                return redirect_with_message(base_url('Menu/detail') . '/' . $menu_id, 'Menu đã tồn tại');
             }
         }
         if ($menu_id) {
@@ -99,7 +99,7 @@ class Menu extends BaseController
         }
 
         if (!$menu_m->save($data)) {
-            return redirect_with_message(site_url('menu/create/' . $menu_id), UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message(site_url('Menu/create/' . $menu_id), UNEXPECTED_ERROR_MESSAGE);
         }
         return redirect()->to('menu');
     }

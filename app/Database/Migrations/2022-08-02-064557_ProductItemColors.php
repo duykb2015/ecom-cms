@@ -34,6 +34,11 @@ class ProductItemColors extends Migration
                 'constraint' => 255,
                 'null' => FALSE,
             ],
+            'discount' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => FALSE,
+            ],
             'quantity' => [
                 'type' => 'INT',
                 'constraint' => 11,

@@ -88,7 +88,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (isset($menu)) : ?>
+                                    <?php if (!empty($menu)) : ?>
                                         <?php foreach ($menu as $row) : ?>
                                             <tr id="menu-<?= $row['id'] ?>">
                                                 <td class="font-weight-bold"><?= $row['name'] ?></td>

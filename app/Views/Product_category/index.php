@@ -78,7 +78,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (isset($product_category)) : ?>
+                                    <?php if (!empty($product_category)) : ?>
                                         <?php foreach ($product_category as $row) : ?>
                                             <tr id="category-<?= $row['id'] ?>">
                                                 <td class="font-weight-bold"><?= $row['name'] ?></td>

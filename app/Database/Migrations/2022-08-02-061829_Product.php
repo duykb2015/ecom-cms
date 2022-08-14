@@ -44,6 +44,10 @@ class Product extends Migration
                 'constraint' => 2048,
                 'null' => FALSE,
             ],
+            'description' => [
+                'type' => 'TEXT',
+                'null' => FALSE,
+            ],
             'status' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,
@@ -55,7 +59,7 @@ class Product extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('admin_id', 'admin', 'id');
-        $this->forge->addForeignKey('menu_id', 'menu', 'id');
+        $this->forge->addForeignKey('category_id', 'menu', 'id');
         $attributes = [
             'ENGINE' => 'InnoDB',
             'CHARACTER SET' => 'utf8',

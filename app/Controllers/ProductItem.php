@@ -46,6 +46,9 @@ class ProductItem extends BaseController
         //product
         $product_m = new ProductModel();
         $product = $product_m->select('id, name')->findAll();
+        if (!$product) {
+            return redirect_with_message('product-line/detail', 'Bạn cần có sản phẩm trước mới có thể thêm sản phẩm');
+        }
         $data['product'] = $product;
 
         //product attibute values
@@ -89,12 +92,11 @@ class ProductItem extends BaseController
     //Hàm này chưa tối ưu, còn lỗi vì chưa test, xem xét lại là cải tiến thêm
     public function save()
     {
-        $product_item_id = $this->request->getUri()->getSegment(3);
+        $product_item_id = $this->request->getPost('product_item_id');
         $admin_id        = session()->get('id');
         $name            = $this->request->getPost('name');
         $slug            = $this->request->getPost('slug');
         $product_id      = $this->request->getPost('product_id');
-        $description     = $this->request->getPost('description');
         $status          = $this->request->getPost('status');
 
         $data = [
@@ -102,59 +104,76 @@ class ProductItem extends BaseController
             'admin_id' => $admin_id,
             'name' => $name,
             'slug' => $slug,
-            'description' => $description,
             'status' => $status,
         ];
         if ($product_item_id) {
             $data['id'] = $product_item_id;
         }
+
         $product_items_m = new ProductItemsModel();
         $is_save = $product_items_m->save($data);
         if (!$is_save) {
-            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
         }
 
         //get product item inserted id for insert attribute values
-        $product_item_save_id = $product_items_m->getInsertId();
+        $insert_id = $product_items_m->getInsertId();
         //if it's an update. the insert id will be zero, so we will use the already have product item id
-        if ($product_item_id) {
-            $product_item_save_id = $product_item_id;
+        if ($insert_id != 0) {
+            $product_item_id = $insert_id;
         }
 
+        $is_save_images = $this->save_images($product_item_id);
+        if (!$is_save_images) {
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
+        }
+        $is_save_colors = $this->save_colors($product_item_id);
+        if (!$is_save_colors) {
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
+        }
+        $is_save_attributes = $this->save_attributes($product_id, $product_item_id);
+        if (!$is_save_attributes) {
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
+        }
+        return redirect()->to('product-item');
+    }
+
+    public function save_images($product_item_id)
+    {
         $upload = new Upload();
         $array_image_name = $upload->multiple_images($this->request->getFiles());
 
         if (!$array_image_name) {
-            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
+            return true;
         }
         $product_item_images_m = new ProductItemImagesModel();
         foreach ($array_image_name as $image_name) {
             $images_data[] = [
-                'product_item_id' => $product_item_save_id,
+                'product_item_id' => $product_item_id,
                 'name' => $image_name,
                 'status' => 1,
             ];
         }
-        $where = [
-            'product_item_id' => $product_item_save_id,
-        ];
-        //Coi lại chỗ này
+        $where['product_item_id'] = $product_item_id;
         $err = $product_item_images_m->insertOrDelete($images_data, $where);
         if ($err) {
-            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
+            return false;
         }
+        return true;
+    }
 
+    public function save_colors($product_item_id)
+    {
         $colors    = $this->request->getPost('colors');
         $hexcodes  = $this->request->getPost('hexcodes');
         $prices    = $this->request->getPost('prices');
         $discounts = $this->request->getPost('discounts');
         $quantitys = $this->request->getPost('quantitys');
-        $status    = $this->request->getPost('status');
-
+        $status    = $this->request->getPost('color_status');
 
         foreach ($colors as $key => $color) {
             $colors_data[] = [
-                'product_item_id' => $product_item_save_id,
+                'product_item_id' => $product_item_id,
                 'name' => $color,
                 'hexcode' => $hexcodes[$key],
                 'price' => $prices[$key],
@@ -163,32 +182,40 @@ class ProductItem extends BaseController
                 'status' => $status[$key],
             ];
         }
-        $product_item_colors_m = new ProductItemColorsModel();
-        $err = $product_item_colors_m->insertOrDelete($colors_data, $where);
-        if ($err) {
-            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
-        }
 
+        $product_item_colors_m = new ProductItemColorsModel();
+        $where['product_item_id'] = $product_item_id;
+        $err = $product_item_colors_m->insertOrDelete($colors_data, $where);
+        if (!$err) {
+            return false;
+        }
+        return true;
+    }
+
+    public function save_attributes($product_id, $product_item_id)
+    {
         $product_attribute_value_ids = $this->request->getPost('product_attribute_value');
         foreach ($product_attribute_value_ids as $item) {
             $attribute_data[] = [
                 'product_id' => $product_id,
-                'product_item_id' => $product_item_save_id,
+                'product_item_id' => $product_item_id,
                 'product_attribute_value_id' => $item,
                 'status' => 1
             ];
         }
         $product_attribute_m = new ProductAttributesModel();
         $where = [
-            'product_item_id' => $product_item_save_id,
+            'product_item_id' => $product_item_id,
             'product_id' => $product_id
         ];
 
         $err = $product_attribute_m->insertOrDelete($attribute_data, $where);
-        if ($err) {
-            return redirect_with_message('product-item/detail', UNEXPECTED_ERROR_MESSAGE);
+        if (!$err) {
+            return false;
         }
+        return true;
     }
+
 
     public function delete()
     {

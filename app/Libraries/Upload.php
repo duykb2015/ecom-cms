@@ -45,7 +45,7 @@ class Upload
     function multiple_images($images, $name_from_input = 'images')
     {   
         foreach ($images[$name_from_input] as $img) {
-            if (!$img->isValid() && !$img->hasMoved()) {
+            if (!$img->isValid() && $img->hasMoved()) {
                 return false;
             }
             $newName = $img->getRandomName();

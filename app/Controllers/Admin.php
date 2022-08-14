@@ -11,11 +11,16 @@ class Admin extends BaseController
 
     use ResponseTrait;
 
+    public function __construct()
+    {
+        helper('array');
+    }
+
     /**
      * Used to view all user accounts (Only for users with admin level)
      * 
      */
-    function index()
+    public function index()
     {
         $admin_m = new AdminModel();
         $accounts  = $admin_m->findAll();
@@ -25,14 +30,14 @@ class Admin extends BaseController
             $accounts[$key]           = $account;
         }
         $data['accounts'] = $accounts;
-        return view('admin/index', $data);
+        return view('Admin/index', $data);
     }
 
     /**
      * Used to view account infomation
      * 
      */
-    function profile()
+    public function profile()
     {
         //get id from store session
         $id = session()->get('id');
@@ -46,7 +51,7 @@ class Admin extends BaseController
             return redirect()->to('/admin');
         }
         $data['account'] = $account;
-        return view('admin/profile', $data);
+        return view('Admin/profile', $data);
     }
 
     /**
@@ -59,7 +64,7 @@ class Admin extends BaseController
         $id = $this->request->getUri()->getSegment(3);
         if (!$id) {
             $data['title'] = "Thêm Mới Tài Khoản";
-            return view('admin/detail', $data);
+            return view('Admin/detail', $data);
         }
         $admin_m = new AdminModel();
         $account = $admin_m->find($id);
@@ -68,14 +73,14 @@ class Admin extends BaseController
         }
         $data['title'] = "Chỉnh Sửa Tài Khoản";
         $data['account'] = $account;
-        return view('admin/detail', $data);
+        return view('Admin/detail', $data);
     }
 
     /**
      * Combination of create and update that will attempt to determine whether the data should be inserted or updated.
      *  
      */
-    function save()
+    public function save()
     {
         $user_id  = $this->request->getPost('id');
         $username = $this->request->getPost('username');
@@ -99,16 +104,16 @@ class Admin extends BaseController
         if (!$validation->run($inputs)) {
             $error_msg = $validation->getErrors();
             if (!$user_id) {
-                return redirect_with_message(site_url('admin/detail'), $error_msg);
+                return redirect_with_message(site_url('Admin/detail'), $error_msg);
             }
-            return redirect_with_message(site_url('admin/detail?id=') . $user_id, $error_msg);
+            return redirect_with_message(site_url('Admin/detail?id=') . $user_id, $error_msg);
         }
 
         $admin_m = new AdminModel();
         $user = $admin_m->where('username', $username)->first();
         if ($user) {
             $error_msg = 'Tài khoản đã tồn tại!';
-            return redirect_with_message(site_url('admin/detail'), $error_msg);
+            return redirect_with_message(site_url('Admin/detail'), $error_msg);
         }
         $data = [
             'username' => $username,
@@ -124,7 +129,7 @@ class Admin extends BaseController
         //if create failed, notice and redirect to register page again
         $is_save = $admin_m->save($data);
         if (!$is_save) {
-            return redirect_with_message(site_url('admin/detail'), UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message(site_url('Admin/detail'), UNEXPECTED_ERROR_MESSAGE);
         }
         return redirect()->to('admin');
     }

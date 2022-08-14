@@ -215,6 +215,9 @@ function remove($file_name)
  */
 function get_file_size(string $filename, int $index = 0)
 {
+    if (!file_exists($filename)) {
+        return false;
+    }
     $size = filesize($filename);
     if (!$size) {
         return false;

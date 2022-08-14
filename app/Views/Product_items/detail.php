@@ -124,11 +124,10 @@
                                                     </div>
                                                     <?php if (!empty($product_item_colors)) : ?>
                                                         <?php foreach ($product_item_colors as $row) : ?>
-                                                            <div class="toclone mt-3">
+                                                            <div id="color-<?= $row['id'] ?>" class="toclone mt-3">
                                                                 <button class=" clone btn btn-primary m-b-15">Thêm màu</button>
 
-                                                                <input type="hidden" name="color-id" value="<?= $row['id'] ?>">
-                                                                <a href="<?= base_url('product-item/delete-color/' . $product_item['id'] . '/' . $row['id']) ?>" onclick="return confirm('Bạn có chắc muốn xoá màu này?')" class="btn btn-danger m-b-15">Xoá màu</a>
+                                                                <span class="btn btn-danger m-b-15" onclick="delete_product_item_color(<?= $row['id'] ?>)" >Xoá màu</span>
 
                                                                 <div class="row">
                                                                     <div class="col-sm-6">
@@ -236,7 +235,7 @@
                                                             <ul class="jFiler-items-list jFiler-items-default">
                                                                 <?php if (isset($product_item_images)) : ?>
                                                                     <?php foreach ($product_item_images as $row) : ?>
-                                                                        <li class="jFiler-item" data-jfiler-index="0">
+                                                                        <li id="image-<?= $row['id'] ?>" class="jFiler-item" data-jfiler-index="0">
                                                                             <div class="jFiler-item-container">
                                                                                 <div class="jFiler-item-inner">
                                                                                     <div class="jFiler-item-icon pull-left"><i class="icon-jfi-file-o jfi-file-type-image jfi-file-ext-png"></i></div>
@@ -245,7 +244,7 @@
                                                                                         <div class="jFiler-item-others"><span><?= get_file_size(IMAGE_PATH . $row['name'], 2) ?> MB</span><span>type: <?= getimagesize(IMAGE_PATH . $row['name'])['mime'] ?></span><span class="jFiler-item-status"></span></div>
                                                                                         <div class="jFiler-item-assets">
                                                                                             <ul class="list-inline">
-                                                                                                <li><a href="<?= base_url('product-item/delete-image/' . $product_item['id'] . '/' . $row['id']) ?>" class="icon-jfi-trash jFiler-item-trash-action" onclick="return confirm('Bạn có chắc muốn xoá ảnh này?')"></a></li>
+                                                                                                <li><a onclick="delete_product_item_image(<?= $row['id'] ?>)" class="icon-jfi-trash jFiler-item-trash-action"></a></li>
                                                                                             </ul>
                                                                                         </div>
                                                                                     </div>
@@ -345,5 +344,71 @@
     $('#add-color').on('click', function(event) {
         $('#color').append(data)
     })
+
+    function delete_product_item_color(color_id) {
+            const is_confirm = confirm(`Bạn có chắc muốn xóa màu này ?`);
+            if (!is_confirm) {
+                return
+            }
+
+            const data = new FormData();
+            data.append('color_id', color_id);
+            var requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch('<?= base_url('product-item/delete-color') ?>', requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        msgbox_success(result.message)
+                        document.getElementById(`color-${color_id}`).remove()
+                        return true
+                    }
+
+                    const error = result.result.error;
+                    if (error) {
+                        msgbox_error(error)
+                        return false
+                    }
+
+                })
+                .catch(error => msgbox_error(error));
+        }
+
+        function delete_product_item_image(image_id) {
+            const is_confirm = confirm(`Bạn có chắc muốn xóa ảnh này ?`);
+            if (!is_confirm) {
+                return
+            }
+
+            const data = new FormData();
+            data.append('image_id', image_id);
+            var requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch('<?= base_url('product-item/delete-image') ?>', requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        msgbox_success(result.message)
+                        document.getElementById(`image-${image_id}`).remove()
+                        return true
+                    }
+
+                    const error = result.result.error;
+                    if (error) {
+                        msgbox_error(error)
+                        return false
+                    }
+
+                })
+                .catch(error => msgbox_error(error));
+        }
 </script>
 <?= $this->endSection() ?>

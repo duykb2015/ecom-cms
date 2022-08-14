@@ -196,4 +196,4 @@ define('HTTP_OK', 200);
  * 
  * Define path to image folder
  */
-define('IMAGE_PATH', ROOTPATH . 'public\uploads\\');
+define('IMAGE_PATH', ROOTPATH . 'public/uploads/');

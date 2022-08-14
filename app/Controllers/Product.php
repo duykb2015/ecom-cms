@@ -60,7 +60,7 @@ class Product extends BaseController
 
         if (!$product_id) {
             $data['title'] = 'Thêm mới dòng sản phẩm';
-            return view('product/detail', $data);
+            return view('Product/detail', $data);
         }
 
         $product_m = new ProductModel();
@@ -78,7 +78,7 @@ class Product extends BaseController
         $data['product_attributes'] = $attributes;
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
-        return view('product/detail', $data);
+        return view('Product/detail', $data);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use App\Libraries\Upload;
@@ -12,7 +12,7 @@ use App\Models\ProductItemImagesModel;
 use App\Models\ProductItemsModel;
 use App\Models\ProductModel;
 
-class ProductItem extends BaseController
+class Item extends BaseController
 {
     use ResponseTrait;
     public function index()
@@ -36,7 +36,7 @@ class ProductItem extends BaseController
             'pager' => $product_items_m->pager,
             'product' => $product_m->findAll()
         ];
-        return view('Product_items/index', $data);
+        return view('product/items/index', $data);
     }
 
     public function detail()
@@ -57,7 +57,7 @@ class ProductItem extends BaseController
 
         if (!$product_item_id) {
             $data['title'] = 'Thêm mới sản phẩm';
-            return view('Product_items/detail', $data);
+            return view('product/items/detail', $data);
         }
         $product_items_m = new ProductItemsModel();
         $product_item = $product_items_m->find($product_item_id);
@@ -72,7 +72,7 @@ class ProductItem extends BaseController
 
         //product item images
         $product_item_images_m = new ProductItemImagesModel();
-        $product_item_images = $product_item_images_m->where('product_item_id', $product_item_id)->orderBy('id DESC')->findAll();
+        $product_item_images = $product_item_images_m->where('product_item_id', $product_item_id)->findAll();
         $data['product_item_images'] = $product_item_images;
 
         //product attribute
@@ -85,7 +85,7 @@ class ProductItem extends BaseController
 
         $data['product_item'] = $product_item;
         $data['title'] = 'Chỉnh sửa sản phẩm';
-        return view('Product_items/detail', $data);
+        return view('product/items/detail', $data);
     }
 
 
@@ -155,8 +155,8 @@ class ProductItem extends BaseController
             ];
         }
         $where['product_item_id'] = $product_item_id;
-        $err = $product_item_images_m->insertOrDelete($images_data, $where, false);
-        if (!$err) {
+        $err = $product_item_images_m->insertOrDelete($images_data, $where);
+        if ($err) {
             return false;
         }
         return true;
@@ -271,14 +271,15 @@ class ProductItem extends BaseController
      */
     public function delete_color()
     {
-        $color_id = $this->request->getPost('color_id');
+        $product_item_id = $this->request->uri->getSegment(3);
+        $color_id        = $this->request->uri->getSegment(4);
 
         $product_item_colors_m = new ProductItemColorsModel();
         $is_delete = $product_item_colors_m->delete($color_id);
         if (!$is_delete) {
-            return $this->respond(response_failed(), HTTP_OK);
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
         }
-        return $this->respond(response_successed(), HTTP_OK);
+        return redirect_with_message('product-item/detail/' . $product_item_id, SUCCESS_MESSAGE, 'success_msg');
     }
 
     /**
@@ -289,7 +290,8 @@ class ProductItem extends BaseController
      */
     public function delete_image()
     {
-        $image_id = $this->request->getPost('image_id');
+        $product_item_id = $this->request->uri->getSegment(3);
+        $image_id        = $this->request->uri->getSegment(4);
 
         $product_item_images_m = new ProductItemImagesModel();
         $image = $product_item_images_m->find($image_id);
@@ -302,8 +304,8 @@ class ProductItem extends BaseController
 
         $is_delete = $product_item_images_m->delete($image_id);
         if (!$is_delete) {
-            return $this->respond(response_failed(), HTTP_OK);
+            return redirect_with_message('product-item/detail/' . $product_item_id, UNEXPECTED_ERROR_MESSAGE);
         }
-        return $this->respond(response_successed(), HTTP_OK);
+        return redirect_with_message('product-item/detail/' . $product_item_id, SUCCESS_MESSAGE, 'success_msg');
     }
 }

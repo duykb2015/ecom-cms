@@ -9,20 +9,43 @@ $menu = [
     ],
     [
         'url' => '',
-        'active' => 'admin',
+        'active' => url_is('admin*') ? 'admin' : 'user',
         'level' => 3,
         'name' => 'Quản lý Tài khoản',
         'icon' => '<i class="feather icon-user"></i>',
         'sub_menu' => [
             [
-                'url' => base_url('admin'),
-                'name' => 'Danh sách',
+                'url' => '',
+                'name' => 'Admin',
+                'active' => 'admin',
+                'sub_menu' =>         [
+                    [
+                        'url' => base_url('admin'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('admin/detail'),
+                        'name' => 'Thêm',
+                    ],
+                ]
             ],
             [
-                'url' => base_url('admin/detail'),
-                'name' => 'Thêm',
+                'url' => '',
+                'name' => 'User',
+                'active' => 'user',
+                'sub_menu' => [
+                    [
+                        'url' => base_url('user'),
+                        'name' => 'Danh sách',
+                    ],
+                    [
+                        'url' => base_url('user/detail'),
+                        'name' => 'Thêm',
+                    ],
+                ]
             ],
         ]
+
     ],
     [
         'url' => '',

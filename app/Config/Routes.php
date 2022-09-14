@@ -60,6 +60,22 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
         $routes->post('delete', 'Admin::delete');
     });
 
+    $routes->group('user', function ($routes) {
+        $routes->get('', 'User::index');
+        $routes->get('get-shoping-cart', 'User::get_shoping_cart');
+
+        $routes->get('profile', 'User::profile');
+        $routes->post('profile', 'User::change_profile');
+
+        $routes->get('detail', 'User::detail');
+        $routes->get('detail/:any', 'User::detail');
+
+        $routes->post('save', 'User::save');
+        $routes->post('save/:any', 'User::save');
+
+        $routes->post('delete', 'User::delete');
+    });
+
     $routes->group('menu', function ($routes) {
         $routes->get('', 'Menu::index');
 
@@ -75,63 +91,63 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
     });
 
     $routes->group('product-category', function ($routes) {
-        $routes->get('', 'ProductCategory::index');
+        $routes->get('', 'Product\Category::index');
 
-        $routes->get('detail', 'ProductCategory::detail');
-        $routes->get('detail/:any', 'ProductCategory::detail');
+        $routes->get('detail', 'Product\Category::detail');
+        $routes->get('detail/:any', 'Product\Category::detail');
 
-        $routes->post('save', 'ProductCategory::save');
-        $routes->post('save/:any', 'ProductCategory::save');
+        $routes->post('save', 'Product\Category::save');
+        $routes->post('save/:any', 'Product\Category::save');
 
-        $routes->post('action-status', 'ProductCategory::change_status');
+        $routes->post('action-status', 'Product\Category::change_status');
 
-        $routes->post('delete', 'ProductCategory::delete');
+        $routes->post('delete', 'Product\Category::delete');
     });
 
     $routes->group('product-attribute', function ($routes) {
-        $routes->get('', 'ProductAttributes::index');
+        $routes->get('', 'Product\Attribute::index');
 
-        $routes->get('detail', 'ProductAttributes::detail');
-        $routes->get('detail/:any', 'ProductAttributes::detail');
+        $routes->get('detail', 'Product\Attribute::detail');
+        $routes->get('detail/:any', 'Product\Attribute::detail');
 
-        $routes->post('save', 'ProductAttributes::save');
-        $routes->post('save/:any', 'ProductAttributes::save');
+        $routes->post('save', 'Product\Attributes::save');
+        $routes->post('save/:any', 'Product\Attribute::save');
 
-        $routes->post('action-status', 'ProductAttributes::change_status');
+        $routes->post('action-status', 'Product\Attribute::change_status');
 
-        $routes->post('delete', 'ProductAttributes::delete');
+        $routes->post('delete', 'Product\Attribute::delete');
     });
 
     $routes->group('product-line', function ($routes) {
-        $routes->get('', 'Product::index');
+        $routes->get('', 'Product\Line::index');
 
-        $routes->get('detail', 'Product::detail');
-        $routes->get('detail/:any', 'Product::detail');
+        $routes->get('detail', 'Product\Line::detail');
+        $routes->get('detail/:any', 'Product\Line::detail');
 
-        $routes->post('save', 'Product::save');
-        $routes->post('save/:any', 'Product::save');
+        $routes->post('save', 'Product\Line::save');
+        $routes->post('save/:any', 'Product\Line::save');
 
-        $routes->post('action-status', 'Product::change_status');
+        $routes->post('action-status', 'Product\Line::change_status');
 
-        $routes->post('delete', 'Product::delete');
+        $routes->post('delete', 'Product\Line::delete');
     });
 
     $routes->group('product-item', function ($routes) {
-        $routes->get('', 'ProductItem::index');
-        $routes->post('', 'ProductItem::index');
+        $routes->get('', 'Product\Item::index');
+        $routes->post('', 'Product\Item::index');
 
-        $routes->get('detail', 'ProductItem::detail');
-        $routes->get('detail/:any', 'ProductItem::detail');
+        $routes->get('detail', 'Product\Item::detail');
+        $routes->get('detail/:any', 'Product\Item::detail');
 
         //the first :any is product_item_id, the second :any is product_item_color_id
         //The name for this router is not quite right
-        $routes->post('delete-color', 'ProductItem::delete_color');
-        $routes->post('delete-image', 'ProductItem::delete_image');
+        $routes->get('delete-color/:any/:any', 'Product\Item::delete_color');
+        $routes->get('delete-image/:any/:any', 'Product\Item::delete_image');
 
-        $routes->post('save', 'ProductItem::save');
-        $routes->post('save/:any', 'ProductItem::save');
+        $routes->post('save', 'Product\Item::save');
+        $routes->post('save/:any', 'Product\Item::save');
 
-        $routes->post('delete', 'ProductItem::delete');
+        $routes->post('delete', 'Product\Item::delete');
     });
 });
 

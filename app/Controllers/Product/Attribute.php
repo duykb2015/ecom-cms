@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductAttributeValuesModel;
 
-class ProductAttributes extends BaseController
+class Attribute extends BaseController
 {
     use ResponseTrait;
 
@@ -35,7 +35,7 @@ class ProductAttributes extends BaseController
             'product_attributes' => $product_attribute_m->paginate(10),
             'pager'              => $product_attribute_m->pager
         ];
-        return view('Product_attribute/index', $data);
+        return view('product/attribute/index', $data);
     }
 
     /**
@@ -48,7 +48,7 @@ class ProductAttributes extends BaseController
 
         if (!$product_attribute_id) {
             $data['title'] = 'Thêm mới thuộc tính';
-            return view('Product_attribute/detail', $data);
+            return view('product/attribute/detail', $data);
         }
         $product_attribute_value_m = new ProductAttributeValuesModel();
         $product_attribute = $product_attribute_value_m->find($product_attribute_id);
@@ -58,7 +58,7 @@ class ProductAttributes extends BaseController
         }
         $data['product_attribute'] = $product_attribute;
         $data['title'] = 'Chỉnh sửa thuộc tính';
-        return view('Product_attribute/detail', $data);
+        return view('product/attribute/detail', $data);
     }
 
     /**

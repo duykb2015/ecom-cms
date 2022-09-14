@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use App\Models\ProductModel;
@@ -9,7 +9,7 @@ use App\Models\ProductAttributesModel;
 use App\Models\ProductAttributeValuesModel;
 use App\Models\ProductCategoryModel;
 
-class Product extends BaseController
+class Line extends BaseController
 {
     use ResponseTrait;
     /**
@@ -37,7 +37,7 @@ class Product extends BaseController
             'pager'    => $product_m->pager,
             'category' => $product_category_m->findAll()
         ];
-        return view('Product/index', $data);
+        return view('Product/Line/index', $data);
     }
 
     /**
@@ -60,7 +60,7 @@ class Product extends BaseController
 
         if (!$product_id) {
             $data['title'] = 'Thêm mới dòng sản phẩm';
-            return view('Product/detail', $data);
+            return view('Product/Line/detail', $data);
         }
 
         $product_m = new ProductModel();
@@ -78,7 +78,7 @@ class Product extends BaseController
         $data['product_attributes'] = $attributes;
         $data['product'] = $product;
         $data['title'] = 'Chỉnh sửa dòng sản phẩm';
-        return view('Product/detail', $data);
+        return view('Product/Line/detail', $data);
     }
 
     /**

@@ -36,7 +36,7 @@
                                             <?php $errors = session()->getFlashdata('error_msg') ?>
                                             <?php if (isset($errors)) : ?>
                                                 <?php if (!is_array($errors)) : ?>
-                                                    <div class="alert alert-danger">
+                                                    <div class="row alert alert-danger">
                                                         <div class="col-11">
                                                             <?= $errors ?>
                                                         </div>
@@ -46,14 +46,12 @@
                                                     </div>
                                                 <?php else : ?>
                                                     <?php foreach ($errors as $error) : ?>
-                                                        <div class="alert alert-danger mb-1">
-                                                            <div class="row">
-                                                                <div class="col-11">
-                                                                    <?= $error ?>
-                                                                </div>
-                                                                <div class="col-1 text-right">
-                                                                    <span aria-hidden="true" id="remove-alert">&times;</span>
-                                                                </div>
+                                                        <div class="row alert alert-danger mb-1">
+                                                            <div class="col-11">
+                                                                <?= $error ?>
+                                                            </div>
+                                                            <div class="col-1 text-right">
+                                                                <span aria-hidden="true" id="remove-alert">&times;</span>
                                                             </div>
                                                         </div>
                                                     <?php endforeach ?>

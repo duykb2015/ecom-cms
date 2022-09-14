@@ -5,9 +5,12 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\AdminModel;
+use App\Models\CartModel;
 use App\Models\UserModel;
 
-class Admin extends BaseController
+use function PHPUnit\Framework\returnValue;
+
+class User extends BaseController
 {
 
     use ResponseTrait;
@@ -23,15 +26,11 @@ class Admin extends BaseController
      */
     public function index()
     {
-        $admin_m = new AdminModel();
-        $accounts  = $admin_m->findAll();
+        $user_m = new UserModel();
+        $accounts  = $user_m->findAll();
 
-        foreach ($accounts as $key => $account) {
-            $account['last_login_at'] = get_time_ago(strtotime($account['last_login_at']));
-            $accounts[$key]           = $account;
-        }
         $data['accounts'] = $accounts;
-        return view('admin/index', $data);
+        return view('user/index', $data);
     }
 
     /**
@@ -52,7 +51,7 @@ class Admin extends BaseController
             return redirect()->to('/admin');
         }
         $data['account'] = $account;
-        return view('admin/profile', $data);
+        return view('user/profile', $data);
     }
 
     /**
@@ -61,20 +60,19 @@ class Admin extends BaseController
      */
     public function detail()
     {
-
         $id = $this->request->getUri()->getSegment(3);
         if (!$id) {
             $data['title'] = "Thêm Mới Tài Khoản";
-            return view('admin/detail', $data);
+            return view('user/detail', $data);
         }
-        $admin_m = new AdminModel();
-        $account = $admin_m->find($id);
+        $user_m = new UserModel();
+        $account = $user_m->find($id);
         if (empty($account)) {
             return redirect()->to('/admin');
         }
         $data['title'] = "Chỉnh Sửa Tài Khoản";
         $data['account'] = $account;
-        return view('admin/detail', $data);
+        return view('user/detail', $data);
     }
 
     /**
@@ -83,18 +81,25 @@ class Admin extends BaseController
      */
     public function save()
     {
+
         $user_id  = $this->request->getPost('id');
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        $level    = $this->request->getPost('level');
+        $email    = $this->request->getPost('email');
+        $address  = $this->request->getPost('address');
+        $phone    = $this->request->getPost('phone');
         $status   = $this->request->getPost('status');
 
         $inputs = array(
             'username' => $username,
+            'email'    => $email,
             'password' => $password
         );
 
-        $rules['username'] = 'required';
+        $rules = [
+            'username' => 'required',
+            'email' => 'required'
+        ];
         //if create new user or update password, then require password validation
         if (!$user_id || !empty($password)) {
             $rules['password'] = 'required|min_length[3]';
@@ -105,28 +110,31 @@ class Admin extends BaseController
         if (!$validation->run($inputs)) {
             $error_msg = $validation->getErrors();
             if (!$user_id) {
-                return redirect_with_message(site_url('admin/detail'), $error_msg);
+                return redirect_with_message(site_url('user/detail'), $error_msg);
             }
-            return redirect_with_message(site_url('admin/detail?id=') . $user_id, $error_msg);
+            return redirect_with_message(site_url('user/detail?id=') . $user_id, $error_msg);
         }
 
         $user_m = new UserModel();
+        $user = $user_m->where('username', $username)->orWhere('email', $email)->first();
         if (!$user_id) {
-            //If it an insert, must check if username exits
-            $user = $user_m->where('username', $username)->findAll();
             if ($user) {
                 $error_msg = 'Tài khoản đã tồn tại!';
-                return redirect_with_message(site_url('admin/detail'), $error_msg);
+                return redirect_with_message(site_url('user/detail'), $error_msg);
             }
         }
         $data = [
             'username' => $username,
-            'level'    => $level,
+            'email'    => $email,
+            'address'  => $address,
+            'phone'    => $phone,
             'status'   => $status
         ];
+
         if ($password) {
             $data['password'] = $password;
         }
+
         if ($user_id) {
             $data['id'] = $user_id;
         }
@@ -134,9 +142,9 @@ class Admin extends BaseController
         //if create failed, notice and redirect to register page again
         $is_save = $user_m->save($data);
         if (!$is_save) {
-            return redirect_with_message(site_url('admin/detail'), UNEXPECTED_ERROR_MESSAGE);
+            return redirect_with_message(site_url('user/detail'), UNEXPECTED_ERROR_MESSAGE);
         }
-        return redirect()->to('admin');
+        return redirect()->to('user');
     }
 
     /**
@@ -161,5 +169,12 @@ class Admin extends BaseController
             return $this->respond(response_failed(), HTTP_OK);
         }
         return $this->respond(response_successed(), HTTP_OK);
+    }
+
+    public function get_shoping_cart()
+    {
+        $cart_m = new CartModel();
+        $data = $cart_m->findAll();
+        return $this->respond($data);
     }
 }

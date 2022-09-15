@@ -84,11 +84,11 @@ class Transaction extends Migration
             'CHARACTER SET' => 'utf8',
             'COLLATE' => 'utf8_general_ci'
         ];
-        $this->forge->createTable('checkout', TRUE, $attributes);
+        $this->forge->createTable('transaction', TRUE, $attributes);
     }
 
     public function down()
     {
-        $this->forge->dropTable('checkout', TRUE);
+        $this->forge->dropTable('transaction', TRUE);
     }
 }

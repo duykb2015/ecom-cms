@@ -62,7 +62,8 @@ $routes->group("/", ["filter" => "auth-admin"], function ($routes) { //
 
     $routes->group('user', function ($routes) {
         $routes->get('', 'User::index');
-        $routes->get('get-shoping-cart', 'User::get_shoping_cart');
+        $routes->post('get-shoping-cart', 'User::get_shoping_cart');
+        $routes->post('get-transaction', 'User::get_transaction');
 
         $routes->get('profile', 'User::profile');
         $routes->post('profile', 'User::change_profile');

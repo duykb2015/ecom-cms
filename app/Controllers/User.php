@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\AdminModel;
 use App\Models\CartModel;
+use App\Models\Transaction;
+use App\Models\TransactionModel;
 use App\Models\UserModel;
 
 use function PHPUnit\Framework\returnValue;
@@ -153,15 +155,14 @@ class User extends BaseController
      */
     public function delete()
     {
+        if (session()->get('level') < 2) {
+            return $this->respond(response_failed(), HTTP_OK);
+        }
         //get menu id from post data
         $id = $this->request->getPost('id');
         //if account id is empty, return error response
         if (!$id) {
             return $this->respond(response_failed(), HTTP_OK);
-        }
-        //cannot delete exclusive admin account, of course
-        if ($id == 1) {
-            return $this->respond(response_failed('Bạn không thể xoá tài khoản này!'), HTTP_OK);
         }
 
         $admin_m = new AdminModel();
@@ -173,8 +174,27 @@ class User extends BaseController
 
     public function get_shoping_cart()
     {
+        $user_id = $this->request->getPost('user_id');
         $cart_m = new CartModel();
-        $data = $cart_m->findAll();
-        return $this->respond($data);
+        $data = $cart_m->find($user_id);
+        return $this->respond(
+            [
+                'success' => true,
+                'result' => $data
+            ]
+        );
+    }
+
+    public function get_transaction()
+    {
+        $user_id = $this->request->getPost('user_id');
+        $transaction_m = new TransactionModel();
+        $data = $transaction_m->find($user_id);
+        return $this->respond(
+            [
+                'success' => true,
+                'result' => $data
+            ]
+        );
     }
 }

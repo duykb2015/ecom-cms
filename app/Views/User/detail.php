@@ -1,5 +1,8 @@
 <?= $this->extend('layout') ?>
 
+<?= $this->section('css') ?>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <div class="pcoded-content">
@@ -116,25 +119,82 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5>Ajax Data Source (Arrays)</h5>
-                                        <span>The example below shows DataTables loading data for a table from arrays as the data source, where the structure of the row's data source in this example is:</span>
 
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="user_id" name="user_id" value="<?= $account['id'] ? $account['id'] : '' ?>">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <h4>Giỏ Hàng</h4>
+                                        </div>
+                                        <div class="col-sm-2 float-right">
+                                            <button type="button" id="viewCartData" class="btn btn-primary m-b-20">Xem <i class="fa fa-spinner fa-pulse fa-lg loading"></i></button>
+                                            <button type="button" id="closeCartData" class="btn btn-outline-danger m-b-20">Đóng</button>
+                                        </div>
                                     </div>
-                                    <div class="card-block">
-                                        <div class="table-responsive dt-responsive">
-                                            <table id="dt-ajax-object" class="table table-striped table-bordered nowrap">
+                                </div>
+
+                                <div class="row">
+                                    <div class="table-responsive dt--responsive">
+                                        <div class="col-sm-12">
+                                            <table id="shoping-cart-table" class="table table-striped table-bordered nowrap">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID</th>
                                                         <th>Product Name</th>
                                                         <th>Product Color</th>
-                                                        <th>Discount</th>
                                                         <th>Quantity</th>
                                                         <th>Price</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody id="cartData">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <h4>Giao Dịch Đã Thực Hiện</h4>
+                                        </div>
+                                        <div class="col-sm-2 float-right">
+                                            <button type="button" id="viewTransactionData" class="btn btn-primary m-b-20">Xem <i class="fa fa-spinner fa-pulse fa-lg loading1"></i></button>
+                                            <button type="button" id="closeTransactionData" class="btn btn-outline-danger m-b-20">Đóng</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="table-responsive dt--responsive">
+                                        <div class="col-sm-12">
+                                            <table id="shoping-cart-table" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã Giao Dịch</th>
+                                                        <th>Product Name</th>
+                                                        <th>Product Color</th>
+                                                        <th>Quantity</th>
+                                                        <th>Price</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Quản lý</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="transactionData">
+
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -151,29 +211,93 @@
 
 <?= $this->section('js') ?>
 
-
 <script>
-    // $('#dt-ajax-object').DataTable({
-    //     "ajax": "<?= base_url('user/get-shoping-cart') ?>",
-    //     "columns": [{
-    //             "data": "id"
-    //         },
-    //         {
-    //             "data": "product_name"
-    //         },
-    //         {
-    //             "data": "color"
-    //         },
-    //         {
-    //             "data": "discount"
-    //         },
-    //         {
-    //             "data": "quantity"
-    //         },
-    //         {
-    //             "data": "price"
-    //         }
-    //     ]
-    // });
+    $('.loading').hide()
+    $('.loading1').hide()
+    $('#viewCartData').on('click', function() {
+        $('.loading').show()
+        var user_id = document.getElementById('user_id')
+        var requestOptions = {
+            method: 'POST',
+            body: user_id,
+            redirect: 'follow'
+        }
+        fetch('<?= base_url('user/get-shoping-cart') ?>', requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    var row
+                    for (let i = 0; i < result.result.length; i++) {
+                        row += '<tr role="row" class="rowData1"> <td>' + result.result[i].product_name +
+                            '</td><td>' + result.result[i].color +
+                            '</td><td>' + result.result[i].quantity +
+                            '</td><td>' + Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format(result.result[i].price - (result.result[i].price * result.result[i].discount / 100)) +
+                            '</td></tr>'
+                    }
+                    $('.rowData1').remove()
+                    $('#cartData').append(row)
+                    $('.loading').hide()
+                    return
+                }
+
+                const error = result.result.error;
+                if (error) {
+                    msgbox_error(error)
+                    return
+                }
+
+            })
+            .catch(error => msgbox_error(error));
+    })
+    $('#viewTransactionData').on('click', function() {
+        $('.loading1').show()
+        var user_id = document.getElementById('user_id')
+        var requestOptions = {
+            method: 'POST',
+            body: user_id,
+            redirect: 'follow'
+        }
+        fetch('<?= base_url('user/get-transaction') ?>', requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    var row
+                    for (let i = 0; i < result.result.length; i++) {
+                        row += '<tr role="row" class="rowData2"><td>' + result.result[i].code +
+                            '</td><td>' + result.result[i].product_name +
+                            '</td><td>' + result.result[i].color +
+                            '</td><td>' + result.result[i].quantity +
+                            '</td><td>' + Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format(result.result[i].price - (result.result[i].price * result.result[i].discount / 100)) +
+                            '</td><td>' + result.result[i].status +
+                            '</td><td><a href="<?= base_url('trasaction/detail') ?>/' + result.result[i].id + '">Xem chi tiết</a></td></tr>'
+                    }
+                    $('.rowData2').remove()
+                    $('#transactionData').append(row)
+                    $('.loading1').hide()
+                    return
+                }
+
+                const error = result.result.error;
+                if (error) {
+                    msgbox_error(error)
+                    return
+                }
+
+            })
+            .catch(error => msgbox_error(error));
+    })
+    $('#closeCartData').on('click', function() {
+        $('.rowData1').remove()
+    })
+    $('#closeTransactionData').on('click', function() {
+        $('.rowData2').remove()
+    })
 </script>
+
 <?= $this->endSection() ?>

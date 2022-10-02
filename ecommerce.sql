@@ -80,7 +80,7 @@ INSERT INTO `cart` (`id`, `user_id`, `product_item_id`, `product_name`, `color`,
 -- Table structure for table `checkout`
 --
 
-CREATE TABLE `checkout` (
+CREATE TABLE `transaction` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `product_item_id` int(11) NOT NULL,

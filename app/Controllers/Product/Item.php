@@ -36,7 +36,7 @@ class Item extends BaseController
             'pager' => $product_items_m->pager,
             'product' => $product_m->findAll()
         ];
-        return view('product/items/index', $data);
+        return view('product/item/index', $data);
     }
 
     public function detail()
@@ -57,7 +57,7 @@ class Item extends BaseController
 
         if (!$product_item_id) {
             $data['title'] = 'Thêm mới sản phẩm';
-            return view('product/items/detail', $data);
+            return view('product/item/detail', $data);
         }
         $product_items_m = new ProductItemsModel();
         $product_item = $product_items_m->find($product_item_id);
@@ -85,7 +85,7 @@ class Item extends BaseController
 
         $data['product_item'] = $product_item;
         $data['title'] = 'Chỉnh sửa sản phẩm';
-        return view('product/items/detail', $data);
+        return view('product/item/detail', $data);
     }
 
 

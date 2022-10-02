@@ -43,7 +43,7 @@
                                     <?php if (!empty($accounts)) : ?>
                                         <?php foreach ($accounts as $account) : ?>
                                             <tr id="user-<?= $account['id'] ?>">
-                                                <td class="font-weight-bold"><?= $account['username'] ?></td>
+                                                <td class="font-weight-bold"><?= $account['name'] ?></td>
                                                 <td><?= $account['email'] ?></td>
                                                 <td><?= $account['created_at'] ?></td>
                                                 <td><?= $account['updated_at'] ?></td>
@@ -55,7 +55,7 @@
                                                         <a href="<?= base_url('user/detail/' . $account['id']) ?>" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-edit"></span>
                                                         </a>
-                                                        <a href="javascript:void(0)" onclick="delete_account('<?= $account['id'] ?>', '<?= $account['username'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
+                                                        <a href="javascript:void(0)" onclick="delete_account('<?= $account['id'] ?>', '<?= $account['name'] ?>')" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
                                                             <span class="icofont icofont-ui-delete"></span>
                                                         </a>
                                                     </div>

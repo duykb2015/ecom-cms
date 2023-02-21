@@ -2,12 +2,13 @@
 
 ## What is this?
 
-Ecom-web cms through Ecom-api api system
+Admin page to manage electronic products
+
+There are functions: Product management, account management, transaction management, category management.
 
 ## Server Requirements
 
 PHP version 7.4 or higher is required, with the following extensions installed:
-
 
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
